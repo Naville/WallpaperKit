@@ -22,6 +22,7 @@
 
 - (void)setUp {
     [super setUp];
+    [WKDesktopManager sharedInstance];
     WKRenderManager* wkrm=[WKRenderManager sharedInstance];
     for(NSString* path in @[@"/Users/Naville/Desktop/BackGroundVideos"]){
         NSArray* fileList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:path]
@@ -35,6 +36,7 @@
     
     
     }
+    [[WKDesktopManager sharedInstance] start];
     // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
@@ -43,13 +45,13 @@
     [super tearDown];
 }
 
--(void)testVideo{
+/*-(void)testVideo{
     NSDictionary* randomEngine=[[WKRenderManager sharedInstance] randomRender];
     [[WKDesktop new] renderWithEngine:[randomEngine objectForKey:@"Render"] withArguments:randomEngine];
     
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate distantFuture]];
     NSLog(@"Displaying Video");
-}
+}*/
 /*- (void)testStatic{
     // This is an example of a functional test case.
     // Use XCTAssert and related functions to verify your tests produce the correct results.
@@ -61,12 +63,12 @@
     [[WKDesktop new] renderWithEngine:[WKWebpagePlugin class] withArguments:@{@"Path":@"https://www.akb48.co.jp"}];
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate distantFuture]];
 }*/
-/*-(void)testManager{
+-(void)testManager{
     [[WKWindow newFullScreenWindow] display];
     WKDesktopManager* wkm=[WKDesktopManager sharedInstance];
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate distantFuture]];
 
-}*/
+}
 /*-(void)testVLCVideo{
     [[WKDesktop new] renderWithEngine:[WKVLCVideoPlugin class] withArguments:@{@"Path":@"/Users/Naville/Desktop/BackGroundVideos/IA-ShootingStar.mp4"}];
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate distantFuture]];

@@ -25,6 +25,9 @@
     return self;
 }
 -(NSDictionary*)randomRender{
+    if([_renderList count]==0){
+        return nil;
+    }
     return [_renderList objectAtIndex: arc4random()%[_renderList count]];
 }
 @end

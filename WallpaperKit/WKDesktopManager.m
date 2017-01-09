@@ -8,9 +8,38 @@
 
 #import "WKDesktopManager.h"
 #import "WKDesktop.h"
+#import "WKRenderManager.h"
 #import <CoreGraphics/CoreGraphics.h>
+#include <unistd.h>
+#include <CoreServices/CoreServices.h>
+#include <ApplicationServices/ApplicationServices.h>
+
+/* Reverse engineered Space API; stolen from xmonad */
+typedef void *CGSConnectionID;
+extern CGSConnectionID _CGSDefaultConnection(void);
+#define CGSDefaultConnection _CGSDefaultConnection()
+
+typedef uint64_t CGSSpace;
+typedef enum _CGSSpaceType {
+    kCGSSpaceUser,
+    kCGSSpaceFullscreen,
+    kCGSSpaceSystem,
+    kCGSSpaceUnknown
+} CGSSpaceType;
+typedef enum _CGSSpaceSelector {
+    kCGSSpaceCurrent = 5,
+    kCGSSpaceOther = 6,
+    kCGSSpaceAll = 7
+} CGSSpaceSelector;
+
+extern CFArrayRef CGSCopySpaces(const CGSConnectionID cid, CGSSpaceSelector type);
+extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
+
+
+
 @implementation WKDesktopManager{
     NSMutableDictionary* windows;
+    NSUInteger lastActiveSpaceID;
 }
 + (instancetype)sharedInstance{
     static WKDesktopManager *sharedInstance = nil;
@@ -30,16 +59,51 @@
     return self;
 }
 -(void)observe:(NSNotification*)notifi{
-    [[NSUserDefaults standardUserDefaults] removeSuiteNamed:@"com.apple.spaces"];
-    [[NSUserDefaults standardUserDefaults] addSuiteNamed:@"com.apple.spaces"];
-    NSDictionary* currentSpaceInfo=[[[[[[NSUserDefaults standardUserDefaults] objectForKey:@"SpacesDisplayConfiguration"] objectForKey:@"Management Data"] objectForKey:@"Monitors"] objectAtIndex:0] objectForKey:@"Current Space"];
-    NSString* currentSpaceUUID=[currentSpaceInfo objectForKey:@"uuid"];
-    if([windows objectForKey:currentSpaceUUID]==nil){
+    //Do nothing when the system is in fullscreen
+    if([NSApp currentSystemPresentationOptions]==NSApplicationPresentationFullScreen){
+        return;
+    }
+    NSUInteger currentSpaceID=[self currentSpaceID];
+    if(lastActiveSpaceID!=currentSpaceID){
+        for(NSString* key in windows.allKeys){
+            [(WKDesktop*)[windows objectForKey:key] pause];
+        }
+        lastActiveSpaceID=currentSpaceID;
+        
+    }else{
+        return ;
+    }
+    
+    
+    if([windows objectForKey:[NSNumber numberWithInteger:currentSpaceID]]==nil){
         WKDesktop* wk=[WKDesktop new];
+        NSDictionary* randomEngine=[[WKRenderManager sharedInstance] randomRender];
+        [windows setObject:wk forKey:[NSNumber numberWithInteger:currentSpaceID]];
+        [wk renderWithEngine:[randomEngine objectForKey:@"Render"] withArguments:randomEngine];
+        
     }
     else{
-        [(WKDesktop*)[windows objectForKey:currentSpaceUUID] play];
+        [(WKDesktop*)[windows objectForKey:[NSNumber numberWithInteger:currentSpaceID]] play];
     }
+
+}
+-(void)start{
+    [self observe:nil];
+}
+-(NSUInteger)currentSpaceID{
+    CFArrayRef spaces = CGSCopySpaces(CGSDefaultConnection, kCGSSpaceCurrent);
+    // CFArrayRef spaces = CGSCopySpaces(CGSDefaultConnection, kCGSSpaceAll);
+    long count = CFArrayGetCount(spaces);
+    
+    long ii;
+    for (ii = count - 1; ii >= 0; ii--) {
+        CGSSpace spaceId = [(__bridge id)CFArrayGetValueAtIndex(spaces, ii) intValue];
+        if (CGSSpaceGetType(CGSDefaultConnection, spaceId) == kCGSSpaceSystem)
+            continue;
+        CFRelease(spaces);
+        return spaceId;
+    }
+    return WRONG_WINDOW_ID;
 
 }
 @end

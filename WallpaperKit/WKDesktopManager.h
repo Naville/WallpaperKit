@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#define WRONG_WINDOW_ID -500
 @interface WKDesktopManager : NSObject
 + (instancetype)sharedInstance;
+-(void)start;
 @end

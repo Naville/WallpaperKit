@@ -20,6 +20,8 @@
 		FA4C45A21E2307AE00B35322 /* WKDesktop.h in Headers */ = {isa = PBXBuildFile; fileRef = FA4C45A11E2307AE00B35322 /* WKDesktop.h */; };
 		FA4C45A41E2307AE00B35322 /* WKDesktop.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C45A31E2307AE00B35322 /* WKDesktop.m */; };
 		FA4C45AC1E23086E00B35322 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4C45AB1E23086E00B35322 /* AppKit.framework */; };
+		FA4FFEEB1E240FA400E4AF31 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4FFEEA1E240FA400E4AF31 /* CoreServices.framework */; };
+		FA4FFEED1E240FB600E4AF31 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4FFEEC1E240FB600E4AF31 /* ApplicationServices.framework */; };
 		FACBD8DF1E2309B900FF4408 /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = FACBD8DE1E2309B900FF4408 /* Tests.m */; };
 		FACBD8E11E2309B900FF4408 /* libWallpaperKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4C459E1E2307AE00B35322 /* libWallpaperKit.a */; };
 		FACCBA771E23C1D10092E594 /* WKImagePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FACCBA751E23C1D10092E594 /* WKImagePlugin.h */; };
@@ -57,6 +59,8 @@
 		FA4C45A11E2307AE00B35322 /* WKDesktop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WKDesktop.h; sourceTree = "<group>"; };
 		FA4C45A31E2307AE00B35322 /* WKDesktop.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WKDesktop.m; sourceTree = "<group>"; };
 		FA4C45AB1E23086E00B35322 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		FA4FFEEA1E240FA400E4AF31 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		FA4FFEEC1E240FB600E4AF31 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		FACBD8DC1E2309B900FF4408 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FACBD8DE1E2309B900FF4408 /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		FACBD8E01E2309B900FF4408 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -71,6 +75,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA4FFEED1E240FB600E4AF31 /* ApplicationServices.framework in Frameworks */,
+				FA4FFEEB1E240FA400E4AF31 /* CoreServices.framework in Frameworks */,
 				FA25DC0B1E231BF200EB029C /* AVKit.framework in Frameworks */,
 				FA4C45AC1E23086E00B35322 /* AppKit.framework in Frameworks */,
 			);
@@ -149,6 +155,8 @@
 		FA4C45AA1E23086E00B35322 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FA4FFEEC1E240FB600E4AF31 /* ApplicationServices.framework */,
+				FA4FFEEA1E240FA400E4AF31 /* CoreServices.framework */,
 				FA25DC0A1E231BF200EB029C /* AVKit.framework */,
 				FA25DC081E231B9000EB029C /* AVFoundation.framework */,
 				FA25DC061E231A2800EB029C /* CoreGraphics.framework */,
