@@ -7,12 +7,13 @@
 //
 
 #import "WKDesktopManager.h"
-#import "WKDesktop.h"
 #import "WKRenderManager.h"
+#import "WKDesktop.h"
 #import <CoreGraphics/CoreGraphics.h>
 #include <unistd.h>
 #include <CoreServices/CoreServices.h>
 #include <ApplicationServices/ApplicationServices.h>
+
 
 /* Reverse engineered Space API; stolen from xmonad */
 typedef void *CGSConnectionID;
@@ -38,7 +39,6 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
 
 
 @implementation WKDesktopManager{
-    NSMutableDictionary* windows;
     NSUInteger lastActiveSpaceID;
 }
 + (instancetype)sharedInstance{
@@ -52,7 +52,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
 }
 -(instancetype)init{
     self=[super init];
-    windows=[NSMutableDictionary dictionary];
+    self.windows=[NSMutableDictionary dictionary];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observe:) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
     
 
@@ -64,26 +64,36 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
         return;
     }
     NSUInteger currentSpaceID=[self currentSpaceID];
-    if(lastActiveSpaceID!=currentSpaceID){
-        for(NSString* key in windows.allKeys){
-            [(WKDesktop*)[windows objectForKey:key] pause];
-        }
-        lastActiveSpaceID=currentSpaceID;
-        
-    }else{
-        return ;
+    if(currentSpaceID==WRONG_WINDOW_ID||lastActiveSpaceID==currentSpaceID){
+        return;
     }
-    
-    
-    if([windows objectForKey:[NSNumber numberWithInteger:currentSpaceID]]==nil){
-        WKDesktop* wk=[WKDesktop new];
+    lastActiveSpaceID=currentSpaceID;
+    WKDesktop* wk=(WKDesktop*)[self.windows objectForKey:[NSNumber numberWithInteger:currentSpaceID]];//New Space's WKDesktop
+    if(wk==nil){
+        wk=[WKDesktop new];
         NSDictionary* randomEngine=[[WKRenderManager sharedInstance] randomRender];
-        [windows setObject:wk forKey:[NSNumber numberWithInteger:currentSpaceID]];
         [wk renderWithEngine:[randomEngine objectForKey:@"Render"] withArguments:randomEngine];
+        self.activeWallpaperView=wk.currentView;
         
+        [self.windows setObject:wk forKey:[NSNumber numberWithInteger:currentSpaceID]];
     }
     else{
-        [(WKDesktop*)[windows objectForKey:[NSNumber numberWithInteger:currentSpaceID]] play];
+        [wk play];
+    }
+    
+    
+    //Handling Previous
+    for(NSString* key in self.windows.allKeys){
+        WKDesktop* currentDesktop=[self.windows objectForKey:key];
+        if([currentDesktop isEqualTo:wk]){//Ignore next space's WKDesktop
+            continue;
+        }
+        if([currentDesktop.currentView respondsToSelector:@selector(handleSpaceChange)]==YES && [wk.currentView respondsToSelector:@selector(handleSpaceChange)]==NO){
+            [currentDesktop.currentView performSelector:@selector(handleSpaceChange)];//Don't Pause other views only when it satisfy the condition and currentDisplaying view doen't satify the condition
+        }
+        else{
+            [currentDesktop pause];
+        }
     }
 
 }

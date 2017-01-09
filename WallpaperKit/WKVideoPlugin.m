@@ -40,4 +40,7 @@
 -(void)play{
     [player play];
 }
+-(void)handleSpaceChange{
+    
+}
 @end

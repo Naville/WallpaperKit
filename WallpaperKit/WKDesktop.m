@@ -7,24 +7,19 @@
 //
 
 #import "WKDesktop.h"
-#import "WKWindow.h"
 #import <AppKit/AppKit.h>
 #import <WebKit/WebKit.h>
 #import <objc/runtime.h>
-#import "WKRenderProtocal.h"
-@implementation WKDesktop{
-    WKWindow* displayWindow;
-    NSView* currentView;
-}
+@implementation WKDesktop
 -(instancetype)init{
     self=[super init];
-    displayWindow=[WKWindow newFullScreenWindow];
+    _displayWindow=[WKWindow newFullScreenWindow];
     return self;
 }
 -(void)stop{
     NSLog(@"Stopping Wallpaper");
     [NSApp deactivate];
-    [displayWindow close];
+    [_displayWindow close];
 }
 -(void)renderWithEngine:(nonnull Class)renderEngine withArguments:(NSDictionary *)args{
     if(renderEngine==nil){
@@ -35,25 +30,25 @@
     }
     
     [self cleanup];
-    currentView=[[renderEngine alloc] initWithWindow:displayWindow andArguments:args];
-    [displayWindow.contentView addSubview:currentView];
+    _currentView=[[renderEngine alloc] initWithWindow:_displayWindow andArguments:args];
+    [_displayWindow.contentView addSubview:_currentView];
     
 }
 -(void)cleanup{
-    [currentView removeFromSuperview];
-    currentView=nil;
+    [_currentView removeFromSuperview];
+    _currentView=nil;
 }
 -(void)observer:(NSNotification *)notif{
     
 }
 -(void)pause{
-    if([currentView respondsToSelector:@selector(pause)]){
-        [currentView performSelector:@selector(pause)];
+    if([_currentView respondsToSelector:@selector(pause)]){
+        [_currentView performSelector:@selector(pause)];
     }
 }
 -(void)play{
-    if([currentView respondsToSelector:@selector(play)]){
-        [currentView performSelector:@selector(play)];
+    if([_currentView respondsToSelector:@selector(play)]){
+        [_currentView performSelector:@selector(play)];
     }
 }
 @end

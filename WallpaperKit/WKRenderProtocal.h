@@ -14,5 +14,6 @@
 @optional
 - (void)pause;
 -(void)play;
+-(void)handleSpaceChange;//Implement This Method To Avoid @selector(pause) sent to self
 @end
 

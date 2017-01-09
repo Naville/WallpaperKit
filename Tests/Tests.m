@@ -10,6 +10,7 @@
 #import "WKDesktop.h"
 #import "WKWindow.h"
 #import "WKDesktopManager.h"
+#import "WKImagePlugin.h"
 #import "WKVideoPlugin.h"
 #import "WKWebpagePlugin.h"
 #import "WKVLCVideoPlugin.h"
@@ -35,6 +36,18 @@
         }
     
     
+    }
+    for(NSString* path in @[@"/Users/Naville/Desktop/ActiveWallpapers"]){
+        NSArray* fileList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:path]
+                                                        includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey]
+                                                                           options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                                             error:nil];
+        for(NSString* file in fileList){
+            [wkrm.renderList addObject:@{@"Path":file,@"Render":[WKImagePlugin class]}];
+            
+        }
+        
+        
     }
     [[WKDesktopManager sharedInstance] start];
     // Put setup code here. This method is called before the invocation of each test method in the class.

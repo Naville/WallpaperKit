@@ -12,4 +12,6 @@
 @interface WKDesktopManager : NSObject
 + (instancetype)sharedInstance;
 -(void)start;
+@property (readwrite,retain,atomic) NSMutableDictionary* windows;
+@property (readwrite,retain,atomic) NSView* activeWallpaperView;
 @end

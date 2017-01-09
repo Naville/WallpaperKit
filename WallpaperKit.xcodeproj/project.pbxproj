@@ -22,6 +22,8 @@
 		FA4C45AC1E23086E00B35322 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4C45AB1E23086E00B35322 /* AppKit.framework */; };
 		FA4FFEEB1E240FA400E4AF31 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4FFEEA1E240FA400E4AF31 /* CoreServices.framework */; };
 		FA4FFEED1E240FB600E4AF31 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4FFEEC1E240FB600E4AF31 /* ApplicationServices.framework */; };
+		FA4FFEF01E2413BE00E4AF31 /* WKOpenGLPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FA4FFEEE1E2413BE00E4AF31 /* WKOpenGLPlugin.h */; };
+		FA4FFEF11E2413BE00E4AF31 /* WKOpenGLPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4FFEEF1E2413BE00E4AF31 /* WKOpenGLPlugin.m */; };
 		FACBD8DF1E2309B900FF4408 /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = FACBD8DE1E2309B900FF4408 /* Tests.m */; };
 		FACBD8E11E2309B900FF4408 /* libWallpaperKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4C459E1E2307AE00B35322 /* libWallpaperKit.a */; };
 		FACCBA771E23C1D10092E594 /* WKImagePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FACCBA751E23C1D10092E594 /* WKImagePlugin.h */; };
@@ -61,6 +63,8 @@
 		FA4C45AB1E23086E00B35322 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		FA4FFEEA1E240FA400E4AF31 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		FA4FFEEC1E240FB600E4AF31 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		FA4FFEEE1E2413BE00E4AF31 /* WKOpenGLPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKOpenGLPlugin.h; sourceTree = "<group>"; };
+		FA4FFEEF1E2413BE00E4AF31 /* WKOpenGLPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKOpenGLPlugin.m; sourceTree = "<group>"; };
 		FACBD8DC1E2309B900FF4408 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FACBD8DE1E2309B900FF4408 /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		FACBD8E01E2309B900FF4408 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -104,6 +108,8 @@
 				FACCBA761E23C1D10092E594 /* WKImagePlugin.m */,
 				FACCBA791E23C3A40092E594 /* WKWebpagePlugin.h */,
 				FACCBA7A1E23C3A40092E594 /* WKWebpagePlugin.m */,
+				FA4FFEEE1E2413BE00E4AF31 /* WKOpenGLPlugin.h */,
+				FA4FFEEF1E2413BE00E4AF31 /* WKOpenGLPlugin.m */,
 			);
 			name = Plugin;
 			sourceTree = "<group>";
@@ -182,6 +188,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA25DC111E23842200EB029C /* WKDesktopManager.h in Headers */,
+				FA4FFEF01E2413BE00E4AF31 /* WKOpenGLPlugin.h in Headers */,
 				FACCBA771E23C1D10092E594 /* WKImagePlugin.h in Headers */,
 				FACCBA7B1E23C3A40092E594 /* WKWebpagePlugin.h in Headers */,
 				FA25DC1A1E23BCB800EB029C /* WKRenderManager.h in Headers */,
@@ -284,6 +291,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA4C45A41E2307AE00B35322 /* WKDesktop.m in Sources */,
+				FA4FFEF11E2413BE00E4AF31 /* WKOpenGLPlugin.m in Sources */,
 				FA25DC1B1E23BCB800EB029C /* WKRenderManager.m in Sources */,
 				FA25DC121E23842200EB029C /* WKDesktopManager.m in Sources */,
 				FA25DC161E23B6AB00EB029C /* WKVideoPlugin.m in Sources */,
