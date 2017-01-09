@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface WKRenderManager : NSObject
-+ (instancetype)sharedInstance;
--(void)refreshRender;
+
++(instancetype)sharedInstance;
+-(NSDictionary*)randomRender;
+@property (readwrite,retain,atomic) NSMutableArray<NSDictionary*>* renderList;
 @end

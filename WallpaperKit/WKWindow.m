@@ -27,7 +27,7 @@
     [window makeKeyAndOrderFront:nil];
     [window setLevel:kCGDesktopIconWindowLevel-1];
     window.ignoresMouseEvents=YES;
-    window.collectionBehavior=(NSWindowCollectionBehaviorCanJoinAllSpaces |
+    window.collectionBehavior=(//NSWindowCollectionBehaviorCanJoinAllSpaces |
                                NSWindowCollectionBehaviorStationary |
                                NSWindowCollectionBehaviorIgnoresCycle);
     window.hasShadow=NO;

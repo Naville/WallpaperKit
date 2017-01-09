@@ -9,9 +9,7 @@
 #import "WKRenderManager.h"
 #import <objc/runtime.h>
 #import "WKRenderProtocal.h"
-@implementation WKRenderManager{
-    NSMutableArray<Class>* render;
-}
+@implementation WKRenderManager
 + (instancetype)sharedInstance{
     static WKRenderManager *sharedInstance = nil;
     static dispatch_once_t onceToken;
@@ -21,16 +19,12 @@
     });
     return sharedInstance;
 }
--(void)refreshRender{
-    unsigned int classCnt=0;
-    Class* classes =objc_copyClassList(&classCnt);
-    for( unsigned int i = 0; i < classCnt; ++i){
-        Class class = classes[i];
-        if([class conformsToProtocol:objc_getProtocol("WKRenderProtocal")]){
-            [render addObject:class];
-        }
-    }
-    
-    free(classes);
+-(instancetype)init{
+    self=[super init];
+    self->_renderList=[NSMutableArray array];
+    return self;
+}
+-(NSDictionary*)randomRender{
+    return [_renderList objectAtIndex: arc4random()%[_renderList count]];
 }
 @end

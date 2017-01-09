@@ -13,7 +13,7 @@
 - (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args{
     NSRect frameRect=window.frame;
     self=[super initWithFrame:frameRect];
-    self.mainFrameURL=[args objectForKey:@"Path"];
+    self.mainFrameURL=[(NSURL*)[args objectForKey:@"Path"] absoluteString];
     self.hostWindow=window;
     return self;
 }

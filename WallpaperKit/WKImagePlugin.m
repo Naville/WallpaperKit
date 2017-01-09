@@ -13,7 +13,7 @@
 - (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args{
     NSRect frameRect=window.frame;
     self=[super initWithFrame:frameRect];
-    [self setImage:[[NSImage alloc] initWithContentsOfFile:[args objectForKey:@"Path"]]];
+    [self setImage:[[NSImage alloc] initWithContentsOfURL:[args objectForKey:@"Path"]]];
     return self;
 }
 

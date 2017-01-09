@@ -10,13 +10,15 @@
 #import "WKWindow.h"
 #import <AppKit/AppKit.h>
 #import <WebKit/WebKit.h>
+#import <objc/runtime.h>
+#import "WKRenderProtocal.h"
 @implementation WKDesktop{
     WKWindow* displayWindow;
+    NSView* currentView;
 }
 -(instancetype)init{
     self=[super init];
     displayWindow=[WKWindow newFullScreenWindow];
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observer:) name:StopNotification object:nil];
     return self;
 }
 -(void)stop{
@@ -24,21 +26,34 @@
     [NSApp deactivate];
     [displayWindow close];
 }
--(void)renderWithEngine:(Class)renderEngine withArguments:(NSDictionary *)args{
+-(void)renderWithEngine:(nonnull Class)renderEngine withArguments:(NSDictionary *)args{
+    if(renderEngine==nil){
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"RenderEngine is null" userInfo:nil];
+    }
+    if(![renderEngine conformsToProtocol:@protocol(WKRenderProtocal)]||![renderEngine isSubclassOfClass:[NSView class]]){
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"%@ is not a valid WKRenderProtocal class",NSStringFromClass(renderEngine)] userInfo:nil];
+    }
+    
     [self cleanup];
-    NSView* subView=[[renderEngine alloc] initWithWindow:displayWindow andArguments:args];
-    [displayWindow.contentView addSubview:subView];
+    currentView=[[renderEngine alloc] initWithWindow:displayWindow andArguments:args];
+    [displayWindow.contentView addSubview:currentView];
     
 }
 -(void)cleanup{
-    for(NSView* view in [displayWindow.contentView subviews]){
-        [view removeFromSuperview];
-    }
+    [currentView removeFromSuperview];
+    currentView=nil;
 }
 -(void)observer:(NSNotification *)notif{
-    if([notif.name isEqualToString:@"com.naville.wpkit.stop"]){
-        [self stop];
-    }
     
+}
+-(void)pause{
+    if([currentView respondsToSelector:@selector(pause)]){
+        [currentView performSelector:@selector(pause)];
+    }
+}
+-(void)play{
+    if([currentView respondsToSelector:@selector(play)]){
+        [currentView performSelector:@selector(play)];
+    }
 }
 @end

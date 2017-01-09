@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA11BCC11E23D9EF00333161 /* WKVLCVideoPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FA11BCBF1E23D9EF00333161 /* WKVLCVideoPlugin.h */; };
 		FA25DC041E2318A200EB029C /* WKWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = FA25DC021E2318A200EB029C /* WKWindow.h */; };
 		FA25DC051E2318A200EB029C /* WKWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FA25DC031E2318A200EB029C /* WKWindow.m */; };
 		FA25DC0B1E231BF200EB029C /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA25DC0A1E231BF200EB029C /* AVKit.framework */; };
@@ -38,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FA11BCBF1E23D9EF00333161 /* WKVLCVideoPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKVLCVideoPlugin.h; sourceTree = "<group>"; };
+		FA11BCC01E23D9EF00333161 /* WKVLCVideoPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKVLCVideoPlugin.m; sourceTree = "<group>"; };
 		FA25DC021E2318A200EB029C /* WKWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKWindow.h; sourceTree = "<group>"; };
 		FA25DC031E2318A200EB029C /* WKWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWindow.m; sourceTree = "<group>"; };
 		FA25DC061E231A2800EB029C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -57,7 +60,6 @@
 		FACBD8DC1E2309B900FF4408 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FACBD8DE1E2309B900FF4408 /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		FACBD8E01E2309B900FF4408 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FACBD8E71E230E4500FF4408 /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = System/Library/Frameworks/ScreenSaver.framework; sourceTree = SDKROOT; };
 		FACCBA751E23C1D10092E594 /* WKImagePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKImagePlugin.h; sourceTree = "<group>"; };
 		FACCBA761E23C1D10092E594 /* WKImagePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKImagePlugin.m; sourceTree = "<group>"; };
 		FACCBA791E23C3A40092E594 /* WKWebpagePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKWebpagePlugin.h; sourceTree = "<group>"; };
@@ -90,6 +92,8 @@
 			children = (
 				FA25DC131E23B6AB00EB029C /* WKVideoPlugin.h */,
 				FA25DC141E23B6AB00EB029C /* WKVideoPlugin.m */,
+				FA11BCBF1E23D9EF00333161 /* WKVLCVideoPlugin.h */,
+				FA11BCC01E23D9EF00333161 /* WKVLCVideoPlugin.m */,
 				FACCBA751E23C1D10092E594 /* WKImagePlugin.h */,
 				FACCBA761E23C1D10092E594 /* WKImagePlugin.m */,
 				FACCBA791E23C3A40092E594 /* WKWebpagePlugin.h */,
@@ -148,7 +152,6 @@
 				FA25DC0A1E231BF200EB029C /* AVKit.framework */,
 				FA25DC081E231B9000EB029C /* AVFoundation.framework */,
 				FA25DC061E231A2800EB029C /* CoreGraphics.framework */,
-				FACBD8E71E230E4500FF4408 /* ScreenSaver.framework */,
 				FA4C45AB1E23086E00B35322 /* AppKit.framework */,
 			);
 			name = Frameworks;
@@ -175,6 +178,7 @@
 				FACCBA7B1E23C3A40092E594 /* WKWebpagePlugin.h in Headers */,
 				FA25DC1A1E23BCB800EB029C /* WKRenderManager.h in Headers */,
 				FA25DC151E23B6AB00EB029C /* WKVideoPlugin.h in Headers */,
+				FA11BCC11E23D9EF00333161 /* WKVLCVideoPlugin.h in Headers */,
 				FA25DC041E2318A200EB029C /* WKWindow.h in Headers */,
 				FA4C45A21E2307AE00B35322 /* WKDesktop.h in Headers */,
 			);
@@ -303,7 +307,8 @@
 		FA4C45A51E2307AE00B35322 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -326,6 +331,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/VLCKit/build/Release/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -350,7 +356,8 @@
 		FA4C45A61E2307AE00B35322 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -373,6 +380,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/VLCKit/build/Release/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -390,7 +398,10 @@
 		FA4C45A81E2307AE00B35322 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -398,7 +409,10 @@
 		FA4C45A91E2307AE00B35322 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -407,6 +421,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VLCKit/build/Release",
+				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = naville.Tests;
@@ -418,6 +436,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VLCKit/build/Release",
+				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = naville.Tests;

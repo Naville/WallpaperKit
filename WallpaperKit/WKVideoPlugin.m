@@ -8,12 +8,12 @@
 
 #import "WKVideoPlugin.h"
 @implementation WKVideoPlugin{
-    
+    AVPlayer* player;
 }
 - (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args{
     NSRect frameRect=window.frame;
     self=[super initWithFrame:frameRect];
-    AVPlayer* player=[AVPlayer playerWithURL:[NSURL fileURLWithPath:[args objectForKey:@"Path"]]];
+    player=[AVPlayer playerWithURL:[args objectForKey:@"Path"]];
     player.actionAtItemEnd=AVPlayerActionAtItemEndNone;
     self.player=player;
     self.showsSharingServiceButton=NO;
@@ -33,5 +33,11 @@
         [p seekToTime:kCMTimeZero];
     }
     
+}
+-(void)pause{
+    [player pause];
+}
+-(void)play{
+    [player play];
 }
 @end

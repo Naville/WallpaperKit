@@ -11,4 +11,8 @@
 
 @required
 - (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args;
+@optional
+- (void)pause;
+-(void)play;
 @end
+
