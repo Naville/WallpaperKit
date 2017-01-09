@@ -54,7 +54,6 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     self=[super init];
     self.windows=[NSMutableDictionary dictionary];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observe:) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
-    
 
     return self;
 }
@@ -67,6 +66,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     if(currentSpaceID==WRONG_WINDOW_ID||lastActiveSpaceID==currentSpaceID){
         return;
     }
+    NSLog(@"Current SpaceID:%lu",(unsigned long)currentSpaceID);
     lastActiveSpaceID=currentSpaceID;
     WKDesktop* wk=(WKDesktop*)[self.windows objectForKey:[NSNumber numberWithInteger:currentSpaceID]];//New Space's WKDesktop
     if(wk==nil){

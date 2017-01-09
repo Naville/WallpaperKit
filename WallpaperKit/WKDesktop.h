@@ -12,9 +12,15 @@
 #define StopNotification @"com.naville.wpkit.stop"
 @interface WKDesktop : NSObject
 /**
-    @param args The Arguments To Pass To The Render. @"Path" shoule be NSURL of corresponding file
- **/
+ Render Current WKDesktop Object
+
+ @param renderEngine Class for Rendering Current Object
+ @param args Arguments For The Render
+ */
 -(void)renderWithEngine:(nonnull Class)renderEngine withArguments:(nonnull NSDictionary*)args;
+/**
+ Cleanup Subviews
+ */
 -(void)cleanup;
 -(void)pause;
 -(void)stop;

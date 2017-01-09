@@ -14,6 +14,9 @@
 @optional
 - (void)pause;
 -(void)play;
--(void)handleSpaceChange;//Implement This Method To Avoid @selector(pause) sent to self
+/**
+ Called when current display space has changed. When implemented, renderer will not be pause or stopped unless new renderer also implemented the same method. Useful for Renderers to gain continously background access
+ */
+-(void)handleSpaceChange;
 @end
 
