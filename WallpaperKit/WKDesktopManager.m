@@ -65,8 +65,13 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observe:) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
 }
 -(void)stop{
+    for(NSNumber* key in self.windows.allKeys){
+        WKDesktop* currentDesktop=(WKDesktop*)[self.windows objectForKey:key];
+        [currentDesktop close];
+        currentDesktop=nil;
+    }
     [self.windows removeAllObjects];
-    
+
     self->lastActiveSpaceID=INT_MAX;
 }
 -(void)observe:(NSNotification*)notifi{
@@ -137,5 +142,12 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
 
     }
     return retVal;
+}
+-(void)discardCurrentSpace{
+    WKDesktop* currentDesktop=(WKDesktop*)[self->_windows objectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]];
+    [currentDesktop close];
+    currentDesktop=nil;
+    [self->_windows removeObjectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]];
+    
 }
 @end

@@ -16,6 +16,7 @@
     
     self= [super initWithContentRect:CGDisplayBounds(CGMainDisplayID())
                                                    styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
+    self.releasedWhenClosed=NO;//Fix Memory Issue
     [self setWindow];
     self.delegate=self;
     
@@ -49,13 +50,12 @@
     if([_currentView respondsToSelector:@selector(pause)]){
         [_currentView performSelector:@selector(pause)];
     }
-  //  [self orderOut:self];
 }
--(void)stop{
+-(void)close{
     [self pause];
     [_currentView removeFromSuperview];
     self->_currentView=nil;
-    [self close];
+    [super close];
 }
 -(void)play{
     if([_currentView respondsToSelector:@selector(play)]){

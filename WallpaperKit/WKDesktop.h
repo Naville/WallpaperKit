@@ -21,6 +21,5 @@
  */
 -(void)pause;
 -(void)play;
--(void)stop;
 @property (readwrite,retain,atomic,nonnull) NSView<WKRenderProtocal>* currentView;
 @end

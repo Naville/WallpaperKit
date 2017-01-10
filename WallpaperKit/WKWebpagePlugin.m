@@ -19,6 +19,12 @@
     return self;
 }
 -(void)play{
-    [self loadRequest:[NSURLRequest requestWithURL:self->webURL]];
+    [self evaluateJavaScript:@"document.querySelector('body').innerHTML" completionHandler:^(id result, NSError *error) {
+        if (!result || ([result isKindOfClass:[NSString class]] && [((NSString *)result) length] == 0)) {
+            [self loadRequest:[NSURLRequest requestWithURL:self->webURL]];
+            }
+        }];
+
+   
 }
 @end

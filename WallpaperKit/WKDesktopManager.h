@@ -20,6 +20,7 @@
 -(void)prepare;
 -(void)stop;
 -(WKDesktop*)windowForCurrentWorkspace;
+-(void)discardCurrentSpace;
 @property (readwrite,retain,atomic) NSMutableDictionary* windows;
 @property (readwrite,retain,atomic) NSView* activeWallpaperView;
 @end

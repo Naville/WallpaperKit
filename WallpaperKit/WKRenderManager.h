@@ -19,5 +19,6 @@
 /**
  An NSMutableArray of NSDictionary. Each NSDictionary has the same structure as described in randomRender's documentation
  */
++(void)collectFromWallpaperEnginePath:(NSString*)RootPath;
 @property (readwrite,retain,atomic) NSMutableArray<NSDictionary*>* renderList;
 @end
