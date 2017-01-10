@@ -7,32 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA11BCC11E23D9EF00333161 /* WKVLCVideoPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FA11BCBF1E23D9EF00333161 /* WKVLCVideoPlugin.h */; };
-		FA25DC0B1E231BF200EB029C /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA25DC0A1E231BF200EB029C /* AVKit.framework */; };
-		FA25DC111E23842200EB029C /* WKDesktopManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FA25DC0F1E23842200EB029C /* WKDesktopManager.h */; };
-		FA25DC121E23842200EB029C /* WKDesktopManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA25DC101E23842200EB029C /* WKDesktopManager.m */; };
-		FA25DC151E23B6AB00EB029C /* WKVideoPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FA25DC131E23B6AB00EB029C /* WKVideoPlugin.h */; };
-		FA25DC161E23B6AB00EB029C /* WKVideoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = FA25DC141E23B6AB00EB029C /* WKVideoPlugin.m */; };
-		FA25DC1A1E23BCB800EB029C /* WKRenderManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FA25DC181E23BCB800EB029C /* WKRenderManager.h */; };
-		FA25DC1B1E23BCB800EB029C /* WKRenderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA25DC191E23BCB800EB029C /* WKRenderManager.m */; };
 		FA3D1F421E2534BC005A57CF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3D1F411E2534BC005A57CF /* AppDelegate.m */; };
 		FA3D1F451E2534BC005A57CF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3D1F441E2534BC005A57CF /* main.m */; };
 		FA3D1F471E2534BC005A57CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA3D1F461E2534BC005A57CF /* Assets.xcassets */; };
 		FA3D1F4A1E2534BC005A57CF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA3D1F481E2534BC005A57CF /* MainMenu.xib */; };
-		FA3D1F4F1E2534D0005A57CF /* libWallpaperKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4C459E1E2307AE00B35322 /* libWallpaperKit.a */; };
-		FA4C45A21E2307AE00B35322 /* WKDesktop.h in Headers */ = {isa = PBXBuildFile; fileRef = FA4C45A11E2307AE00B35322 /* WKDesktop.h */; };
-		FA4C45A41E2307AE00B35322 /* WKDesktop.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C45A31E2307AE00B35322 /* WKDesktop.m */; };
-		FA4C45AC1E23086E00B35322 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4C45AB1E23086E00B35322 /* AppKit.framework */; };
-		FA4FFEEB1E240FA400E4AF31 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4FFEEA1E240FA400E4AF31 /* CoreServices.framework */; };
-		FA4FFEED1E240FB600E4AF31 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4FFEEC1E240FB600E4AF31 /* ApplicationServices.framework */; };
-		FA4FFEF01E2413BE00E4AF31 /* WKOpenGLPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FA4FFEEE1E2413BE00E4AF31 /* WKOpenGLPlugin.h */; };
-		FA4FFEF11E2413BE00E4AF31 /* WKOpenGLPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4FFEEF1E2413BE00E4AF31 /* WKOpenGLPlugin.m */; };
-		FACCBA771E23C1D10092E594 /* WKImagePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FACCBA751E23C1D10092E594 /* WKImagePlugin.h */; };
-		FACCBA781E23C1D10092E594 /* WKImagePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = FACCBA761E23C1D10092E594 /* WKImagePlugin.m */; };
-		FACCBA7B1E23C3A40092E594 /* WKWebpagePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FACCBA791E23C3A40092E594 /* WKWebpagePlugin.h */; };
-		FACCBA7C1E23C3A40092E594 /* WKWebpagePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = FACCBA7A1E23C3A40092E594 /* WKWebpagePlugin.m */; };
-		FAE6CB6A1E24479600025494 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE6CB691E24479600025494 /* OpenGL.framework */; };
+		FA53CCD81E25409D00B23AC8 /* WKDesktop.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C45A31E2307AE00B35322 /* WKDesktop.m */; };
+		FA53CCDA1E25409D00B23AC8 /* WKVideoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = FA25DC141E23B6AB00EB029C /* WKVideoPlugin.m */; };
+		FA53CCDB1E25409D00B23AC8 /* WKImagePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = FACCBA761E23C1D10092E594 /* WKImagePlugin.m */; };
+		FA53CCDC1E25409D00B23AC8 /* WKWebpagePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = FACCBA7A1E23C3A40092E594 /* WKWebpagePlugin.m */; };
+		FA53CCDD1E25409D00B23AC8 /* WKOpenGLPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4FFEEF1E2413BE00E4AF31 /* WKOpenGLPlugin.m */; };
+		FA53CCDE1E25409D00B23AC8 /* WKDesktopManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA25DC101E23842200EB029C /* WKDesktopManager.m */; };
+		FA53CCDF1E25409D00B23AC8 /* WKRenderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA25DC191E23BCB800EB029C /* WKRenderManager.m */; };
+		FA53CCE01E2540A200B23AC8 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4C45AB1E23086E00B35322 /* AppKit.framework */; };
+		FA53CCE11E2540A500B23AC8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA25DC061E231A2800EB029C /* CoreGraphics.framework */; };
+		FA53CCE21E2540AA00B23AC8 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA25DC0A1E231BF200EB029C /* AVKit.framework */; };
+		FA53CCE31E2540AD00B23AC8 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE6CB691E24479600025494 /* OpenGL.framework */; };
+		FA53CCE41E2540BC00B23AC8 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4FFEEA1E240FA400E4AF31 /* CoreServices.framework */; };
+		FA53CCE71E2540CA00B23AC8 /* libStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA53CCCF1E25408A00B23AC8 /* libStaticLibrary.a */; };
+		FA53CCEC1E254BB400B23AC8 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA53CCEB1E254BB400B23AC8 /* MainViewController.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FA53CCE51E2540C600B23AC8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA4C45961E2307AE00B35322 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA53CCCE1E25408A00B23AC8;
+			remoteInfo = StaticLibrary;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		FA11BCBF1E23D9EF00333161 /* WKVLCVideoPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKVLCVideoPlugin.h; sourceTree = "<group>"; };
@@ -54,7 +57,6 @@
 		FA3D1F461E2534BC005A57CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA3D1F491E2534BC005A57CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		FA3D1F4B1E2534BC005A57CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FA4C459E1E2307AE00B35322 /* libWallpaperKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libWallpaperKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA4C45A11E2307AE00B35322 /* WKDesktop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WKDesktop.h; sourceTree = "<group>"; };
 		FA4C45A31E2307AE00B35322 /* WKDesktop.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WKDesktop.m; sourceTree = "<group>"; };
 		FA4C45AB1E23086E00B35322 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -62,6 +64,10 @@
 		FA4FFEEC1E240FB600E4AF31 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		FA4FFEEE1E2413BE00E4AF31 /* WKOpenGLPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKOpenGLPlugin.h; sourceTree = "<group>"; };
 		FA4FFEEF1E2413BE00E4AF31 /* WKOpenGLPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKOpenGLPlugin.m; sourceTree = "<group>"; };
+		FA53CCCF1E25408A00B23AC8 /* libStaticLibrary.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticLibrary.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA53CCEA1E254BB400B23AC8 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		FA53CCEB1E254BB400B23AC8 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		FAA5D32C1E253DEE0086D179 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FACCBA751E23C1D10092E594 /* WKImagePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKImagePlugin.h; sourceTree = "<group>"; };
 		FACCBA761E23C1D10092E594 /* WKImagePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKImagePlugin.m; sourceTree = "<group>"; };
 		FACCBA791E23C3A40092E594 /* WKWebpagePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKWebpagePlugin.h; sourceTree = "<group>"; };
@@ -74,19 +80,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA3D1F4F1E2534D0005A57CF /* libWallpaperKit.a in Frameworks */,
+				FA53CCE71E2540CA00B23AC8 /* libStaticLibrary.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FA4C459B1E2307AE00B35322 /* Frameworks */ = {
+		FA53CCCC1E25408A00B23AC8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAE6CB6A1E24479600025494 /* OpenGL.framework in Frameworks */,
-				FA4FFEED1E240FB600E4AF31 /* ApplicationServices.framework in Frameworks */,
-				FA4FFEEB1E240FA400E4AF31 /* CoreServices.framework in Frameworks */,
-				FA25DC0B1E231BF200EB029C /* AVKit.framework in Frameworks */,
-				FA4C45AC1E23086E00B35322 /* AppKit.framework in Frameworks */,
+				FA53CCE41E2540BC00B23AC8 /* CoreServices.framework in Frameworks */,
+				FA53CCE31E2540AD00B23AC8 /* OpenGL.framework in Frameworks */,
+				FA53CCE21E2540AA00B23AC8 /* AVKit.framework in Frameworks */,
+				FA53CCE11E2540A500B23AC8 /* CoreGraphics.framework in Frameworks */,
+				FA53CCE01E2540A200B23AC8 /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,6 +132,8 @@
 			children = (
 				FA3D1F401E2534BC005A57CF /* AppDelegate.h */,
 				FA3D1F411E2534BC005A57CF /* AppDelegate.m */,
+				FA53CCEA1E254BB400B23AC8 /* MainViewController.h */,
+				FA53CCEB1E254BB400B23AC8 /* MainViewController.m */,
 				FA3D1F461E2534BC005A57CF /* Assets.xcassets */,
 				FA3D1F481E2534BC005A57CF /* MainMenu.xib */,
 				FA3D1F4B1E2534BC005A57CF /* Info.plist */,
@@ -147,6 +155,7 @@
 			children = (
 				FA4C45A01E2307AE00B35322 /* WallpaperKit */,
 				FA3D1F3F1E2534BC005A57CF /* Application */,
+				FAA5D32B1E253DEE0086D179 /* WallpaperKit */,
 				FA4C459F1E2307AE00B35322 /* Products */,
 				FA4C45AA1E23086E00B35322 /* Frameworks */,
 			);
@@ -155,8 +164,8 @@
 		FA4C459F1E2307AE00B35322 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FA4C459E1E2307AE00B35322 /* libWallpaperKit.a */,
 				FA3D1F3E1E2534BC005A57CF /* Application.app */,
+				FA53CCCF1E25408A00B23AC8 /* libStaticLibrary.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -187,21 +196,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		FAA5D32B1E253DEE0086D179 /* WallpaperKit */ = {
+			isa = PBXGroup;
+			children = (
+				FAA5D32C1E253DEE0086D179 /* Info.plist */,
+			);
+			path = WallpaperKit;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		FA4C459C1E2307AE00B35322 /* Headers */ = {
+		FA53CCCD1E25408A00B23AC8 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA25DC111E23842200EB029C /* WKDesktopManager.h in Headers */,
-				FA4FFEF01E2413BE00E4AF31 /* WKOpenGLPlugin.h in Headers */,
-				FACCBA771E23C1D10092E594 /* WKImagePlugin.h in Headers */,
-				FACCBA7B1E23C3A40092E594 /* WKWebpagePlugin.h in Headers */,
-				FA25DC1A1E23BCB800EB029C /* WKRenderManager.h in Headers */,
-				FA25DC151E23B6AB00EB029C /* WKVideoPlugin.h in Headers */,
-				FA11BCC11E23D9EF00333161 /* WKVLCVideoPlugin.h in Headers */,
-				FA4C45A21E2307AE00B35322 /* WKDesktop.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,27 +228,28 @@
 			buildRules = (
 			);
 			dependencies = (
+				FA53CCE61E2540C600B23AC8 /* PBXTargetDependency */,
 			);
 			name = Application;
 			productName = Application;
 			productReference = FA3D1F3E1E2534BC005A57CF /* Application.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FA4C459D1E2307AE00B35322 /* WallpaperKit */ = {
+		FA53CCCE1E25408A00B23AC8 /* StaticLibrary */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FA4C45A71E2307AE00B35322 /* Build configuration list for PBXNativeTarget "WallpaperKit" */;
+			buildConfigurationList = FA53CCD51E25408A00B23AC8 /* Build configuration list for PBXNativeTarget "StaticLibrary" */;
 			buildPhases = (
-				FA4C459A1E2307AE00B35322 /* Sources */,
-				FA4C459B1E2307AE00B35322 /* Frameworks */,
-				FA4C459C1E2307AE00B35322 /* Headers */,
+				FA53CCCB1E25408A00B23AC8 /* Sources */,
+				FA53CCCC1E25408A00B23AC8 /* Frameworks */,
+				FA53CCCD1E25408A00B23AC8 /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = WallpaperKit;
-			productName = WallpaperKit;
-			productReference = FA4C459E1E2307AE00B35322 /* libWallpaperKit.a */;
+			name = StaticLibrary;
+			productName = StaticLibrary;
+			productReference = FA53CCCF1E25408A00B23AC8 /* libStaticLibrary.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -255,7 +265,7 @@
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 					};
-					FA4C459D1E2307AE00B35322 = {
+					FA53CCCE1E25408A00B23AC8 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 					};
@@ -274,7 +284,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FA4C459D1E2307AE00B35322 /* WallpaperKit */,
+				FA53CCCE1E25408A00B23AC8 /* StaticLibrary */,
 				FA3D1F3D1E2534BC005A57CF /* Application */,
 			);
 		};
@@ -298,25 +308,34 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA3D1F451E2534BC005A57CF /* main.m in Sources */,
+				FA53CCEC1E254BB400B23AC8 /* MainViewController.m in Sources */,
 				FA3D1F421E2534BC005A57CF /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FA4C459A1E2307AE00B35322 /* Sources */ = {
+		FA53CCCB1E25408A00B23AC8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA4C45A41E2307AE00B35322 /* WKDesktop.m in Sources */,
-				FA4FFEF11E2413BE00E4AF31 /* WKOpenGLPlugin.m in Sources */,
-				FA25DC1B1E23BCB800EB029C /* WKRenderManager.m in Sources */,
-				FA25DC121E23842200EB029C /* WKDesktopManager.m in Sources */,
-				FA25DC161E23B6AB00EB029C /* WKVideoPlugin.m in Sources */,
-				FACCBA781E23C1D10092E594 /* WKImagePlugin.m in Sources */,
-				FACCBA7C1E23C3A40092E594 /* WKWebpagePlugin.m in Sources */,
+				FA53CCD81E25409D00B23AC8 /* WKDesktop.m in Sources */,
+				FA53CCDA1E25409D00B23AC8 /* WKVideoPlugin.m in Sources */,
+				FA53CCDB1E25409D00B23AC8 /* WKImagePlugin.m in Sources */,
+				FA53CCDC1E25409D00B23AC8 /* WKWebpagePlugin.m in Sources */,
+				FA53CCDD1E25409D00B23AC8 /* WKOpenGLPlugin.m in Sources */,
+				FA53CCDE1E25409D00B23AC8 /* WKDesktopManager.m in Sources */,
+				FA53CCDF1E25409D00B23AC8 /* WKRenderManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FA53CCE61E2540C600B23AC8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA53CCCE1E25408A00B23AC8 /* StaticLibrary */;
+			targetProxy = FA53CCE51E2540C600B23AC8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		FA3D1F481E2534BC005A57CF /* MainMenu.xib */ = {
@@ -447,24 +466,20 @@
 			};
 			name = Release;
 		};
-		FA4C45A81E2307AE00B35322 /* Debug */ = {
+		FA53CCD61E25408A00B23AC8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				EXECUTABLE_PREFIX = lib;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		FA4C45A91E2307AE00B35322 /* Release */ = {
+		FA53CCD71E25408A00B23AC8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				EXECUTABLE_PREFIX = lib;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -479,6 +494,7 @@
 				FA3D1F4D1E2534BC005A57CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FA4C45991E2307AE00B35322 /* Build configuration list for PBXProject "WallpaperKit" */ = {
 			isa = XCConfigurationList;
@@ -489,11 +505,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FA4C45A71E2307AE00B35322 /* Build configuration list for PBXNativeTarget "WallpaperKit" */ = {
+		FA53CCD51E25408A00B23AC8 /* Build configuration list for PBXNativeTarget "StaticLibrary" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FA4C45A81E2307AE00B35322 /* Debug */,
-				FA4C45A91E2307AE00B35322 /* Release */,
+				FA53CCD61E25408A00B23AC8 /* Debug */,
+				FA53CCD71E25408A00B23AC8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

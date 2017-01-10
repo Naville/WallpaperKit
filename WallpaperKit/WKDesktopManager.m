@@ -53,19 +53,16 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
 -(instancetype)init{
     self=[super init];
     self.windows=[NSMutableDictionary dictionary];
-    self->lastActiveSpaceID=LONG_MAX;
+    self->lastActiveSpaceID=INT_MAX;
     return self;
 }
 -(void)prepare{
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observe:) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
 }
 -(void)stop{
-    for(id key in self.windows.allKeys){
-        WKDesktop* wkd=[self.windows objectForKey:key];
-        [wkd close];
-    }
     [self.windows removeAllObjects];
-    self->lastActiveSpaceID=LONG_MAX;
+    
+    self->lastActiveSpaceID=INT_MAX;
 }
 -(void)observe:(NSNotification*)notifi{
     //Do nothing when the system is in fullscreen

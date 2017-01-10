@@ -7,9 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "WKDesktopManager.h"
-#import "WKRenderManager.h"
-#import "WKWebpagePlugin.h"
 @interface AppDelegate ()
 
 @property (weak) IBOutlet NSWindow *window;
@@ -18,10 +15,6 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
-    [[WKRenderManager sharedInstance].renderList addObject:@{@"Path":[NSURL fileURLWithPath:@"/Users/Naville/Desktop/HTMLWallpaper/835186492/index.html"],@"Render":[WKWebpagePlugin class]}];
-    [[WKDesktopManager sharedInstance] prepare];
-    [[WKDesktopManager sharedInstance] start];
 }
 
 

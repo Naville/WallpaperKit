@@ -21,8 +21,4 @@
 -(void)play{
     [self loadRequest:[NSURLRequest requestWithURL:self->webURL]];
 }
-- (void)mouseMoved:(NSEvent *)event
-{
-    NSLog(@"%@",event);
-}
 @end

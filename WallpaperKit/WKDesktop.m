@@ -23,7 +23,7 @@
     [self setAcceptsMouseMovedEvents:YES];
     [self setMovableByWindowBackground:NO];
     self.collectionBehavior=(NSWindowCollectionBehaviorStationary | NSWindowCollectionBehaviorParticipatesInCycle);
-   // self.hasShadow=NO;
+    self.hasShadow=NO;
     
     return self;
 }
@@ -35,31 +35,33 @@
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"%@ is not a valid WKRenderProtocal class",NSStringFromClass(renderEngine)] userInfo:nil];
     }
     
-    [self cleanup];
+    [self->_currentView removeFromSuperview];
+    self->_currentView=nil;
     _currentView=[[renderEngine alloc] initWithWindow:self andArguments:args];
     
     
-}
--(void)cleanup{
-    [_currentView removeFromSuperview];
-    _currentView=nil;
 }
 -(void)pause{
     if([_currentView respondsToSelector:@selector(pause)]){
         [_currentView performSelector:@selector(pause)];
     }
-    [self orderOut:self];
+  //  [self orderOut:self];
+}
+-(void)stop{
+    [self pause];
+    [_currentView removeFromSuperview];
+    self->_currentView=nil;
+    [self close];
 }
 -(void)play{
     if([_currentView respondsToSelector:@selector(play)]){
         
         [_currentView performSelector:@selector(play)];
     }
-    
+    [self display];
     [self setContentView:_currentView];
-    self.nextResponder=_currentView;
     [self makeMainWindow];
-    [self orderFrontRegardless];
+    [self makeKeyAndOrderFront:self];
 }
 -(BOOL)canBeVisibleOnAllSpaces{
     return NO;

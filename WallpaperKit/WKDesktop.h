@@ -19,8 +19,8 @@
 /**
  Cleanup Subviews
  */
--(void)cleanup;
 -(void)pause;
 -(void)play;
-@property (readwrite,retain,atomic,nonnull) NSView* currentView;
+-(void)stop;
+@property (readwrite,retain,atomic,nonnull) NSView<WKRenderProtocal>* currentView;
 @end
