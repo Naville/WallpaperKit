@@ -6,14 +6,11 @@
 //  Copyright © 2017年 NavilleZhang. All rights reserved.
 //
 
-#import "WKDesktopManager.h"
-#import "WKRenderManager.h"
-#import "WKDesktop.h"
 #import <CoreGraphics/CoreGraphics.h>
 #include <unistd.h>
 #include <CoreServices/CoreServices.h>
 #include <ApplicationServices/ApplicationServices.h>
-
+#import "WKDesktopManager.h"
 
 /* Reverse engineered Space API; stolen from xmonad */
 typedef void *CGSConnectionID;
@@ -54,6 +51,14 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     self=[super init];
     self.windows=[NSMutableDictionary dictionary];
     self->lastActiveSpaceID=INT_MAX;
+    [NSEvent addGlobalMonitorForEventsMatchingMask:NSEventMaskMouseMoved handler:^(NSEvent* event){
+       WKDesktop* wkds=[self.windows objectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]];
+        if(wkds==nil){
+            [self observe:nil];
+            wkds=[self.windows objectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]];
+        }
+        [wkds sendEvent:event];
+    }];
     return self;
 }
 -(void)prepare{
@@ -70,7 +75,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
         return;
     }
     NSUInteger currentSpaceID=[self currentSpaceID];
-    if(currentSpaceID==WRONG_WINDOW_ID||lastActiveSpaceID==currentSpaceID){
+    if(currentSpaceID==WRONG_WINDOW_ID){
         return;
     }
     NSLog(@"Current SpaceID:%lu",(unsigned long)currentSpaceID);
@@ -123,5 +128,14 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     }
     return WRONG_WINDOW_ID;
 
+}
+-(WKDesktop*)windowForCurrentWorkspace{
+    WKDesktop* retVal=(WKDesktop*)[self.windows objectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]];
+    if(retVal==nil){
+        [self observe:nil];//Force Create one
+        retVal=(WKDesktop*)[self.windows objectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]];
+
+    }
+    return retVal;
 }
 @end

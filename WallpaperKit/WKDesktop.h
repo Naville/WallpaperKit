@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "WKRenderProtocal.h"
-@interface WKDesktop : NSWindow
+@interface WKDesktop : NSWindow<NSWindowDelegate>
 /**
  Render Current WKDesktop Object
 

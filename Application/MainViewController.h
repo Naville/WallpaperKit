@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface MainViewController : NSViewController
+@interface MainViewController : NSViewController<NSWindowDelegate,NSApplicationDelegate>
 @property (weak) IBOutlet NSButton *ReloadButton;
 
 @end

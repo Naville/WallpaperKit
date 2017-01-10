@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import "WKRenderManager.h"
+#import "WKDesktop.h"
 #define WRONG_WINDOW_ID -500
 @interface WKDesktopManager : NSObject
 + (instancetype)sharedInstance;
@@ -17,6 +19,7 @@
 -(void)start;
 -(void)prepare;
 -(void)stop;
+-(WKDesktop*)windowForCurrentWorkspace;
 @property (readwrite,retain,atomic) NSMutableDictionary* windows;
 @property (readwrite,retain,atomic) NSView* activeWallpaperView;
 @end

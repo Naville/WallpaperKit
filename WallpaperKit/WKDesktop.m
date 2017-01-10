@@ -16,6 +16,12 @@
     
     self= [super initWithContentRect:CGDisplayBounds(CGMainDisplayID())
                                                    styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
+    [self setWindow];
+    self.delegate=self;
+    
+    return self;
+}
+-(void)setWindow{
     [self setOpaque:NO];
     [self setBackgroundColor:[NSColor clearColor]];
     [self setLevel:kCGDesktopIconWindowLevel-1];
@@ -24,8 +30,6 @@
     [self setMovableByWindowBackground:NO];
     self.collectionBehavior=(NSWindowCollectionBehaviorStationary | NSWindowCollectionBehaviorParticipatesInCycle);
     self.hasShadow=NO;
-    
-    return self;
 }
 -(void)renderWithEngine:(nonnull Class)renderEngine withArguments:(NSDictionary *)args{
     if(renderEngine==nil){
@@ -58,14 +62,26 @@
         
         [_currentView performSelector:@selector(play)];
     }
-    [self display];
     [self setContentView:_currentView];
-    [self makeMainWindow];
+    [self orderFront:nil];
     [self makeKeyAndOrderFront:self];
 }
 -(BOOL)canBeVisibleOnAllSpaces{
     return NO;
 }
--(BOOL)canBecomeMainWindow{return YES;}
 -(BOOL)canBecomeKeyWindow{return YES;}
+-(void)windowDidBecomeKey:(NSNotification *)notification{
+    [self setWindow];
+    NSLog(@"%@--windowDidBecomeKey",self);
+}
+-(void)windowDidBecomeMain:(NSNotification *)notification{
+     [self setWindow];
+    NSLog(@"%@--windowDidBecomeMain",self);
+}
+-(void)windowDidResignMain:(NSNotification *)notification{
+    NSLog(@"%@--windowDidResignMain",self);
+}
+-(void)windowDidResignKey:(NSNotification *)notification{
+    NSLog(@"%@--windowDidResignKey",self);
+}
 @end

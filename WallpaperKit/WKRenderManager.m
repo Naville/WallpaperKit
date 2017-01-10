@@ -31,7 +31,7 @@
     }
     else{
         renderer=[self.renderList objectAtIndex: arc4random()%[_renderList count]];
-        [self.renderList removeObject:renderer];
+        //[self.renderList removeObject:renderer];
 
     }
     return renderer;
