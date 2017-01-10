@@ -10,16 +10,22 @@
 #import <AppKit/AppKit.h>
 #import <WebKit/WebKit.h>
 #import <objc/runtime.h>
+#import <CoreGraphics/CoreGraphics.h>
 @implementation WKDesktop
 -(instancetype)init{
-    self=[super init];
-    _displayWindow=[WKWindow newFullScreenWindow];
+    
+    self= [super initWithContentRect:CGDisplayBounds(CGMainDisplayID())
+                                                   styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
+    [self setOpaque:NO];
+    [self setBackgroundColor:[NSColor clearColor]];
+    [self setLevel:kCGDesktopIconWindowLevel-1];
+    [self setStyleMask:NSWindowStyleMaskBorderless];
+    [self setAcceptsMouseMovedEvents:YES];
+    [self setMovableByWindowBackground:NO];
+    self.collectionBehavior=(NSWindowCollectionBehaviorStationary | NSWindowCollectionBehaviorParticipatesInCycle);
+   // self.hasShadow=NO;
+    
     return self;
-}
--(void)stop{
-    NSLog(@"Stopping Wallpaper");
-    [NSApp deactivate];
-    [_displayWindow close];
 }
 -(void)renderWithEngine:(nonnull Class)renderEngine withArguments:(NSDictionary *)args{
     if(renderEngine==nil){
@@ -30,25 +36,34 @@
     }
     
     [self cleanup];
-    _currentView=[[renderEngine alloc] initWithWindow:_displayWindow andArguments:args];
-    [_displayWindow.contentView addSubview:_currentView];
+    _currentView=[[renderEngine alloc] initWithWindow:self andArguments:args];
+    
     
 }
 -(void)cleanup{
     [_currentView removeFromSuperview];
     _currentView=nil;
 }
--(void)observer:(NSNotification *)notif{
-    
-}
 -(void)pause{
     if([_currentView respondsToSelector:@selector(pause)]){
         [_currentView performSelector:@selector(pause)];
     }
+    [self orderOut:self];
 }
 -(void)play{
     if([_currentView respondsToSelector:@selector(play)]){
+        
         [_currentView performSelector:@selector(play)];
     }
+    
+    [self setContentView:_currentView];
+    self.nextResponder=_currentView;
+    [self makeMainWindow];
+    [self orderFrontRegardless];
 }
+-(BOOL)canBeVisibleOnAllSpaces{
+    return NO;
+}
+-(BOOL)canBecomeMainWindow{return YES;}
+-(BOOL)canBecomeKeyWindow{return YES;}
 @end

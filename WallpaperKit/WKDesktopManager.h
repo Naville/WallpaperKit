@@ -15,6 +15,8 @@
  Call after WKRenderManager has been properly populated to create Wallpaper for current space
  */
 -(void)start;
+-(void)prepare;
+-(void)stop;
 @property (readwrite,retain,atomic) NSMutableDictionary* windows;
 @property (readwrite,retain,atomic) NSView* activeWallpaperView;
 @end

@@ -8,9 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "WKRenderProtocal.h"
-#import "WKWindow.h"
-#define StopNotification @"com.naville.wpkit.stop"
-@interface WKDesktop : NSObject
+@interface WKDesktop : NSWindow
 /**
  Render Current WKDesktop Object
 
@@ -23,8 +21,6 @@
  */
 -(void)cleanup;
 -(void)pause;
--(void)stop;
 -(void)play;
-@property (readwrite,retain,atomic,nonnull) WKWindow* displayWindow;
 @property (readwrite,retain,atomic,nonnull) NSView* currentView;
 @end

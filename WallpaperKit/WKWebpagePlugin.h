@@ -8,7 +8,7 @@
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
 #import "WKRenderProtocal.h"
-@interface WKWebpagePlugin : WebView<WKRenderProtocal>
+@interface WKWebpagePlugin : WKWebView<WKRenderProtocal>
 /**
  Init Plugin
  

@@ -25,11 +25,15 @@
     return self;
 }
 -(NSDictionary*)randomRender{
-     NSDictionary* renderer=[self.renderList objectAtIndex: arc4random()%[_renderList count]];
-    if([_renderList count]-1<=0){//This is the last renderer
+    NSDictionary* renderer=nil;
+    if([_renderList count]<=0){//This is the last renderer
         [[NSDistributedNotificationCenter defaultCenter] postNotificationName:EmptyRenderListNotification object:nil];
     }
-    [self.renderList removeObject:renderer];
+    else{
+        renderer=[self.renderList objectAtIndex: arc4random()%[_renderList count]];
+        [self.renderList removeObject:renderer];
+
+    }
     return renderer;
 }
 @end

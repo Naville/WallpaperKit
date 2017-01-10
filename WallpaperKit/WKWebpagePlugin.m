@@ -8,15 +8,21 @@
 
 #import "WKWebpagePlugin.h"
 
-@implementation WKWebpagePlugin
+@implementation WKWebpagePlugin{
+    NSURL* webURL;
+}
 
 - (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args{
     NSRect frameRect=window.frame;
     self=[super initWithFrame:frameRect];
-    self.mainFrameURL=[(NSURL*)[args objectForKey:@"Path"] absoluteString];
-    self.hostWindow=window;
+    self->webURL=(NSURL*)[args objectForKey:@"Path"];
     return self;
 }
-
-
+-(void)play{
+    [self loadRequest:[NSURLRequest requestWithURL:self->webURL]];
+}
+- (void)mouseMoved:(NSEvent *)event
+{
+    NSLog(@"%@",event);
+}
 @end

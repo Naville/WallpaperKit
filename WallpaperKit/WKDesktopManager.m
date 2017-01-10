@@ -53,9 +53,19 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
 -(instancetype)init{
     self=[super init];
     self.windows=[NSMutableDictionary dictionary];
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observe:) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
-
+    self->lastActiveSpaceID=LONG_MAX;
     return self;
+}
+-(void)prepare{
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observe:) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
+}
+-(void)stop{
+    for(id key in self.windows.allKeys){
+        WKDesktop* wkd=[self.windows objectForKey:key];
+        [wkd close];
+    }
+    [self.windows removeAllObjects];
+    self->lastActiveSpaceID=LONG_MAX;
 }
 -(void)observe:(NSNotification*)notifi{
     //Do nothing when the system is in fullscreen
@@ -72,15 +82,16 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     if(wk==nil){
         wk=[WKDesktop new];
         NSDictionary* randomEngine=[[WKRenderManager sharedInstance] randomRender];
+        if(randomEngine==nil){
+            NSLog(@"No More Renders");
+            return;
+        }
         [wk renderWithEngine:[randomEngine objectForKey:@"Render"] withArguments:randomEngine];
         self.activeWallpaperView=wk.currentView;
         
         [self.windows setObject:wk forKey:[NSNumber numberWithInteger:currentSpaceID]];
     }
-    else{
-        [wk play];
-    }
-    
+    [wk play];
     
     //Handling Previous
     for(NSString* key in self.windows.allKeys){
