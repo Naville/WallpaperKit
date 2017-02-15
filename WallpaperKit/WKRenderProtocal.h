@@ -13,7 +13,7 @@
 - (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args;
 @optional
 - (void)pause;
--(void)play;
+- (void)play;
 /**
  Called when current display space has changed. When implemented, renderer will not be pause or stopped unless new renderer also implemented the same method. Useful for Renderers to gain continously background access
  */

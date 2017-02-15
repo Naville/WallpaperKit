@@ -13,7 +13,9 @@
  Init Plugin
  
  @param window NSWindow to draw in.Caller will handle view adding
- @param args NSDictionary with @"Path" being the NSURL of target media
+ @param  args Arguments For Rendering
+ 
+    @"Path" being the NSURL of target media
  @return UIView for Caller to deal with
  */
 - (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args;

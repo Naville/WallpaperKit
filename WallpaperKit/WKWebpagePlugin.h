@@ -13,7 +13,13 @@
  Init Plugin
  
  @param window NSWindow to draw in.Caller will handle view adding
- @param args NSDictionary with @"Path" being the NSURL of target webpage
+ @param args Arguments For Rendering
+    Webpage can be specified by using either:
+ 
+            @"Path" the NSURL of target webpage
+            @"HTML" the raw HTML
+ 
+    @"Javascript" is an optional item,which will be evaluated after the page is loaded
  @return UIView for Caller to deal with
  */
 - (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args;

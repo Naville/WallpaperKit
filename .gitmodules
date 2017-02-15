@@ -1,3 +1,6 @@
 [submodule "VLCKit"]
 	path = VLCKit
 	url = https://code.videolan.org/videolan/VLCKit.git
+[submodule "MMMarkdown"]
+	path = MMMarkdown
+	url = https://github.com/mdiep/MMMarkdown.git

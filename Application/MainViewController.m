@@ -7,12 +7,8 @@
 //
 
 #import "MainViewController.h"
-#import "WKDesktopManager.h"
-#import "WKDesktopManager.h"
-#import "WKRenderManager.h"
-#import "WKWebpagePlugin.h"
-#import "WKImagePlugin.h"
-#import "WKVideoPlugin.h"
+#import "WallpaperKit.h"
+#import <objc/runtime.h>
 @interface MainViewController ()
 
 @end
@@ -24,25 +20,11 @@
     self.view.window.delegate=self;
     NSApp.delegate=self;
     self.view.window.collectionBehavior=(NSWindowCollectionBehaviorCanJoinAllSpaces|NSWindowCollectionBehaviorParticipatesInCycle);
-    // Insert code here to initialize your application
-    for(NSURL* path in  [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/Desktop/BackGroundVideos",NSHomeDirectory()]]
-                                                      includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey]
-                                                                         options:NSDirectoryEnumerationSkipsHiddenFiles
-                                                                           error:nil]){
-        [[WKRenderManager sharedInstance].renderList addObject:@{@"Path":path,@"Render":[WKVideoPlugin class]}];
-    }
-    for(NSURL* path in  [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/Desktop/HTMLWallpaper",NSHomeDirectory()]]
-                                                      includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey]
-                                                                         options:NSDirectoryEnumerationSkipsHiddenFiles
-                                                                           error:nil]){
-        
-        
-        [[WKRenderManager sharedInstance].renderList addObject:@{@"Path":[path URLByAppendingPathComponent:@"index.html"],@"Render":[WKWebpagePlugin class]}];
-    }
+    [self CollectPref];
     
-    [WKRenderManager collectFromWallpaperEnginePath:@"/Volumes/Maets/SteamLibrary/steamapps/workshop/content/431960/"];
     [[WKDesktopManager sharedInstance] prepare];
     [[WKDesktopManager sharedInstance] start];
+    
 }
 - (IBAction)discardExistingWindows:(id)sender {
     [[WKDesktopManager sharedInstance] stop];
@@ -59,4 +41,30 @@
     [[WKDesktopManager sharedInstance]  discardCurrentSpace];
 }
 
+-(void)CollectPref{
+    @autoreleasepool {
+        NSMutableDictionary* Pref=[NSMutableDictionary dictionaryWithContentsOfFile:[NSString stringWithFormat:@"%@/WallpaperKit.plist",NSHomeDirectory()]];
+        [WKRenderManager collectFromWallpaperEnginePath:Pref[@"WEWorkshopPath"]];
+        [Pref removeObjectForKey:@"WEWorkshopPath"];
+        for(NSString* Key in Pref){
+            if(objc_getClass(Key.UTF8String)!=NULL){
+                NSArray* List=Pref[Key];
+                for(NSDictionary* Arg in  List){
+                    NSMutableDictionary* RenderArg=[NSMutableDictionary dictionaryWithDictionary:Arg];
+                    RenderArg[@"Render"]=objc_getClass(Key.UTF8String);
+                    if([RenderArg.allKeys containsObject:@"Path"]){
+                        RenderArg[@"Path"]=[NSURL fileURLWithPath:RenderArg[@"Path"]];
+                    }
+                    if([RenderArg.allKeys containsObject:@"ImagePath"]){
+                        RenderArg[@"ImagePath"]=[NSURL fileURLWithPath:RenderArg[@"ImagePath"]];
+                    }
+                    [[WKRenderManager sharedInstance].renderList addObject:RenderArg];
+                }
+            }
+            else{
+                @throw [NSException exceptionWithName:NSGenericException reason:[NSString stringWithFormat:@"Invalid Preferences Key:%@",Key] userInfo:nil];
+            }
+        }
+    }
+}
 @end

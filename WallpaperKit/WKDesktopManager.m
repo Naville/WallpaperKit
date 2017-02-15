@@ -52,12 +52,15 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     self.windows=[NSMutableDictionary dictionary];
     self->lastActiveSpaceID=INT_MAX;
     [NSEvent addGlobalMonitorForEventsMatchingMask:NSEventMaskMouseMoved handler:^(NSEvent* event){
+       //NSLog(@"Global Mouse Event X:%f Y:%f",[NSEvent mouseLocation].x,[NSEvent mouseLocation].y);
        WKDesktop* wkds=[self.windows objectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]];
         if(wkds==nil){
             [self observe:nil];
             wkds=[self.windows objectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]];
         }
-        [wkds sendEvent:event];
+        NSEvent* newEvent=[NSEvent mouseEventWithType:event.type location:[NSEvent mouseLocation] modifierFlags:event.modifierFlags timestamp:event.timestamp windowNumber:wkds.windowNumber context:event.context eventNumber:event.eventNumber clickCount:event.clickCount pressure:event.pressure];
+        [wkds sendEvent:newEvent];
+        newEvent=nil;
     }];
     return self;
 }
@@ -100,7 +103,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     }
     [wk play];
     
-    //Handling Previous
+    //Keep Current Video Playing if next Window is not playing video,etc
     for(NSString* key in self.windows.allKeys){
         WKDesktop* currentDesktop=[self.windows objectForKey:key];
         if([currentDesktop isEqualTo:wk]){//Ignore next space's WKDesktop

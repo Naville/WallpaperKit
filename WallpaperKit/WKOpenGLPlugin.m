@@ -9,7 +9,7 @@
 #import "WKOpenGLPlugin.h"
 #import <OpenGL/gl.h>
 @implementation WKOpenGLPlugin{
-    void (^OpenGLDrawingBlock)(NSOpenGLView* view);
+    void (^OpenGLDrawingBlock)();
 }
 
 - (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args{
@@ -22,9 +22,10 @@
     };
     NSOpenGLPixelFormat* pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
     self=[super initWithFrame:frameRect pixelFormat:pixelFormat];
-    
-    ///self->OpenGLDrawingBlock=[args objectForKey:@"DrawingBlock"];
-    //self->OpenGLDrawingBlock(self);
     return self;
+}
+-(void)play{
+    [self.openGLContext makeCurrentContext];
+    self->OpenGLDrawingBlock();
 }
 @end
