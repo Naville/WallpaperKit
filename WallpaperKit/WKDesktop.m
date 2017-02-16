@@ -17,23 +17,19 @@
     CGRect fullRect=CGDisplayBounds(CGMainDisplayID());
     self= [super initWithContentRect:fullRect styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
     self.releasedWhenClosed=NO;//Fix Memory Issue
-    [self setWindow];
-    [self setBackgroundColor:[NSColor clearColor]];
-    [self setOpaque:NO];
     self.delegate=self;
     
     return self;
 }
 -(void)setWindow{
+    [self setBackgroundColor:[NSColor clearColor]];
+    [self setOpaque:NO];
     [self setLevel:kCGDesktopIconWindowLevel-1];
     [self setStyleMask:NSWindowStyleMaskBorderless];
     [self setAcceptsMouseMovedEvents:YES];
     [self setMovableByWindowBackground:NO];
     self.collectionBehavior=(NSWindowCollectionBehaviorStationary | NSWindowCollectionBehaviorParticipatesInCycle);
     self.hasShadow=NO;
-    [self setContentView:_currentView];
-    [self orderFront:nil];
-    [self makeKeyAndOrderFront:self];
 }
 -(void)renderWithEngine:(nonnull Class)renderEngine withArguments:(NSDictionary *)args{
     if(renderEngine==nil){
@@ -43,6 +39,8 @@
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"%@ is not a valid WKRenderProtocal class",NSStringFromClass(renderEngine)] userInfo:nil];
     }
     _currentView=[[renderEngine alloc] initWithWindow:self andArguments:args];
+    [self setWindow];
+    [self setContentView:_currentView];
     
     
 }
@@ -62,21 +60,9 @@
         
         [_currentView performSelector:@selector(play)];
     }
-    [self setContentView:_currentView];
-    [self orderFront:nil];
-    [self makeKeyAndOrderFront:self];
 }
 -(BOOL)canBeVisibleOnAllSpaces{
     return NO;
-}
--(BOOL)canBecomeKeyWindow{return YES;}
--(void)windowDidBecomeKey:(NSNotification *)notification{
-    [self setWindow];
-    NSLog(@"%@--windowDidBecomeKey",self);
-}
--(void)windowDidBecomeMain:(NSNotification *)notification{
-     [self setWindow];
-     NSLog(@"%@--windowDidBecomeMain",self);
 }
 - (void)windowDidChangeOcclusionState:(NSNotification *)notification{
     if(self.occlusionState & NSApplicationOcclusionStateVisible){

@@ -21,6 +21,7 @@
  
     @"Javascript" is an optional item,which will be evaluated after the page is loaded
  @return UIView for Caller to deal with
+ @discussion MouseEvents are supported by explicited overwrite NSEvent Handlers and execute JS
  */
 - (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args;
 @end

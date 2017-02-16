@@ -9,10 +9,12 @@
 #import "WKVideoPlugin.h"
 @implementation WKVideoPlugin{
     AVPlayer* player;
+    NSString* URL;
 }
 - (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args{
     NSRect frameRect=window.frame;
     self=[super initWithFrame:frameRect];
+    self->URL=[(NSURL*)[args objectForKey:@"Path"] absoluteString];
     player=[AVPlayer playerWithURL:[args objectForKey:@"Path"]];
     player.actionAtItemEnd=AVPlayerActionAtItemEndNone;
     self.player=player;
@@ -20,7 +22,6 @@
     self.showsFrameSteppingButtons=NO;
     self.showsFullScreenToggleButton=NO;
     self.controlsStyle=AVPlayerViewControlsStyleNone;
-    [player play];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(observer:)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
@@ -40,7 +41,7 @@
 -(void)play{
     [player play];
 }
--(void)handleSpaceChange{
-    
+-(NSString*)description{
+    return [@"WKVideoPlugin " stringByAppendingString:self->URL];
 }
 @end

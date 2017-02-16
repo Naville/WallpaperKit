@@ -19,5 +19,4 @@
     [self setImageScaling:NSImageScaleProportionallyUpOrDown];
     return self;
 }
-
 @end

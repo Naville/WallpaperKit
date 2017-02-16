@@ -51,16 +51,14 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     self=[super init];
     self.windows=[NSMutableDictionary dictionary];
     self->lastActiveSpaceID=INT_MAX;
-    [NSEvent addGlobalMonitorForEventsMatchingMask:NSEventMaskMouseMoved handler:^(NSEvent* event){
+    [NSEvent addGlobalMonitorForEventsMatchingMask: NSEventMaskMouseMoved    handler:^(NSEvent* event){
        //NSLog(@"Global Mouse Event X:%f Y:%f",[NSEvent mouseLocation].x,[NSEvent mouseLocation].y);
        WKDesktop* wkds=[self.windows objectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]];
         if(wkds==nil){
             [self observe:nil];
             wkds=[self.windows objectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]];
         }
-        NSEvent* newEvent=[NSEvent mouseEventWithType:event.type location:[NSEvent mouseLocation] modifierFlags:event.modifierFlags timestamp:event.timestamp windowNumber:wkds.windowNumber context:event.context eventNumber:event.eventNumber clickCount:event.clickCount pressure:event.pressure];
-        [wkds sendEvent:newEvent];
-        newEvent=nil;
+        [wkds sendEvent:event];
     }];
     return self;
 }
@@ -86,7 +84,6 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     if(currentSpaceID==WRONG_WINDOW_ID){
         return;
     }
-    NSLog(@"Current SpaceID:%lu",(unsigned long)currentSpaceID);
     lastActiveSpaceID=currentSpaceID;
     WKDesktop* wk=(WKDesktop*)[self.windows objectForKey:[NSNumber numberWithInteger:currentSpaceID]];//New Space's WKDesktop
     if(wk==nil){
@@ -101,6 +98,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
         
         [self.windows setObject:wk forKey:[NSNumber numberWithInteger:currentSpaceID]];
     }
+    [wk makeKeyAndOrderFront:nil];
     [wk play];
     
     //Keep Current Video Playing if next Window is not playing video,etc
@@ -119,6 +117,9 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
 
 }
 -(void)start{
+    if([[WKRenderManager sharedInstance].renderList count]==0){
+        @throw [NSException exceptionWithName:NSGenericException reason:@"Render List is empty" userInfo:nil];
+    }
     [self observe:nil];
 }
 -(NSUInteger)currentSpaceID{
@@ -147,9 +148,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     return retVal;
 }
 -(void)discardCurrentSpace{
-    WKDesktop* currentDesktop=(WKDesktop*)[self->_windows objectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]];
-    [currentDesktop close];
-    currentDesktop=nil;
+    [[self->_windows objectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]] close];
     [self->_windows removeObjectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]];
     
 }

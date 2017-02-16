@@ -21,7 +21,6 @@
     NSApp.delegate=self;
     self.view.window.collectionBehavior=(NSWindowCollectionBehaviorCanJoinAllSpaces|NSWindowCollectionBehaviorParticipatesInCycle);
     [self CollectPref];
-    
     [[WKDesktopManager sharedInstance] prepare];
     [[WKDesktopManager sharedInstance] start];
     
@@ -39,6 +38,9 @@
 }*/
 - (IBAction)discardActiveSpace:(id)sender {
     [[WKDesktopManager sharedInstance]  discardCurrentSpace];
+}
+- (IBAction)loadActiveSpace:(id)sender {
+    [[WKDesktopManager sharedInstance]  start];
 }
 
 -(void)CollectPref{
