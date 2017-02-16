@@ -343,7 +343,6 @@
 				FA696B851E4EB02400541B0A /* Frameworks */,
 				FA696B861E4EB02400541B0A /* Headers */,
 				FA696B871E4EB02400541B0A /* Resources */,
-				FAD044481E55847B00739A5D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -455,22 +454,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		FAD044481E55847B00739A5D /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "appledoc ";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FA3D1F3A1E2534BC005A57CF /* Sources */ = {
