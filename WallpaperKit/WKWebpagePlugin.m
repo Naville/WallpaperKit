@@ -32,6 +32,7 @@
     }
     self->description=(webURL!=nil)?webURL.absoluteString:self->HTMLString;
     self.acceptsTouchEvents=YES;
+    self.requiresConsistentAccess=NO;
     return self;
 }
 -(void)play{
@@ -75,5 +76,8 @@
 }
 -(NSString*)description{
     return [@"WKWebpagePlugin " stringByAppendingString:self->description];
+}
+-(void)pause{
+    
 }
 @end

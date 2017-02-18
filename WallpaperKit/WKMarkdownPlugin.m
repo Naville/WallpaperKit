@@ -22,6 +22,9 @@
                           <div id=\"WKMarkdownWrapper\">\
                           %@\
                           </div>",(CSS==nil)?@"":CSS,rawHTML];
-    return [super initWithWindow:window andArguments:@{@"HTML":htmlString}];
+    self=[super initWithWindow:window andArguments:@{@"HTML":htmlString}];
+    
+    self.requiresConsistentAccess=NO;
+    return self;
 }
 @end

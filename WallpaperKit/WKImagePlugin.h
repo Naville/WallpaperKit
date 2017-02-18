@@ -6,8 +6,7 @@
 //  Copyright © 2017年 NavilleZhang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-#import "WKRenderProtocal.h"
+#import "WKDesktop.h"
 @interface WKImagePlugin : NSImageView<WKRenderProtocal>
 /**
  Init Plugin
@@ -19,4 +18,5 @@
  @return UIView for Caller to deal with
  */
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args;
+@property (nonatomic) BOOL requiresConsistentAccess;
 @end

@@ -6,8 +6,7 @@
 //  Copyright © 2017年 NavilleZhang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-#import "WKRenderProtocal.h"
+#import "WKDesktop.h"
 @interface WKOpenGLPlugin : NSOpenGLView<WKRenderProtocal>
-
+@property (nonatomic) BOOL requiresConsistentAccess;
 @end

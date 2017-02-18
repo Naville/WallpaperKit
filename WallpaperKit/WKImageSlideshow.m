@@ -29,7 +29,7 @@
         self->descript=[self->ImageURLList componentsJoinedByString:@"\n"];
     }
     if(self->ImageURLList==0){
-        error=[NSError errorWithDomain:@"com.naville.wallpaperkit.WKImageSlideshow" code:-1 userInfo:args];
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"ImageList is empty" userInfo:args];
     }
     
     if([args.allKeys containsObject:@"Interval"]){
@@ -43,6 +43,7 @@
     if(error!=nil){
         [window setErr:error];
     }
+    self.requiresConsistentAccess=NO;
     return self;
 }
 - (void)ImageUpdate{

@@ -5,8 +5,6 @@
 //  Created by Naville Zhang on 2017/1/8.
 //  Copyright © 2017年 NavilleZhang. All rights reserved.
 //
-#ifndef WKDESKTOP_H
-#define WKDESKTOP_H
 #import <AppKit/AppKit.h>
 #import "WKRenderProtocal.h"
 @interface WKDesktop : NSWindow<NSWindowDelegate>
@@ -22,10 +20,9 @@
  */
 -(void)pause;
 -(void)play;
-@property (readwrite,retain,nonatomic,nonnull) NSView* currentView;
+@property (readwrite,retain,nonatomic,nonnull) NSView<WKRenderProtocal>* currentView;
 /**
  NSError used by Render
  */
 @property (readwrite,strong,nonatomic,nullable) NSError* err;
 @end
-#endif

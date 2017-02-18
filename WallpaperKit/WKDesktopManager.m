@@ -105,8 +105,8 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
         if([currentDesktop isEqualTo:wk]){//Ignore next space's WKDesktop
             continue;
         }
-        if([currentDesktop.currentView respondsToSelector:@selector(handleSpaceChange)]==YES && [wk.currentView respondsToSelector:@selector(handleSpaceChange)]==NO){
-            [currentDesktop.currentView performSelector:@selector(handleSpaceChange)];//Don't Pause other views only when it satisfy the condition and currentDisplaying view doen't satify the condition
+        if(currentDesktop.currentView.requiresConsistentAccess==YES && wk.currentView.requiresConsistentAccess==NO){
+            //Old view needs consistent access while the new one doesn't. Leave it running
         }
         else{
             [currentDesktop pause];

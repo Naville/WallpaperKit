@@ -87,6 +87,13 @@
                     if([RenderArg.allKeys containsObject:@"ImagePath"]){
                         RenderArg[@"ImagePath"]=[NSURL fileURLWithPath:RenderArg[@"ImagePath"]];
                     }
+                    if([RenderArg.allKeys containsObject:@"Images"]){
+                        NSMutableArray* FixedArray=[NSMutableArray arrayWithCapacity:[(NSArray*)RenderArg[@"Images"] count]];
+                        for (NSString* Path in RenderArg[@"Images"]){
+                            [FixedArray addObject:[NSURL fileURLWithPath:Path]];
+                        }
+                        RenderArg[@"Images"]=FixedArray;
+                    }
                     [[WKRenderManager sharedInstance].renderList addObject:RenderArg];
                 }
             }

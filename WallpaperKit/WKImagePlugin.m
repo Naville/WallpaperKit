@@ -10,6 +10,7 @@
 
 @implementation WKImagePlugin{
     NSString* desc;
+    NSURL* ImagePath;
 }
 
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
@@ -17,9 +18,16 @@
     [window setOpaque:YES];
     [window setBackgroundColor:[NSColor blackColor]];
     self=[super initWithFrame:frameRect];
-    [self setImage:[[NSImage alloc] initWithContentsOfURL:[args objectForKey:@"Path"]]];
+    self->ImagePath=[args objectForKey:@"Path"];
     self->desc=[[(NSURL*)[args objectForKey:@"Path"] absoluteString] stringByRemovingPercentEncoding];
     [self setImageScaling:NSImageScaleProportionallyUpOrDown];
+    self.requiresConsistentAccess=NO;
     return self;
+}
+-(void)play{
+    [self setImage:[[NSImage alloc] initWithContentsOfURL:self->ImagePath]];
+}
+-(void)pause{
+    
 }
 @end

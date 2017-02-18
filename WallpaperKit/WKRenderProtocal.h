@@ -5,22 +5,22 @@
 //  Created by Naville Zhang on 2017/1/9.
 //  Copyright © 2017年 NavilleZhang. All rights reserved.
 //
-#ifndef WKRENDERPROTOCAL_H
-#define WKRENDERPROTOCAL_H
-#import "WKDesktop.h"
-
+#import <AppKit/AppKit.h>
 @class WKDesktop;
+
 @protocol WKRenderProtocal
 
 @required
+@property (nonatomic) BOOL requiresConsistentAccess;
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args;
-@optional
-- (void)pause;
-- (void)play;
 /**
- Called when current display space has changed. When implemented, renderer will not be pause or stopped unless new renderer also implemented the same method. Useful for Renderers to gain continously background access
+ Pause Current View. Called when Current Workspace has changed
  */
--(void)handleSpaceChange;
+- (void)pause;
+/**
+ Start Displaying Current View
+ */
+- (void)play;
+
 @end
-#endif
 

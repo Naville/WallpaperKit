@@ -5,9 +5,9 @@
 //  Created by Naville Zhang on 2017/1/9.
 //  Copyright © 2017年 NavilleZhang. All rights reserved.
 //
-#import <Cocoa/Cocoa.h>
+#import "WKDesktop.h"
 #import <WebKit/WebKit.h>
-#import "WKRenderProtocal.h"
+
 @interface WKWebpagePlugin : WKWebView<WKRenderProtocal>
 /**
  Init Plugin
@@ -24,4 +24,5 @@
  @discussion MouseEvents are supported by explicited overwrite NSEvent Handlers and execute JS
  */
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args;
+@property (nonatomic) BOOL requiresConsistentAccess;
 @end

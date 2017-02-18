@@ -6,7 +6,6 @@
 //  Copyright © 2017年 NavilleZhang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "WKWebpagePlugin.h"
 @interface WKMarkdownPlugin : WKWebpagePlugin
 /**

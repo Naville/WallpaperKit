@@ -23,11 +23,15 @@
     NSOpenGLPixelFormat* pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
     self=[super initWithFrame:frameRect pixelFormat:pixelFormat];
     self->OpenGLDrawingBlock=[args objectForKey:@"OpenGLDrawingBlock"];
+    self.requiresConsistentAccess=NO;
     return self;
 }
 -(void)play{
     [self.openGLContext makeCurrentContext];
     self->OpenGLDrawingBlock();
     [self.openGLContext flushBuffer];
+}
+-(void)pause{
+    
 }
 @end

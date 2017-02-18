@@ -26,6 +26,7 @@
                                              selector:@selector(observer:)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:[player currentItem]];
+    self.requiresConsistentAccess=YES;
     return self;
 }
 -(void)observer:(NSNotification *)notif{

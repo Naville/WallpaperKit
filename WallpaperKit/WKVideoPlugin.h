@@ -5,11 +5,9 @@
 //  Created by Naville Zhang on 2017/1/9.
 //  Copyright © 2017年 NavilleZhang. All rights reserved.
 //
-
-#import <Cocoa/Cocoa.h>
+#import "WKDesktop.h"
 #import <AVKit/AVKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import "WKRenderProtocal.h"
 
 @interface WKVideoPlugin : AVPlayerView<WKRenderProtocal>
 /**
@@ -22,4 +20,5 @@
  @return UIView for Caller to deal with
  */
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args;
+@property (nonatomic) BOOL requiresConsistentAccess;
 @end
