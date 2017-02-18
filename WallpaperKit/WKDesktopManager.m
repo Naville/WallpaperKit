@@ -51,15 +51,6 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     self=[super init];
     self.windows=[NSMutableDictionary dictionary];
     self->lastActiveSpaceID=INT_MAX;
-    [NSEvent addGlobalMonitorForEventsMatchingMask: NSEventMaskMouseMoved    handler:^(NSEvent* event){
-       //NSLog(@"Global Mouse Event X:%f Y:%f",[NSEvent mouseLocation].x,[NSEvent mouseLocation].y);
-       WKDesktop* wkds=[self.windows objectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]];
-        if(wkds==nil){
-            [self observe:nil];
-            wkds=[self.windows objectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]];
-        }
-        [wkds sendEvent:event];
-    }];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observe:) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
     return self;
 }
@@ -85,7 +76,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     lastActiveSpaceID=currentSpaceID;
     WKDesktop* wk=(WKDesktop*)[self.windows objectForKey:[NSNumber numberWithInteger:currentSpaceID]];//New Space's WKDesktop
     if(wk==nil){
-        wk=[WKDesktop new];
+        wk=[[WKDesktop alloc] initWithContentRect:[self.class calculatedRenderSize] styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
         NSDictionary* randomEngine=[[WKRenderManager sharedInstance] randomRender];
         if(randomEngine==nil){
             NSLog(@"No More Renders");
@@ -98,7 +89,6 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     }
     [wk makeKeyAndOrderFront:nil];
     [wk play];
-    
     //Keep Current Video Playing if next Window is not playing video,etc
     for(NSString* key in self.windows.allKeys){
         WKDesktop* currentDesktop=[self.windows objectForKey:key];
@@ -107,9 +97,6 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
         }
         if(currentDesktop.currentView.requiresConsistentAccess==YES && wk.currentView.requiresConsistentAccess==NO){
             //Old view needs consistent access while the new one doesn't. Leave it running
-        }
-        else{
-            [currentDesktop pause];
         }
     }
 
@@ -143,5 +130,11 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     [[self->_windows objectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]] close];
     [self->_windows removeObjectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]];
     
+}
++(CGRect)calculatedRenderSize{
+    CGRect rawSize=[NSScreen mainScreen].visibleFrame;
+    //rawSize.origin.y+=7;
+    //rawSize.size.height*=0.97;
+    return rawSize;
 }
 @end

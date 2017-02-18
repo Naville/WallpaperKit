@@ -9,15 +9,12 @@
 #import "WKVideoPlugin.h"
 @implementation WKVideoPlugin{
     AVPlayer* player;
-    NSString* URL;
+    NSURL* URL;
 }
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
     NSRect frameRect=window.frame;
     self=[super initWithFrame:frameRect];
-    self->URL=[(NSURL*)[args objectForKey:@"Path"] absoluteString];
-    player=[AVPlayer playerWithURL:[args objectForKey:@"Path"]];
-    player.actionAtItemEnd=AVPlayerActionAtItemEndNone;
-    self.player=player;
+    self->URL=[args objectForKey:@"Path"];
     self.showsSharingServiceButton=NO;
     self.showsFrameSteppingButtons=NO;
     self.showsFullScreenToggleButton=NO;
@@ -40,9 +37,13 @@
     [player pause];
 }
 -(void)play{
+    if(player==nil){
+        player=[AVPlayer playerWithURL:self->URL];
+        player.actionAtItemEnd=AVPlayerActionAtItemEndNone;
+    }
     [player play];
 }
 -(NSString*)description{
-    return [@"WKVideoPlugin " stringByAppendingString:[self->URL stringByRemovingPercentEncoding]];
+    return [@"WKVideoPlugin " stringByAppendingString:[self->URL.absoluteString stringByRemovingPercentEncoding]];
 }
 @end

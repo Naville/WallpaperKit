@@ -7,6 +7,8 @@
 //
 #import <AppKit/AppKit.h>
 #import "WKRenderProtocal.h"
+#import "WKUtils.h"
+NS_ASSUME_NONNULL_BEGIN
 @interface WKDesktop : NSWindow<NSWindowDelegate>
 /**
  Render Current WKDesktop Object
@@ -14,7 +16,8 @@
  @param renderEngine Class for Rendering Current Object
  @param args Arguments For The Render
  */
--(void)renderWithEngine:(nonnull Class)renderEngine withArguments:(nonnull NSDictionary*)args;
+-(void)renderWithEngine:(Class)renderEngine withArguments:(NSDictionary*)args;
+-(instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)style backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag NS_DESIGNATED_INITIALIZER;
 /**
  Cleanup Subviews
  */
@@ -26,3 +29,4 @@
  */
 @property (readwrite,strong,nonatomic,nullable) NSError* err;
 @end
+NS_ASSUME_NONNULL_END

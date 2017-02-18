@@ -10,25 +10,20 @@
 #import <WebKit/WebKit.h>
 #import <objc/runtime.h>
 #import <CoreGraphics/CoreGraphics.h>
+
+
 @implementation WKDesktop
--(instancetype)init{
-    
-    CGRect fullRect=CGDisplayBounds(CGMainDisplayID());
-    self= [super initWithContentRect:fullRect styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
+- (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)style backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag{
+    self= [super initWithContentRect:contentRect styleMask:style backing:bufferingType defer:flag];
     self.releasedWhenClosed=NO;//Fix Memory Issue
     self.delegate=self;
-    
-    return self;
-}
--(void)setWindow{
-    [self setBackgroundColor:[NSColor clearColor]];
-    [self setOpaque:NO];
+    [self setBackgroundColor:[NSColor blackColor]];
     [self setLevel:kCGDesktopIconWindowLevel-1];
-    [self setStyleMask:NSWindowStyleMaskBorderless];
     [self setAcceptsMouseMovedEvents:YES];
     [self setMovableByWindowBackground:NO];
-    self.collectionBehavior=(NSWindowCollectionBehaviorStationary | NSWindowCollectionBehaviorParticipatesInCycle);
-    self.hasShadow=NO;
+    self.collectionBehavior=NSWindowCollectionBehaviorStationary;
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(handleAppChange:) name:NSWorkspaceDidActivateApplicationNotification object:nil];
+    return self;
 }
 -(void)renderWithEngine:(nonnull Class)renderEngine withArguments:(NSDictionary *)args{
     if(renderEngine==nil){
@@ -41,45 +36,45 @@
     if(self.err!=nil){
         @throw [NSException exceptionWithName:NSGenericException reason:self.err.localizedDescription userInfo:args];
     }
-    else{
-        [self setWindow];
-        [self setContentView:_currentView];
-    }
     
     
 }
 -(void)pause{
-    if([_currentView respondsToSelector:@selector(pause)]){
-        [_currentView performSelector:@selector(pause)];
-    }
+    [_currentView pause];
 }
 -(void)close{
     [self pause];
-    [_currentView removeFromSuperview];
     self->_currentView=nil;
     [super close];
 }
 -(void)play{
-    if([_currentView respondsToSelector:@selector(play)]){
-        
-        [_currentView performSelector:@selector(play)];
-    }
+    [self.contentView addSubview:_currentView];
+    [_currentView.layer setOpaque:YES];
+    [self setBackgroundColor:[NSColor redColor]];
+    [_currentView play];
 }
 -(BOOL)canBeVisibleOnAllSpaces{
     return NO;
 }
-- (void)windowDidChangeOcclusionState:(NSNotification *)notification{
-    if(self.occlusionState & NSApplicationOcclusionStateVisible){
-        NSLog(@"VS:%@",[self description]);
+- (void)windowDidChangeOcclusionState:(NSNotification *)notification
+{
+    if ([[notification object] occlusionState]  &  NSWindowOcclusionStateVisible) {
+        NSLog(@"Visible");
         [self play];
-    }
-    else{
+    } else {
+        NSLog(@"Hidden");
         [self pause];
-        NSLog(@"NVS:%@",[self description]);
+    }
+}
+-(void)handleAppChange:(NSNotification*)notif{
+    double HiddenRate=[WKUtils OcclusionRateForWindow:self];
+    if(HiddenRate>0.8){
+        NSLog(@"Hidden. %f Covered",HiddenRate);
+        [self pause];
     }
 }
 -(NSString*)description{
-    return [_contentView description];
+    return [self.contentView description];
 }
 @end
 

@@ -22,21 +22,7 @@
     NSApp.delegate=self;
     self.view.window.collectionBehavior=(NSWindowCollectionBehaviorCanJoinAllSpaces|NSWindowCollectionBehaviorParticipatesInCycle);
     [self CollectPref];
-    [[WKRenderManager sharedInstance].renderList addObject:@{@"Render":[WKOpenGLPlugin class],@"OpenGLDrawingBlock":^(){
-        glClearColor(0, 0, 0, 0);
-        glClear(GL_COLOR_BUFFER_BIT);
-        
-        glColor3f(1, .85, .35);
-        glBegin(GL_TRIANGLES);
-        {
-            glVertex3f(0, 0.6, 0);
-            glVertex3f(-0.2, -0.3, 0);
-            glVertex3f(.2, -.3, 0);
-        }
-        glEnd();
-        
-        glFlush();
-    }}];
+    //[[WKRenderManager sharedInstance].renderList addObject:@{@"Render":[WKWebpagePlugin class],@"Path":[NSURL URLWithString:@"https://www.youtube.com/watch?v=Ms5hhdRFRvc"]}];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observe) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
     [self observe];
     

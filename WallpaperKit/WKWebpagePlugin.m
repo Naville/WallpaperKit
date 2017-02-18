@@ -7,12 +7,16 @@
 //
 
 #import "WKWebpagePlugin.h"
-
+#import <AVFoundation/AVFoundation.h>
+#import "WKUtils.h"
 @implementation WKWebpagePlugin{
     NSURL* webURL;
     NSString* HTMLString;
     NSString* Javascript;
     NSString* description;
+    AVPlayerItem * currentPlayerItem;
+    id EventMonitor;
+
 }
 
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
@@ -24,6 +28,7 @@
     
     
     self=[super initWithFrame:frameRect configuration:config];
+    
     self->webURL=(NSURL*)[args objectForKey:@"Path"];
     self->HTMLString=(NSString*)[args objectForKey:@"HTML"];
     self->Javascript=(NSString*)[args objectForKey:@"Javascript"];
@@ -47,37 +52,77 @@
             
         }
         }];
-    //From http://marcgrabanski.com/simulating-mouse-click-events-in-javascript/
-    NSData* mouseHandler=[[NSData alloc] initWithBase64EncodedString:@"ZnVuY3Rpb24gbW91c2VFdmVudCh0eXBlLCBzeCwgc3ksIGN4LCBjeSkgew0KICB2YXIgZXZ0Ow0KICB2YXIgZSA9IHsNCiAgICBidWJibGVzOiB0cnVlLA0KICAgIGNhbmNlbGFibGU6ICh0eXBlICE9ICJtb3VzZW1vdmUiKSwNCiAgICB2aWV3OiB3aW5kb3csDQogICAgZGV0YWlsOiAwLA0KICAgIHNjcmVlblg6IHN4LA0KICAgIHNjcmVlblk6IHN5LA0KICAgIGNsaWVudFg6IGN4LA0KICAgIGNsaWVudFk6IGN5LA0KICAgIGN0cmxLZXk6IGZhbHNlLA0KICAgIGFsdEtleTogZmFsc2UsDQogICAgc2hpZnRLZXk6IGZhbHNlLA0KICAgIG1ldGFLZXk6IGZhbHNlLA0KICAgIGJ1dHRvbjogMCwNCiAgICByZWxhdGVkVGFyZ2V0OiB1bmRlZmluZWQNCiAgfTsNCiAgaWYgKHR5cGVvZiggZG9jdW1lbnQuY3JlYXRlRXZlbnQgKSA9PSAiZnVuY3Rpb24iKSB7DQogICAgZXZ0ID0gZG9jdW1lbnQuY3JlYXRlRXZlbnQoIk1vdXNlRXZlbnRzIik7DQogICAgZXZ0LmluaXRNb3VzZUV2ZW50KHR5cGUsDQogICAgICBlLmJ1YmJsZXMsIGUuY2FuY2VsYWJsZSwgZS52aWV3LCBlLmRldGFpbCwNCiAgICAgIGUuc2NyZWVuWCwgZS5zY3JlZW5ZLCBlLmNsaWVudFgsIGUuY2xpZW50WSwNCiAgICAgIGUuY3RybEtleSwgZS5hbHRLZXksIGUuc2hpZnRLZXksIGUubWV0YUtleSwNCiAgICAgIGUuYnV0dG9uLCBkb2N1bWVudC5ib2R5LnBhcmVudE5vZGUpOw0KICB9IGVsc2UgaWYgKGRvY3VtZW50LmNyZWF0ZUV2ZW50T2JqZWN0KSB7DQogICAgZXZ0ID0gZG9jdW1lbnQuY3JlYXRlRXZlbnRPYmplY3QoKTsNCiAgICBmb3IgKHByb3AgaW4gZSkgew0KICAgIGV2dFtwcm9wXSA9IGVbcHJvcF07DQogIH0NCiAgICBldnQuYnV0dG9uID0geyAwOjEsIDE6NCwgMjoyIH1bZXZ0LmJ1dHRvbl0gfHwgZXZ0LmJ1dHRvbjsNCiAgfQ0KICByZXR1cm4gZXZ0Ow0KfQ0KZnVuY3Rpb24gZGlzcGF0Y2hFdmVudCAoZWwsIGV2dCkgew0KICBpZiAoZWwuZGlzcGF0Y2hFdmVudCkgew0KICAgIGVsLmRpc3BhdGNoRXZlbnQoZXZ0KTsNCiAgfSBlbHNlIGlmIChlbC5maXJlRXZlbnQpIHsNCiAgICBlbC5maXJlRXZlbnQoJ29uJyArIHR5cGUsIGV2dCk7DQogIH0NCiAgcmV0dXJuIGV2dDsNCn0=" options:NSDataBase64DecodingIgnoreUnknownCharacters];
-    [self evaluateJavaScript:[[NSString alloc] initWithData:mouseHandler encoding:NSUTF8StringEncoding] completionHandler:nil];
     if(self->Javascript!=nil){
         [self evaluateJavaScript:Javascript completionHandler:nil];
+    }
+    
+    if(self->EventMonitor==nil){
+        
+        self->EventMonitor=[WKUtils registerGlobalEventMonitorForMask:ALLKEYBOARDMOUSEEVENTS withCallback:^(NSEvent* event){
+            [self.window sendEvent:event];
+        }];
     }
 
    
 }
 -(void)mouseMoved:(NSEvent *)event{
-    NSPoint location=[NSEvent mouseLocation];
-    NSString* js=[NSString stringWithFormat:@"dispatchEvent(document,mouseEvent(\"mousemove\",%f,%f,%f,%f))",location.x,location.y,location.x,location.y];
     [super mouseMoved:event];
-    [self evaluateJavaScript:js completionHandler:nil];
+    NSPoint location=[NSEvent mouseLocation];
+    NSMutableDictionary* Event=[NSMutableDictionary dictionary];
+    Event[@"screenX"]=[NSNumber numberWithFloat:location.x];
+    Event[@"screenY"]=[NSNumber numberWithFloat:location.y];
+    
+    
+    [self dispatchEvent:@"mousemove" Args:Event andConstructor:@"MouseEvent"];
+
 }
 -(void)mouseDown:(NSEvent *)event{
-    NSPoint location=[NSEvent mouseLocation];
-    NSString* js=[NSString stringWithFormat:@"dispatchEvent(document,mouseEvent(\"mousedown\",%f,%f,%f,%f))",location.x,location.y,location.x,location.y];
     [super mouseDown:event];
-    [self evaluateJavaScript:js completionHandler:nil];
+    NSPoint location=[NSEvent mouseLocation];
+    NSMutableDictionary* Event=[NSMutableDictionary dictionary];
+    Event[@"screenX"]=[NSNumber numberWithFloat:location.x];
+    Event[@"screenY"]=[NSNumber numberWithFloat:location.y];
+    Event[@"button"]=[NSNumber numberWithLong:event.buttonNumber];
+    [self dispatchEvent:@"mousedown" Args:Event andConstructor:@"MouseEvent"];
 }
 - (void)mouseUp:(NSEvent *)event{
-    NSPoint location=[NSEvent mouseLocation];
-    NSString* js=[NSString stringWithFormat:@"dispatchEvent(document,mouseEvent(\"mouseup\",%f,%f,%f,%f))",location.x,location.y,location.x,location.y];
     [super mouseUp:event];
-    [self evaluateJavaScript:js completionHandler:nil];
+    NSPoint location=[NSEvent mouseLocation];
+    NSMutableDictionary* Event=[NSMutableDictionary dictionary];
+    Event[@"screenX"]=[NSNumber numberWithFloat:location.x];
+    Event[@"screenY"]=[NSNumber numberWithFloat:location.y];
+    Event[@"button"]=[NSNumber numberWithLong:event.buttonNumber];
+    [self dispatchEvent:@"mouseup" Args:Event andConstructor:@"MouseEvent"];
+}
+-(void)keyDown:(NSEvent *)event{
+    [super keyDown:event];
+    NSMutableDictionary* Event=[NSMutableDictionary dictionary];
+    Event[@"keyCode"]=[NSNumber numberWithUnsignedChar:[event keyCode]];
+    [self dispatchEvent:@"keydown" Args:Event andConstructor:@"KeyboardEvent"];
+    
+}
+-(void)keyUp:(NSEvent *)event{
+    [super keyDown:event];
+    NSMutableDictionary* Event=[NSMutableDictionary dictionary];
+    Event[@"keyCode"]=[NSNumber numberWithUnsignedChar:[event keyCode]];
+    [self dispatchEvent:@"keyup" Args:Event andConstructor:@"KeyboardEvent"];
+    
 }
 -(NSString*)description{
     return [@"WKWebpagePlugin " stringByAppendingString:self->description];
 }
 -(void)pause{
-    
+    [self evaluateJavaScript:@"dispatchEvent(document,)" completionHandler:nil];
+    if(self->EventMonitor!=nil){
+        [WKUtils InvalidateEventMonitor:self->EventMonitor];
+        self->EventMonitor=nil;
+    }
+}
+-(void)dispatchEvent:(NSString*)name Args:(NSDictionary*)Event andConstructor:(NSString*)constructor{
+    @autoreleasepool {
+        NSString* EventString=[[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:Event options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
+        NSString* js=[NSString stringWithFormat:@"document.dispatchEvent(new %@(\"%@\",%@))",constructor,name,EventString];
+        [self evaluateJavaScript:js completionHandler:nil];
+    }
 }
 @end
