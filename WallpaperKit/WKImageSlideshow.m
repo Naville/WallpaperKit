@@ -28,6 +28,9 @@
     else{
         self->descript=[self->ImageURLList componentsJoinedByString:@"\n"];
     }
+    if(self->ImageURLList==0){
+        error=[NSError errorWithDomain:@"com.naville.wallpaperkit.WKImageSlideshow" code:-1 userInfo:args];
+    }
     
     if([args.allKeys containsObject:@"Interval"]){
         self->interval=[[args objectForKey:@"Interval"] unsignedIntValue];
