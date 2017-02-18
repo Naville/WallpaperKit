@@ -29,7 +29,7 @@
     bool pixelStatusArray[(int)UncoveredFrame.size.width][(int)UncoveredFrame.size.height];
     
     for (NSDictionary *win in windows) {
-        NSLog(@"Iterating PID:%@ Owned By:%@",[win objectForKey:kCGWindowOwnerPID],[win objectForKey:kCGWindowOwnerName]);
+       // NSLog(@"Iterating PID:%@ Owned By:%@",[win objectForKey:kCGWindowOwnerPID],[win objectForKey:kCGWindowOwnerName]);
         NSDictionary* Bounds=[win objectForKey:kCGWindowBounds];
         CGRect upperWindowFrame;
         CGRectMakeWithDictionaryRepresentation((__bridge CFDictionaryRef)Bounds,&upperWindowFrame);

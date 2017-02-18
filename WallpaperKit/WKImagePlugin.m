@@ -30,4 +30,7 @@
 -(void)pause{
     
 }
+-(NSString*)description{
+    return [@"WKImagePlugin " stringByAppendingString:self->desc];
+}
 @end

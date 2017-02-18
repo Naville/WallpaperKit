@@ -8,7 +8,7 @@
 
 #import "WKImageSlideshow.h"
 @implementation WKImageSlideshow{
-    NSArray* ImageURLList;
+    NSArray<NSURL*>* ImageURLList;
     unsigned int interval;
     NSString* descript;
     NSOperationQueue* op;
@@ -17,16 +17,12 @@
     NSError* error;
     NSRect frameRect=window.frame;
     self=[super initWithFrame:frameRect];
-    [window setOpaque:YES];
     [window setBackgroundColor:[NSColor blackColor]];
     [self setImageScaling:NSImageScaleProportionallyUpOrDown];
     self->ImageURLList=[args objectForKey:@"Images"];
     if(self->ImageURLList==nil){
         self->descript=[@"ImagePath: " stringByAppendingString:[[(NSURL*)[args objectForKey:@"ImagePath"]  absoluteString] stringByRemovingPercentEncoding] ];
         self->ImageURLList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[args objectForKey:@"ImagePath"] includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:&error];
-    }
-    else{
-        self->descript=[self->ImageURLList componentsJoinedByString:@"\n"];
     }
     if(self->ImageURLList==0){
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"ImageList is empty" userInfo:args];
@@ -68,6 +64,9 @@
     [self->op cancelAllOperations];
 }
 -(NSString*)description{
+    if(self->descript==nil){
+        self->descript=[self->ImageURLList[0].absoluteString stringByRemovingPercentEncoding];
+    }
     return [@"WKImageSlideshow " stringByAppendingString:self->descript];
 }
 @end

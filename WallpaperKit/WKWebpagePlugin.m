@@ -35,7 +35,7 @@
     if(webURL!=nil && HTMLString!=nil){
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Please Specify Either URL or HTML String." userInfo:args];
     }
-    self->description=(webURL!=nil)?webURL.absoluteString:self->HTMLString;
+    self->description=(webURL!=nil)?[webURL.absoluteString stringByRemovingPercentEncoding]:self->HTMLString;
     self.acceptsTouchEvents=YES;
     self.requiresConsistentAccess=NO;
     return self;

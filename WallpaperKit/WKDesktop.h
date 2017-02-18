@@ -18,9 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 -(void)renderWithEngine:(Class)renderEngine withArguments:(NSDictionary*)args;
 -(instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)style backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag NS_DESIGNATED_INITIALIZER;
-/**
- Cleanup Subviews
- */
 -(void)pause;
 -(void)play;
 @property (readwrite,retain,nonatomic,nonnull) NSView<WKRenderProtocal>* currentView;
@@ -28,5 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
  NSError used by Render
  */
 @property (readwrite,strong,nonatomic,nullable) NSError* err;
+@property (readwrite) double ThresholdDisplayCoveredRate;
 @end
 NS_ASSUME_NONNULL_END
