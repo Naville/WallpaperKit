@@ -11,6 +11,7 @@
 #include <CoreServices/CoreServices.h>
 #include <ApplicationServices/ApplicationServices.h>
 #import "WKDesktopManager.h"
+#import "WKOcclusionStateWindow.h"
 
 /* Reverse engineered Space API; stolen from xmonad */
 typedef void *CGSConnectionID;
@@ -37,6 +38,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
 
 @implementation WKDesktopManager{
     NSUInteger lastActiveSpaceID;
+    WKOcclusionStateWindow* DummyWindow;//Dummy Transparent Window at kCGDesktopIconWindowLevel+1 for OcclusionState Observe
 }
 + (instancetype)sharedInstance{
     static WKDesktopManager *sharedInstance = nil;
@@ -52,6 +54,8 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     self.windows=[NSMutableDictionary dictionary];
     self->lastActiveSpaceID=INT_MAX;
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observe:) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOSChange:) name:OSNotificationCenterName object:nil];
+    self->DummyWindow=[WKOcclusionStateWindow new];
     return self;
 }
 -(void)stop{
@@ -89,14 +93,18 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     }
     [wk makeKeyAndOrderFront:nil];
     [wk play];
+    [self->DummyWindow orderFront:nil];
     //Keep Current Video Playing if next Window is not playing video,etc
-    for(NSString* key in self.windows.allKeys){
+    for(id key in self.windows.allKeys){
         WKDesktop* currentDesktop=[self.windows objectForKey:key];
         if([currentDesktop isEqualTo:wk]){//Ignore next space's WKDesktop
             continue;
         }
         if(currentDesktop.currentView.requiresConsistentAccess==YES && wk.currentView.requiresConsistentAccess==NO){
             //Old view needs consistent access while the new one doesn't. Leave it running
+        }
+        else{
+            [currentDesktop pause];
         }
     }
 
@@ -130,6 +138,22 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     [[self->_windows objectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]] close];
     [self->_windows removeObjectForKey:[NSNumber numberWithInteger:[self currentSpaceID]]];
     
+}
+-(void)handleOSChange:(NSNotification*)notification{
+    BOOL isVisible=[[notification.userInfo objectForKey:@"Visibility"] boolValue];
+    NSNumber* newSpaceID=[notification.userInfo objectForKey:@"CurrentSpaceID"];
+    for(id key in self.windows.allKeys){
+        if(isVisible==NO){
+            [(WKDesktop*)[self.windows objectForKey:key] pause];
+            continue;
+        }
+        if([key isEqualTo:newSpaceID]){
+            [(WKDesktop*)[self.windows objectForKey:key] play];
+        }
+        else{
+            [(WKDesktop*)[self.windows objectForKey:key] pause];
+        }
+    }
 }
 +(CGRect)calculatedRenderSize{
     CGRect rawSize=[NSScreen mainScreen].visibleFrame;

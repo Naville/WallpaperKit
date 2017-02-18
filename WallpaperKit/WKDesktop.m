@@ -23,10 +23,8 @@
     [self setLevel:kCGDesktopIconWindowLevel-1];
     [self setAcceptsMouseMovedEvents:YES];
     [self setMovableByWindowBackground:NO];
-    self.ThresholdDisplayCoveredRate=0.8;
     self->isPlaying=NO;
     self.collectionBehavior=(NSWindowCollectionBehaviorStationary|NSWindowCollectionBehaviorParticipatesInCycle);
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(handleAppChange:) name:NSWorkspaceDidActivateApplicationNotification object:nil];
     return self;
 }
 -(void)renderWithEngine:(nonnull Class)renderEngine withArguments:(NSDictionary *)args{
@@ -66,27 +64,6 @@
 }
 -(BOOL)canBeVisibleOnAllSpaces{
     return NO;
-}
-- (void)windowDidChangeOcclusionState:(NSNotification *)notification
-{
-    if ([[notification object] occlusionState]  &  NSWindowOcclusionStateVisible) {
-       // NSLog(@"Visible");
-        [self play];
-    } else {
-        //NSLog(@"Hidden");
-        [self pause];
-    }
-}
--(void)handleAppChange:(NSNotification*)notif{
-    if([[notif.userInfo objectForKey: NSWorkspaceApplicationKey] isEqualTo:[NSRunningApplication currentApplication]]){
-        [self play];
-        return ;
-    }
-    double HiddenRate=[WKUtils OcclusionRateForWindow:self];
-    if(HiddenRate>0.8){
-       // NSLog(@"Hidden. %f Covered",HiddenRate);
-        [self pause];
-    }
 }
 -(NSString*)description{
     return [self.contentView description];

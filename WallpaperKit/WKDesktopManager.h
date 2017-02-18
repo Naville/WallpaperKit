@@ -28,6 +28,7 @@
  @discussion Seems like the value needs to be a little bit smaller than full screen size, Or else OcclusionState won't work.
  */
 +(CGRect)calculatedRenderSize;
+-(NSUInteger)currentSpaceID;
 @property (readwrite,retain,atomic) NSMutableDictionary* windows;
 @property (readwrite,retain,atomic) NSView* activeWallpaperView;
 @end

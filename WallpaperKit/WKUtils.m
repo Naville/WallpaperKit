@@ -21,41 +21,54 @@
     return AXIsProcessTrustedWithOptions((CFDictionaryRef)options);
 }
 +(double)OcclusionRateForWindow:(NSWindow*)window{
-    
-    NSMutableArray *windows = (NSMutableArray *)CFBridgingRelease(CGWindowListCopyWindowInfo(kCGWindowListOptionOnScreenAboveWindow| kCGWindowListExcludeDesktopElements,(int) window.windowNumber));
-    unsigned int maxSize=0;
-    CGRect UncoveredFrame=window.frame;
-    unsigned int windowSize=UncoveredFrame.size.height*UncoveredFrame.size.width;
-    bool pixelStatusArray[(int)UncoveredFrame.size.width][(int)UncoveredFrame.size.height];
-    
-    for (NSDictionary *win in windows) {
-       // NSLog(@"Iterating PID:%@ Owned By:%@",[win objectForKey:kCGWindowOwnerPID],[win objectForKey:kCGWindowOwnerName]);
-        NSDictionary* Bounds=[win objectForKey:kCGWindowBounds];
-        CGRect upperWindowFrame;
-        CGRectMakeWithDictionaryRepresentation((__bridge CFDictionaryRef)Bounds,&upperWindowFrame);
-        CGRect intersection = CGRectIntersection(upperWindowFrame,UncoveredFrame);
-        if (CGRectIsNull(intersection)) {
-            continue;
-        }
-        for(long x=0;x<intersection.size.width;x++){
-            for(long y=0;y<intersection.size.height;y++){
-                //Instead of init the array with 1 and set it to 0 . We skip init process and use 1 for invalid pixel
-                //To speed to the process by iterating the array only once
-                pixelStatusArray[(int)(x+intersection.origin.x)][(int)(y+intersection.origin.y)]=1;
+    @autoreleasepool {
+        NSMutableArray *windows = (NSMutableArray *)CFBridgingRelease(CGWindowListCopyWindowInfo(kCGWindowListOptionOnScreenAboveWindow| kCGWindowListExcludeDesktopElements,(int) window.windowNumber));
+        unsigned int maxSize=0;
+        CGRect screenSize=CGDisplayBounds(CGMainDisplayID());
+        bool pixelStatusArray[(int)screenSize.size.width+1][(int)screenSize.size.height+1];
+        memset(&pixelStatusArray, 0, (int)(screenSize.size.width+1)*(int)(screenSize.size.height+1));
+        
+        for (NSDictionary *win in windows) {
+            NSDictionary* Bounds=[win objectForKey:kCGWindowBounds];
+            CGRect upperWindowFrame;
+            CGRectMakeWithDictionaryRepresentation((__bridge CFDictionaryRef)Bounds,&upperWindowFrame);
+            //NSLog(@"Iterating PID:%@ Owned By:%@ Frame:%@",[win objectForKey:kCGWindowOwnerPID],[win objectForKey:kCGWindowOwnerName],NSStringFromRect(upperWindowFrame));
+            CGRect intersection = CGRectIntersection(upperWindowFrame,window.frame);
+            if (CGRectIsNull(intersection)) {
+                continue;
+            }
+            for(long x=0;x<CGRectGetWidth(intersection);x++){
+                for(long y=0;y<CGRectGetHeight(intersection);y++){
+                    //Instead of init the array with 1 and set it to 0 . We skip init process and use 1 for invalid pixel
+                    //To speed up the process by iterating the bigger array only once
+                    pixelStatusArray[x][y]=1;
+                }
             }
         }
-    }
-    for(long x=0;x<UncoveredFrame.size.width;x++){
-        for(long y=0;y<UncoveredFrame.size.height;y++){
-            //Instead of init the array with 1 and set it to 0 . We skip init process and use 1 for invalid pixel
-            //To speed to the process by iterating the array only once
-            if(pixelStatusArray[x][y]==1){
-                maxSize++;
+        for(long x=0;x<(int)screenSize.size.width;x++){
+            for(long y=0;y<(int)screenSize.size.height;y++){
+                if(pixelStatusArray[x][y]==1){
+                    maxSize++;
+                }
+                
             }
         }
+        //NSLog(@"%i/%f is covered",maxSize,screenSize.size.height*screenSize.size.width);
+        return (double)maxSize/(screenSize.size.height*screenSize.size.width);
     }
     
-    return (double)maxSize/windowSize;
+}
++(NSTimer*)LoopForHandlingOcclusionStateChangeWithCallback:(void (^)())block OcclusionRate:(float)Threshold Window:(NSWindow*)window timeInterval:(NSInteger)interval{
+    return [NSTimer timerWithTimeInterval:interval repeats:YES block:^(NSTimer* timer){
+        if([window occlusionState] & NSWindowOcclusionStateVisible){
+            block();
+            return ;//Avoid expensive pixel calculation at all cost
+        }
+        if([WKUtils OcclusionRateForWindow:window]>Threshold){
+            block();
+        }
+        
+    }];
     
 }
 @end
