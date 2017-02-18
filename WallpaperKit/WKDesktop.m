@@ -50,7 +50,6 @@
 -(void)play{
     [self.contentView addSubview:_currentView];
     [_currentView.layer setOpaque:YES];
-    [self setBackgroundColor:[NSColor redColor]];
     [_currentView play];
 }
 -(BOOL)canBeVisibleOnAllSpaces{
