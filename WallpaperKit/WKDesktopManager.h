@@ -13,12 +13,12 @@
 #define WRONG_WINDOW_ID -500
 @interface WKDesktopManager : NSObject
 + (instancetype)sharedInstance;
-/**
- Call after WKRenderManager has been properly populated to create Wallpaper for current space
- */
--(void)start;
--(void)prepare;
 -(void)stop;
+/**
+ Create Window of current workspace if not exists. And return it
+ 
+ @return Wallpaper Window of current space.
+ */
 -(WKDesktop*)windowForCurrentWorkspace;
 -(void)discardCurrentSpace;
 @property (readwrite,retain,atomic) NSMutableDictionary* windows;

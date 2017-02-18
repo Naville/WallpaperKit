@@ -8,14 +8,17 @@
 
 #import "WKImagePlugin.h"
 
-@implementation WKImagePlugin
+@implementation WKImagePlugin{
+    NSString* desc;
+}
 
-- (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args{
+- (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
     NSRect frameRect=window.frame;
     [window setOpaque:YES];
     [window setBackgroundColor:[NSColor blackColor]];
     self=[super initWithFrame:frameRect];
     [self setImage:[[NSImage alloc] initWithContentsOfURL:[args objectForKey:@"Path"]]];
+    self->desc=[[(NSURL*)[args objectForKey:@"Path"] absoluteString] stringByRemovingPercentEncoding];
     [self setImageScaling:NSImageScaleProportionallyUpOrDown];
     return self;
 }

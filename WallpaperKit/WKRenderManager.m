@@ -27,11 +27,10 @@
     return self;
 }
 -(NSDictionary*)randomRender{
-    if([_renderList count]<=1){//This is the last renderer
-        [[NSDistributedNotificationCenter defaultCenter] postNotificationName:EmptyRenderListNotification object:nil];
+    if([_renderList count]==0){//This is the last renderer
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"No Available Render" userInfo:nil];
     }
     NSDictionary* renderer=[self.renderList objectAtIndex: arc4random()%[_renderList count]];
-    //[self.renderList removeObject:renderer];
     return renderer;
 }
 +(void)collectFromWallpaperEnginePath:(NSString*)RootPath{
@@ -49,7 +48,7 @@
         if([projectType isEqualToString:@"video"]){
             NSString* FileName=[ProjectInfo objectForKey:@"file"];
             NSURL* actualPath=[path URLByAppendingPathComponent:FileName];
-           // [[WKRenderManager sharedInstance].renderList addObject:@{@"Path":actualPath,@"Render":[WKVideoPlugin class]}];
+            [[WKRenderManager sharedInstance].renderList addObject:@{@"Path":actualPath,@"Render":[WKVideoPlugin class]}];
         }
         else if([projectType isEqualToString:@"web"]){
             NSString* FileName=[ProjectInfo objectForKey:@"file"];

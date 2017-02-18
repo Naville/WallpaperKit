@@ -9,5 +9,6 @@
 #import <Cocoa/Cocoa.h>
 
 @interface MainViewController : NSViewController<NSWindowDelegate,NSApplicationDelegate>
+@property (weak) IBOutlet NSButton *loadactiveworkspace;
 
 @end

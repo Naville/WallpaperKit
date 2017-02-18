@@ -7,7 +7,6 @@
 //
 
 #import "WKDesktop.h"
-#import <AppKit/AppKit.h>
 #import <WebKit/WebKit.h>
 #import <objc/runtime.h>
 #import <CoreGraphics/CoreGraphics.h>
@@ -39,8 +38,13 @@
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"%@ is not a valid WKRenderProtocal class",NSStringFromClass(renderEngine)] userInfo:nil];
     }
     _currentView=[[renderEngine alloc] initWithWindow:self andArguments:args];
-    [self setWindow];
-    [self setContentView:_currentView];
+    if(self.err!=nil){
+        @throw [NSException exceptionWithName:NSGenericException reason:self.err.localizedDescription userInfo:args];
+    }
+    else{
+        [self setWindow];
+        [self setContentView:_currentView];
+    }
     
     
 }
@@ -75,7 +79,7 @@
     }
 }
 -(NSString*)description{
-    return [[super description] stringByAppendingString:[@" with view:" stringByAppendingString:[_contentView description]]];
+    return [_contentView description];
 }
 @end
 

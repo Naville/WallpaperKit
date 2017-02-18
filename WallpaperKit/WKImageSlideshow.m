@@ -10,12 +10,11 @@
 @implementation WKImageSlideshow{
     NSArray* ImageURLList;
     unsigned int interval;
-    BOOL threadShouldQuit;
-    NSThread* lastThread;
-    NSLock* threadLock;
     NSString* descript;
+    NSOperationQueue* op;
 }
-- (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args{
+- (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
+    NSError* error;
     NSRect frameRect=window.frame;
     self=[super initWithFrame:frameRect];
     [window setOpaque:YES];
@@ -23,8 +22,8 @@
     [self setImageScaling:NSImageScaleProportionallyUpOrDown];
     self->ImageURLList=[args objectForKey:@"Images"];
     if(self->ImageURLList==nil){
-        self->descript=[@"ImagePath: " stringByAppendingString:[(NSURL*)[args objectForKey:@"ImagePath"]  absoluteString]];
-        self->ImageURLList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[args objectForKey:@"ImagePath"] includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+        self->descript=[@"ImagePath: " stringByAppendingString:[[(NSURL*)[args objectForKey:@"ImagePath"]  absoluteString] stringByRemovingPercentEncoding] ];
+        self->ImageURLList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[args objectForKey:@"ImagePath"] includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:&error];
     }
     else{
         self->descript=[self->ImageURLList componentsJoinedByString:@"\n"];
@@ -36,36 +35,33 @@
     else{
         self->interval=10;
     }
-    self->threadShouldQuit=NO;
-    self->threadLock=[NSLock new];
+    self->op=[NSOperationQueue new];
+    [self->op setMaxConcurrentOperationCount:1];//Single Thread
+    if(error!=nil){
+        [window setErr:error];
+    }
     return self;
 }
-- (NSThread*)ImageUpdateThread{
-   return [[NSThread alloc] initWithBlock:^(){
-        __block NSUInteger index=0;
-        while(1){
-            if(self->threadShouldQuit){
-                self->threadShouldQuit=NO;
-                break;
-            }
+- (void)ImageUpdate{
+    NSBlockOperation *operation = [[NSBlockOperation alloc] init];
+    __weak NSBlockOperation *weakOperation = operation;
+    [operation addExecutionBlock: ^ {
+        NSUInteger index=0;
+        while(true){
+            if ([weakOperation isCancelled]) return;
+            [self performSelectorOnMainThread:@selector(setImage:) withObject:[[NSImage alloc] initWithContentsOfURL:ImageURLList[index]] waitUntilDone:YES];
+            [self setNeedsDisplay];
             sleep(self->interval);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [threadLock lock];
-                [self performSelectorOnMainThread:@selector(setImage:) withObject:[[NSImage alloc] initWithContentsOfURL:ImageURLList[index]] waitUntilDone:YES];
-                [self setNeedsDisplay];
-                index=(index+1)%ImageURLList.count;
-                [threadLock unlock];
-            });
+            index=(index+1)%ImageURLList.count;
         }
     }];
+    [self->op addOperation:operation];
 }
 -(void)play{
-    self->lastThread=[self ImageUpdateThread];
-    [self->lastThread start];
+    [self ImageUpdate];
 }
 -(void)pause{
-    self->threadShouldQuit=YES;
-    self->lastThread=nil;
+    [self->op cancelAllOperations];
 }
 -(NSString*)description{
     return [@"WKImageSlideshow " stringByAppendingString:self->descript];

@@ -11,7 +11,7 @@
     AVPlayer* player;
     NSString* URL;
 }
-- (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args{
+- (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
     NSRect frameRect=window.frame;
     self=[super initWithFrame:frameRect];
     self->URL=[(NSURL*)[args objectForKey:@"Path"] absoluteString];
@@ -42,6 +42,6 @@
     [player play];
 }
 -(NSString*)description{
-    return [@"WKVideoPlugin " stringByAppendingString:self->URL];
+    return [@"WKVideoPlugin " stringByAppendingString:[self->URL stringByRemovingPercentEncoding]];
 }
 @end

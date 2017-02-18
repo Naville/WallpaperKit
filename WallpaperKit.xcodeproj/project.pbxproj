@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA1ECD331E55A779007BF0C2 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1ECD321E55A779007BF0C2 /* GLUT.framework */; };
 		FA357C9C1E55667B0083D95A /* MMMarkdown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FA696B7B1E4EAF5200541B0A /* MMMarkdown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FA3D1F421E2534BC005A57CF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3D1F411E2534BC005A57CF /* AppDelegate.m */; };
 		FA3D1F451E2534BC005A57CF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3D1F441E2534BC005A57CF /* main.m */; };
@@ -112,6 +113,7 @@
 
 /* Begin PBXFileReference section */
 		FA07CD631E266E8200EAD153 /* VLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VLCKit.framework; path = VLCKit/build/Release/VLCKit.framework; sourceTree = "<group>"; };
+		FA1ECD321E55A779007BF0C2 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		FA25DC061E231A2800EB029C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		FA25DC081E231B9000EB029C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		FA25DC0A1E231BF200EB029C /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
@@ -166,6 +168,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA1ECD331E55A779007BF0C2 /* GLUT.framework in Frameworks */,
 				FA696BA21E4EB0B100541B0A /* MMMarkdown.framework in Frameworks */,
 				FA696B9A1E4EB05900541B0A /* AppKit.framework in Frameworks */,
 				FA696B991E4EB05100541B0A /* CoreGraphics.framework in Frameworks */,
@@ -254,6 +257,7 @@
 		FA4C45AA1E23086E00B35322 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FA1ECD321E55A779007BF0C2 /* GLUT.framework */,
 				FA07CD631E266E8200EAD153 /* VLCKit.framework */,
 				FAE6CB691E24479600025494 /* OpenGL.framework */,
 				FA4FFEEC1E240FB600E4AF31 /* ApplicationServices.framework */,
@@ -637,7 +641,7 @@
 		FA696B931E4EB02400541B0A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -662,7 +666,7 @@
 		FA696B941E4EB02400541B0A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;

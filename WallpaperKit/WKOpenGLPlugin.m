@@ -12,7 +12,7 @@
     void (^OpenGLDrawingBlock)();
 }
 
-- (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args{
+- (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
     NSRect frameRect=window.frame;
     NSOpenGLPixelFormatAttribute attrs[] =
     {
@@ -22,10 +22,12 @@
     };
     NSOpenGLPixelFormat* pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
     self=[super initWithFrame:frameRect pixelFormat:pixelFormat];
+    self->OpenGLDrawingBlock=[args objectForKey:@"OpenGLDrawingBlock"];
     return self;
 }
 -(void)play{
     [self.openGLContext makeCurrentContext];
     self->OpenGLDrawingBlock();
+    [self.openGLContext flushBuffer];
 }
 @end

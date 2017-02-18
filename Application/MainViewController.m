@@ -9,6 +9,7 @@
 #import "MainViewController.h"
 #import "WallpaperKit.h"
 #import <objc/runtime.h>
+#include <GLUT/glut.h>
 @interface MainViewController ()
 
 @end
@@ -21,8 +22,23 @@
     NSApp.delegate=self;
     self.view.window.collectionBehavior=(NSWindowCollectionBehaviorCanJoinAllSpaces|NSWindowCollectionBehaviorParticipatesInCycle);
     [self CollectPref];
-    [[WKDesktopManager sharedInstance] prepare];
-    [[WKDesktopManager sharedInstance] start];
+    [[WKRenderManager sharedInstance].renderList addObject:@{@"Render":[WKOpenGLPlugin class],@"OpenGLDrawingBlock":^(){
+        glClearColor(0, 0, 0, 0);
+        glClear(GL_COLOR_BUFFER_BIT);
+        
+        glColor3f(1, .85, .35);
+        glBegin(GL_TRIANGLES);
+        {
+            glVertex3f(0, 0.6, 0);
+            glVertex3f(-0.2, -0.3, 0);
+            glVertex3f(.2, -.3, 0);
+        }
+        glEnd();
+        
+        glFlush();
+    }}];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observe) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
+    [self observe];
     
 }
 - (IBAction)discardExistingWindows:(id)sender {
@@ -38,9 +54,20 @@
 }*/
 - (IBAction)discardActiveSpace:(id)sender {
     [[WKDesktopManager sharedInstance]  discardCurrentSpace];
+    [self.view.window setTitle:@"No Render Loaded"];
 }
 - (IBAction)loadActiveSpace:(id)sender {
-    [[WKDesktopManager sharedInstance]  start];
+    [self observe];
+}
+-(void)observe{
+    @try{
+        NSWindow* window=[[WKDesktopManager sharedInstance]  windowForCurrentWorkspace];
+        [self.view.window setTitle:[window description]];
+    }
+    @catch(NSException* exp){
+        [self.view.window setTitle:exp.reason];
+    }
+
 }
 
 -(void)CollectPref{

@@ -15,7 +15,7 @@
     NSString* description;
 }
 
-- (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args{
+- (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
     NSRect frameRect=window.frame;
     WKWebViewConfiguration * config=[WKWebViewConfiguration new];
     WKUserContentController *controller = [[WKUserContentController alloc]
@@ -64,7 +64,13 @@
 -(void)mouseDown:(NSEvent *)event{
     NSPoint location=[NSEvent mouseLocation];
     NSString* js=[NSString stringWithFormat:@"dispatchEvent(document,mouseEvent(\"mousedown\",%f,%f,%f,%f))",location.x,location.y,location.x,location.y];
-    [super mouseMoved:event];
+    [super mouseDown:event];
+    [self evaluateJavaScript:js completionHandler:nil];
+}
+- (void)mouseUp:(NSEvent *)event{
+    NSPoint location=[NSEvent mouseLocation];
+    NSString* js=[NSString stringWithFormat:@"dispatchEvent(document,mouseEvent(\"mouseup\",%f,%f,%f,%f))",location.x,location.y,location.x,location.y];
+    [super mouseUp:event];
     [self evaluateJavaScript:js completionHandler:nil];
 }
 -(NSString*)description{

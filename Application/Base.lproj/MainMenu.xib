@@ -689,9 +689,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="437-3c-OlT">
+                    <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="437-3c-OlT">
                         <rect key="frame" x="136" y="295" width="208" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Discard Existing Wallpapers" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="OsS-UQ-u4q">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -700,9 +699,8 @@
                             <action selector="discardExistingWindows:" target="wYf-3C-MfM" id="keZ-3t-c2j"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QR1-YW-7M4">
+                    <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QR1-YW-7M4">
                         <rect key="frame" x="136" y="254" width="208" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Discard Active Wallpaper" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7Zk-CJ-flX">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -711,19 +709,33 @@
                             <action selector="discardActiveSpace:" target="wYf-3C-MfM" id="SoB-4N-En8"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kUG-2j-2gR">
+                    <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kUG-2j-2gR">
                         <rect key="frame" x="136" y="212" width="208" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Load Active Workspace" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lsQ-fj-FrD">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="loadActiveSpace:" target="wYf-3C-MfM" id="mYC-Gq-iv8"/>
+                        </connections>
                     </button>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="QR1-YW-7M4" firstAttribute="top" secondItem="437-3c-OlT" secondAttribute="bottom" constant="40" id="AYH-xS-sGe"/>
+                    <constraint firstItem="kUG-2j-2gR" firstAttribute="top" secondItem="QR1-YW-7M4" secondAttribute="bottom" constant="40" id="Gyb-6g-dcW"/>
+                    <constraint firstItem="QR1-YW-7M4" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="5" id="M1z-be-J7R"/>
+                    <constraint firstAttribute="trailing" secondItem="kUG-2j-2gR" secondAttribute="trailing" constant="5" id="Tbs-8Z-g6e"/>
+                    <constraint firstAttribute="trailing" secondItem="437-3c-OlT" secondAttribute="trailing" constant="5" id="dNN-vG-VmL"/>
+                    <constraint firstItem="437-3c-OlT" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="5" id="dsx-Ay-8fE"/>
+                    <constraint firstItem="kUG-2j-2gR" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="5" id="g8Z-RS-w9D"/>
+                    <constraint firstAttribute="trailing" secondItem="QR1-YW-7M4" secondAttribute="trailing" constant="5" id="iMb-tU-mwM"/>
+                    <constraint firstItem="437-3c-OlT" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="40" id="vUk-D0-oF2"/>
+                </constraints>
             </view>
         </window>
         <viewController id="wYf-3C-MfM" customClass="MainViewController">
             <connections>
+                <outlet property="loadactiveworkspace" destination="kUG-2j-2gR" id="MLo-Dc-BCt"/>
                 <outlet property="view" destination="EiT-Mj-1SZ" id="lZG-eA-uvc"/>
             </connections>
         </viewController>

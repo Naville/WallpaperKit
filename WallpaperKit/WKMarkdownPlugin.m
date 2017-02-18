@@ -10,7 +10,7 @@
 #import <MMMarkdown/MMMarkdown.h>
 @implementation WKMarkdownPlugin
 
-- (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args{
+- (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
     NSString* markdown=[args objectForKey:@"Markdown"];
     NSString* CSS=[args objectForKey:@"CSS"];
     NSString *rawHTML = [MMMarkdown HTMLStringWithMarkdown:markdown extensions:MMMarkdownExtensionsGitHubFlavored error:NULL];

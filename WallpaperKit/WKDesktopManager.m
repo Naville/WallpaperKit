@@ -60,10 +60,8 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
         }
         [wkds sendEvent:event];
     }];
-    return self;
-}
--(void)prepare{
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observe:) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
+    return self;
 }
 -(void)stop{
     for(NSNumber* key in self.windows.allKeys){
@@ -115,12 +113,6 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
         }
     }
 
-}
--(void)start{
-    if([[WKRenderManager sharedInstance].renderList count]==0){
-        @throw [NSException exceptionWithName:NSGenericException reason:@"Render List is empty" userInfo:nil];
-    }
-    [self observe:nil];
 }
 -(NSUInteger)currentSpaceID{
     CFArrayRef spaces = CGSCopySpaces(CGSDefaultConnection, kCGSSpaceCurrent);

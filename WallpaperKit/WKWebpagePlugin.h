@@ -23,5 +23,5 @@
  @return UIView for Caller to deal with
  @discussion MouseEvents are supported by explicited overwrite NSEvent Handlers and execute JS
  */
-- (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args;
+- (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args;
 @end

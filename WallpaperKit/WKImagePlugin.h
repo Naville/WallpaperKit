@@ -18,5 +18,5 @@
     @"Path" being the NSURL of target media
  @return UIView for Caller to deal with
  */
-- (instancetype)initWithWindow:(NSWindow*)window andArguments:(NSDictionary*)args;
+- (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args;
 @end
