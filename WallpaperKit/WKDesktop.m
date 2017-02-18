@@ -25,7 +25,7 @@
     [self setMovableByWindowBackground:NO];
     self.ThresholdDisplayCoveredRate=0.8;
     self->isPlaying=NO;
-    self.collectionBehavior=NSWindowCollectionBehaviorStationary;
+    self.collectionBehavior=(NSWindowCollectionBehaviorStationary|NSWindowCollectionBehaviorParticipatesInCycle);
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(handleAppChange:) name:NSWorkspaceDidActivateApplicationNotification object:nil];
     return self;
 }
@@ -40,6 +40,7 @@
     if(self.err!=nil){
         @throw [NSException exceptionWithName:NSGenericException reason:self.err.localizedDescription userInfo:args];
     }
+    [self setContentView:_currentView];
     
     
 }
@@ -60,9 +61,7 @@
     if(self->isPlaying==YES){
         return ;
     }
-    [self setContentView:_currentView];
     [_currentView play];
-    [self makeKeyAndOrderFront:nil];
     self->isPlaying=YES;
 }
 -(BOOL)canBeVisibleOnAllSpaces{

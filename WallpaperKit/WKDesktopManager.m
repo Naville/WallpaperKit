@@ -87,6 +87,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
         
         [self.windows setObject:wk forKey:[NSNumber numberWithInteger:currentSpaceID]];
     }
+    [wk makeKeyAndOrderFront:nil];
     [wk play];
     //Keep Current Video Playing if next Window is not playing video,etc
     for(NSString* key in self.windows.allKeys){

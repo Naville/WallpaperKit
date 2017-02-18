@@ -21,6 +21,8 @@
     self.view.window.delegate=self;
     NSApp.delegate=self;
     self.view.window.collectionBehavior=(NSWindowCollectionBehaviorCanJoinAllSpaces|NSWindowCollectionBehaviorParticipatesInCycle);
+    
+    
     [self CollectPref];
     //[[WKRenderManager sharedInstance].renderList addObject:@{@"Render":[WKWebpagePlugin class],@"Path":[NSURL URLWithString:@"https://www.youtube.com/watch?v=Ms5hhdRFRvc"]}];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observe) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
