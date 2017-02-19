@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface MainViewController : NSViewController<NSWindowDelegate,NSApplicationDelegate>
+@interface MainViewController : NSViewController<NSWindowDelegate,NSApplicationDelegate,NSTableViewDataSource,NSTableViewDelegate>
+@property (weak) IBOutlet NSTableView *RenderListView;
 @property (weak) IBOutlet NSButton *loadactiveworkspace;
-
 @end

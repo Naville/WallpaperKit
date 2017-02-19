@@ -10,8 +10,10 @@
 #import "WallpaperKit.h"
 #import <objc/runtime.h>
 #include <GLUT/glut.h>
-@interface MainViewController ()
-
+@interface MainViewController (){
+    WKDesktopManager* wkdm;
+    WKRenderManager* wkrm;
+}
 @end
 
 @implementation MainViewController
@@ -20,28 +22,25 @@
     [super viewDidLoad];
     self.view.window.delegate=self;
     NSApp.delegate=self;
+    self->wkdm=[WKDesktopManager sharedInstance];
+    self->wkrm=[WKRenderManager sharedInstance];
     self.view.window.collectionBehavior=(NSWindowCollectionBehaviorCanJoinAllSpaces|NSWindowCollectionBehaviorParticipatesInCycle);
+    self.RenderListView.dataSource=[WKRenderManager sharedInstance];
+    self.RenderListView.delegate=self;
     
-    
-    //[self CollectPref];
-    [[WKRenderManager sharedInstance].renderList addObject:@{@"Render":[WKiTunesLyrics class]}];
+    [self CollectPref];
+    [self->wkrm.renderList addObject:@{@"Render":[WKiTunesLyrics class]}];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observe) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
     [self observe];
+    [self.RenderListView reloadData];
     
 }
 - (IBAction)discardExistingWindows:(id)sender {
     [[WKDesktopManager sharedInstance] stop];
     return;
 }
-/*- (void)applicationWillResignActive:(NSNotification *)notification {
-    NSLog(@"No shit sherlock");
-    [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-
-    WKDesktop* currentWallpaper=[[WKDesktopManager sharedInstance] windowForCurrentWorkspace];
-    [currentWallpaper play];
-}*/
 - (IBAction)discardActiveSpace:(id)sender {
-    [[WKDesktopManager sharedInstance]  discardCurrentSpace];
+    [self->wkdm  discardSpaceID:[self->wkdm currentSpaceID]];
     [self.view.window setTitle:@"No Render Loaded"];
 }
 - (IBAction)loadActiveSpace:(id)sender {
@@ -49,12 +48,27 @@
 }
 -(void)observe{
     @try{
-        NSWindow* window=[[WKDesktopManager sharedInstance]  windowForCurrentWorkspace];
+        WKDesktop* window=[self->wkdm createDesktopWithSpaceID:[self->wkdm currentSpaceID] andRender:[self->wkrm randomRender]];
         [self.view.window setTitle:[window description]];
+        [self->wkdm DisplayDesktop:window];
     }
     @catch(NSException* exp){
         [self.view.window setTitle:exp.reason];
     }
+
+}
+- (IBAction)chooseRenderForCurrentDesktop:(id)sender {
+    NSUInteger index=[self.RenderListView selectedRow];
+    [self->wkdm discardSpaceID:[self->wkdm currentSpaceID]];
+    WKDesktop* wk=[self->wkdm createDesktopWithSpaceID:[self->wkdm currentSpaceID] andRender:[self->wkrm.renderList objectAtIndex:index]];
+    [self->wkdm DisplayDesktop:wk];
+    
+    
+}
+- (CGFloat)tableView:(NSTableView *)tableView
+              heightOfRow:(NSInteger)row {
+    // Access the content of the cell.
+    return tableView.rowHeight*4;
 
 }
 

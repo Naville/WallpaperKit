@@ -104,6 +104,10 @@
 
 -(NSImage *)coreBlurImage:(NSData *)imagedata withBlurNumber:(CGFloat)blur andSize:(CGSize)size
 {
+    if(blur<=0){
+        
+        return [[NSImage alloc] initWithData:imagedata];
+    }
     CIContext *context = [CIContext contextWithOptions:nil];
     CIImage *inputImage= [CIImage imageWithData:imagedata];
     CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];

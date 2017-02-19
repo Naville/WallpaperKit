@@ -65,4 +65,12 @@
     }
     
 }
+//NSTableViewDataSource
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+    return self.renderList.count;
+}
+- (nullable id)tableView:(NSTableView *)tableView objectValueForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row{
+    return [[self.renderList objectAtIndex:row].description stringByRemovingPercentEncoding];
+}
+
 @end

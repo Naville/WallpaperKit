@@ -13,22 +13,23 @@
 #import "WKUtils.h"
 #define WRONG_WINDOW_ID -500
 @interface WKDesktopManager : NSObject
-+ (instancetype)sharedInstance;
++ (nonnull instancetype)sharedInstance;
 -(void)stop;
+-(void)discardSpaceID:(NSUInteger)spaceID;
 /**
- Create Window of current workspace if not exists. And return it
- 
+ Create Window of current workspace using given render if not exists. And return it.
+ @param SpaceID SpaceID of target Workspace
+ @param render Render.Can be obtained from WKRenderManager
  @return Wallpaper Window of current space.
  */
--(WKDesktop*)windowForCurrentWorkspace;
--(void)discardCurrentSpace;
-/**
- Calculate Render Size
- @return CGRect That is safe to render in
- @discussion Seems like the value needs to be a little bit smaller than full screen size, Or else OcclusionState won't work.
- */
+-(nonnull WKDesktop*)createDesktopWithSpaceID:(NSUInteger)SpaceID andRender:(nonnull NSDictionary*)render;
 +(CGRect)calculatedRenderSize;
 -(NSUInteger)currentSpaceID;
-@property (readwrite,retain,atomic) NSMutableDictionary* windows;
-@property (readwrite,retain,atomic) NSView* activeWallpaperView;
+/**
+ Display Give WKDesktop.
+ @param wk Desktop to display
+ */
+-(void)DisplayDesktop:(nonnull WKDesktop*)wk;
+@property (readwrite,retain,atomic)  NSMutableDictionary* _Nonnull  windows;
+@property (readwrite,retain,atomic)  NSView* _Nullable  activeWallpaperView;
 @end
