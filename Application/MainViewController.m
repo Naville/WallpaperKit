@@ -10,6 +10,7 @@
 #import "WallpaperKit.h"
 #import <objc/runtime.h>
 #include <GLUT/glut.h>
+#import <AVFoundation/AVFoundation.h>
 @interface MainViewController (){
     WKDesktopManager* wkdm;
     WKRenderManager* wkrm;
@@ -96,7 +97,7 @@
                         }
                         RenderArg[@"Images"]=FixedArray;
                     }
-                   // [[WKRenderManager sharedInstance].renderList addObject:RenderArg];
+                    [[WKRenderManager sharedInstance].renderList addObject:RenderArg];
                 }
             }
             else{

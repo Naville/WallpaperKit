@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WKUtils.h"
 @interface Utils : NSObject
 /**
  Generate Search Keywords From Rules
@@ -15,12 +16,6 @@
  @return A List of keywords
  */
 -(NSMutableSet*)SongMatchQueriesFromInfo:(NSDictionary*)Info;
-/**
- BaseURL used as base for all operations
-
- @return NSURL* Pointing to ~/Downloads/NCLyrics/
- */
-+(NSURL*)BaseURL;
 +(instancetype)sharedManager;
 /**
 Collection of SongMatchRules

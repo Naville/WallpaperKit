@@ -248,6 +248,10 @@
 		FA25DC1C1E23BCC200EB029C /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				FA25DC0F1E23842200EB029C /* WKDesktopManager.h */,
+				FA25DC101E23842200EB029C /* WKDesktopManager.m */,
+				FA25DC181E23BCB800EB029C /* WKRenderManager.h */,
+				FA25DC191E23BCB800EB029C /* WKRenderManager.m */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -354,10 +358,6 @@
 				FA4C45A31E2307AE00B35322 /* WKDesktop.m */,
 				FA0063071E585D12007BCA29 /* WKUtils.h */,
 				FA0063081E585D12007BCA29 /* WKUtils.m */,
-				FA25DC0F1E23842200EB029C /* WKDesktopManager.h */,
-				FA25DC101E23842200EB029C /* WKDesktopManager.m */,
-				FA25DC181E23BCB800EB029C /* WKRenderManager.h */,
-				FA25DC191E23BCB800EB029C /* WKRenderManager.m */,
 				FA25DC171E23B6B400EB029C /* Plugin */,
 				FA25DC1C1E23BCC200EB029C /* Manager */,
 				FAA5D32C1E253DEE0086D179 /* Info.plist */,

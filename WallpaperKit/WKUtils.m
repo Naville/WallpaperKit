@@ -71,4 +71,12 @@
     }];
     
 }
++(NSURL*)BaseURL{
+    NSURL* retVal= [NSURL fileURLWithPath:[NSHomeDirectory() stringByAppendingPathComponent:@"WallpaperKit"] isDirectory:YES];
+    BOOL isFolder=NO;
+    if([[NSFileManager defaultManager] fileExistsAtPath:retVal.absoluteURL.absoluteString isDirectory:&isFolder]==NO || isFolder==NO){
+        [[NSFileManager defaultManager] createDirectoryAtPath:retVal.absoluteURL.absoluteString withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    return retVal;
+}
 @end

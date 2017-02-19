@@ -38,4 +38,10 @@ This is for events like window resizing took place in other processes
  @return NSTimer Dispatching The Block
  */
 +(NSTimer*)LoopForHandlingOcclusionStateChangeWithCallback:(void (^)())block OcclusionRate:(float)Threshold Window:(NSWindow*)window timeInterval:(NSInteger)interval;
+/**
+ BaseURL used as base for all operations
+ 
+ @return NSURL* 
+ */
++(NSURL*)BaseURL;
 @end

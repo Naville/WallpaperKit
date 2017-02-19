@@ -21,7 +21,7 @@ static NSMutableArray<Class>* LyricSearchEngine=nil;
 }
 -(instancetype)init{
     self=[super init];    
-    sqlite3_open([[Utils BaseURL] URLByAppendingPathComponent:@"naville.lyricskit.db"].absoluteString.UTF8String,&self->db);
+    sqlite3_open([[WKUtils BaseURL] URLByAppendingPathComponent:@"naville.lyricskit.db"].absoluteString.UTF8String,&self->db);
    
     sqlite3_exec(self->db, "CREATE TABLE IF NOT EXISTS LYRICS(ARTIST STRING ,SONG STRING,LYRIC STRING,TRANSLATED STRING,PRONOUNCE STRING)", NULL, NULL, NULL);
     sqlite3_exec(self->db, "END TRANSACTION;", NULL, NULL, NULL);
