@@ -21,55 +21,14 @@ static NSMutableArray<Class>* LyricSearchEngine=nil;
 }
 -(instancetype)init{
     self=[super init];    
-    sqlite3_open([[Utils BaseURL] URLByAppendingPathComponent:@"naville.nclyrics.db"].absoluteString.UTF8String,&self->db);
+    sqlite3_open([[Utils BaseURL] URLByAppendingPathComponent:@"naville.lyricskit.db"].absoluteString.UTF8String,&self->db);
    
     sqlite3_exec(self->db, "CREATE TABLE IF NOT EXISTS LYRICS(ARTIST STRING ,SONG STRING,LYRIC STRING,TRANSLATED STRING,PRONOUNCE STRING)", NULL, NULL, NULL);
+    sqlite3_exec(self->db, "END TRANSACTION;", NULL, NULL, NULL);
     return self;
-}
--(NSDictionary*)trimSongInfoDictionary:(NSDictionary*)si{
-    NSMutableString* SongName=[[si objectForKey:@"Song"] mutableCopy];
-    NSMutableString* ArtistName=[[si objectForKey:@"Artist"] mutableCopy];
-    NSMutableDictionary* trimDictionary=[NSMutableDictionary dictionaryWithDictionary:si];
-    NSMutableArray* regexArray=[NSMutableArray array];//Initially a array of patterns
-    for(NSString* pattern in @[@"\\(.*\\)",@"\\[.*\\]",@"\\<.*\\>",@"（.*）",
-                               @"type.*\\ ?",@"version.*\\ ?"
-                               ]){
-        //Need to remove 'Type-blah', 'blah version',etc that is not always enclosed in various brackets
-        //i.e. Remove inner String Literal first, then remove brackets
-        //Dangling Brackets Are Not Handled
-        
-        NSError* err;
-        NSRegularExpression* trim=[NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&err];
-        if(trim!=nil){
-            [regexArray addObject:trim];
-
-        }
-        else{
-            NSLog(@"%@",[err localizedDescription]);
-        }
-}
-    for(NSMutableString* item in @[SongName,ArtistName]){
-        for(int i=0;i<regexArray.count;i++){
-            NSRegularExpression* curRegex=[regexArray objectAtIndex:i];
-            NSArray* matches = [curRegex matchesInString:item options:0 range:NSMakeRange(0, [item length])];
-            //NSLog(@"Searching %@ in %@:\n%@",curRegex.pattern,item,matches);
-            for ( NSTextCheckingResult* match in matches )
-            {
-                [item deleteCharactersInRange:match.range];
-            }
-        }
-        
-    }
-    for(__strong NSString* item in @[SongName,ArtistName]){
-        item=[item stringByReplacingOccurrencesOfString:@" " withString:@""];
-    }
-    [trimDictionary setObject:[[ArtistName stringByReplacingOccurrencesOfString:@"\"" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""] forKey:@"Artist"];
-    [trimDictionary setObject:[[SongName stringByReplacingOccurrencesOfString:@"\"" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""] forKey:@"Song"];
-    return trimDictionary;
 }
 -(void)importLyric:(NSDictionary*)lrc{
     //TODO:Extract Exising Values for the song if possible.So components from various sources can be added together
-    lrc=[self trimSongInfoDictionary:lrc];
     NSString* InsertSQLCommand=[NSString stringWithFormat:@"INSERT OR IGNORE INTO LYRICS(ARTIST,SONG,LYRIC,TRANSLATED,PRONOUNCE) \
                           VALUES(%@,%@,%@,%@,%@)",
                           ([lrc objectForKey:@"Artist"]==nil)?@"NULL":[NSString stringWithFormat:@"\"%@\"",[lrc objectForKey:@"Artist"]],
@@ -124,8 +83,6 @@ static NSMutableArray<Class>* LyricSearchEngine=nil;
     
 }
 -(NSDictionary*)exportLyric:(NSDictionary*)lrc{
-    NSDictionary* originalLRC=[lrc copy];//For Online Searching
-    lrc=[self trimSongInfoDictionary:lrc];
     NSString* queryString=[NSString stringWithFormat:@"SELECT * FROM LYRICS WHERE ARTIST=\'%@\' AND SONG=\'%@\'",[lrc objectForKey:@"Artist"],
                            [lrc objectForKey:@"Song"]];
     NSError* err;
@@ -149,10 +106,10 @@ static NSMutableArray<Class>* LyricSearchEngine=nil;
             if(![cls conformsToProtocol:@protocol(AbstractLyricSearchEngine)]){
                 @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"%@ is not a valid AbstractLyricSearchEngine class",NSStringFromClass(cls)] userInfo:nil];
             }
-            NSDictionary* Lyric=[[cls new] searchLyricForSongInfo:originalLRC];
+            NSDictionary* Lyric=[[cls new] searchLyricForSongInfo:lrc];
             if(Lyric!=nil){
                 NSMutableDictionary* importDictionary=[NSMutableDictionary dictionary];
-                [importDictionary addEntriesFromDictionary:originalLRC];
+                [importDictionary addEntriesFromDictionary:lrc];
                 [importDictionary addEntriesFromDictionary:Lyric];
                 [self importLyric:importDictionary];
                 return Lyric;

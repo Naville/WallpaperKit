@@ -40,14 +40,6 @@ SongInfo will be trimmed internally
  @return Info with lyrics
  */
 -(NSDictionary*)exportLyric:(NSDictionary*)SongInfo;
-/**
- A Standard Method To Trim Info For Storage
-
- By design it should remove useless information like album version
- @param si Song Info
- @return Trimmed Song Info
- */
--(NSDictionary*)trimSongInfoDictionary:(NSDictionary*)si;
 -(void)importQMLELyric:(NSString*)Path;//Import from QQMusicLRCExporter Folder
 /**
  Add Lyrics Search Engines
