@@ -20,7 +20,9 @@
 }
 -(instancetype)init{
     CGRect rawSize=[NSScreen mainScreen].visibleFrame;
-    self=[super initWithContentRect:NSMakeRect((rawSize.origin.x+rawSize.size.width)/8, (rawSize.origin.y+rawSize.size.height)/8, 3*rawSize.size.width/4, 3*rawSize.size.height/4) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:YES];
+    CGPoint center=NSMakePoint((rawSize.origin.x+rawSize.size.width)/2, (rawSize.origin.y+rawSize.size.height)/2);
+    CGFloat diagonalLength=400;
+    self=[super initWithContentRect:NSMakeRect(center.x-diagonalLength,center.y-diagonalLength,2*diagonalLength,2*diagonalLength) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:YES];
     [self setIgnoresMouseEvents:YES];
     self.delegate=self;
     [self setLevel:kCGDesktopIconWindowLevel+1];

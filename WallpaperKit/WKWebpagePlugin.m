@@ -42,6 +42,7 @@
     return self;
 }
 -(void)play{
+    [self.window setAcceptsMouseMovedEvents:YES];
     [self evaluateJavaScript:@"document.querySelector('body').innerHTML" completionHandler:^(id result, NSError *error) {
         if (!result || ([result isKindOfClass:[NSString class]] && [((NSString *)result) length] == 0)) {
             if(webURL!=nil){
@@ -68,30 +69,28 @@
 }
 -(void)mouseMoved:(NSEvent *)event{
     [super mouseMoved:event];
-    NSPoint location=[NSEvent mouseLocation];
     NSMutableDictionary* Event=[NSMutableDictionary dictionary];
-    Event[@"screenX"]=[NSNumber numberWithFloat:location.x];
-    Event[@"screenY"]=[NSNumber numberWithFloat:location.y];
-    
+    Event[@"screenX"]=[NSNumber numberWithFloat:[NSEvent mouseLocation].x];
+    Event[@"screenY"]=[NSNumber numberWithFloat:[NSEvent mouseLocation].y];
+    Event[@"clientX"]=[NSNumber numberWithFloat:[NSEvent mouseLocation].x];
+    Event[@"clientY"]=[NSNumber numberWithFloat:[NSEvent mouseLocation].y];
     
     [self dispatchEvent:@"mousemove" Args:Event andConstructor:@"MouseEvent"];
 
 }
 -(void)mouseDown:(NSEvent *)event{
     [super mouseDown:event];
-    NSPoint location=[NSEvent mouseLocation];
     NSMutableDictionary* Event=[NSMutableDictionary dictionary];
-    Event[@"screenX"]=[NSNumber numberWithFloat:location.x];
-    Event[@"screenY"]=[NSNumber numberWithFloat:location.y];
+    Event[@"screenX"]=[NSNumber numberWithFloat:event.locationInWindow.x];
+    Event[@"screenY"]=[NSNumber numberWithFloat:event.locationInWindow.y];
     Event[@"button"]=[NSNumber numberWithLong:event.buttonNumber];
     [self dispatchEvent:@"mousedown" Args:Event andConstructor:@"MouseEvent"];
 }
 - (void)mouseUp:(NSEvent *)event{
     [super mouseUp:event];
-    NSPoint location=[NSEvent mouseLocation];
     NSMutableDictionary* Event=[NSMutableDictionary dictionary];
-    Event[@"screenX"]=[NSNumber numberWithFloat:location.x];
-    Event[@"screenY"]=[NSNumber numberWithFloat:location.y];
+    Event[@"screenX"]=[NSNumber numberWithFloat:event.locationInWindow.x];
+    Event[@"screenY"]=[NSNumber numberWithFloat:event.locationInWindow.y];
     Event[@"button"]=[NSNumber numberWithLong:event.buttonNumber];
     [self dispatchEvent:@"mouseup" Args:Event andConstructor:@"MouseEvent"];
 }
@@ -113,7 +112,7 @@
     return [@"WKWebpagePlugin " stringByAppendingString:self->description];
 }
 -(void)pause{
-    [self evaluateJavaScript:@"dispatchEvent(document,)" completionHandler:nil];
+    [self.window setAcceptsMouseMovedEvents:NO];
     if(self->EventMonitor!=nil){
         [WKUtils InvalidateEventMonitor:self->EventMonitor];
         self->EventMonitor=nil;

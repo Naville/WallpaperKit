@@ -96,7 +96,7 @@
                         }
                         RenderArg[@"Images"]=FixedArray;
                     }
-                    [[WKRenderManager sharedInstance].renderList addObject:RenderArg];
+                   // [[WKRenderManager sharedInstance].renderList addObject:RenderArg];
                 }
             }
             else{
