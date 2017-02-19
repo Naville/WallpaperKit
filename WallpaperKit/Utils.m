@@ -77,7 +77,7 @@
     return retVal;
 }
 +(NSURL*)BaseURL{
-    NSURL* retVal= [[[NSFileManager defaultManager] URLsForDirectory:NSDownloadsDirectory inDomains:NSUserDomainMask][0] URLByAppendingPathComponent:@"WallpaperKit"];
+    NSURL* retVal= [NSURL fileURLWithPath:[NSHomeDirectory() stringByAppendingPathComponent:@"WallpaperKit"] isDirectory:YES];
     BOOL isFolder=NO;
     if([[NSFileManager defaultManager] fileExistsAtPath:retVal.absoluteURL.absoluteString isDirectory:&isFolder]==NO || isFolder==NO){
         NSError* err;

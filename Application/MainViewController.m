@@ -74,7 +74,7 @@
 
 -(void)CollectPref{
     @autoreleasepool {
-        NSMutableDictionary* Pref=[NSMutableDictionary dictionaryWithContentsOfFile:[NSString stringWithFormat:@"%@/WallpaperKit.plist",NSHomeDirectory()]];
+        NSMutableDictionary* Pref=[NSMutableDictionary dictionaryWithContentsOfFile:[NSString stringWithFormat:@"%@/WallpaperKit/WallpaperKit.plist",NSHomeDirectory()]];
         [WKRenderManager collectFromWallpaperEnginePath:Pref[@"WEWorkshopPath"]];
         [Pref removeObjectForKey:@"WEWorkshopPath"];
         for(NSString* Key in Pref){
