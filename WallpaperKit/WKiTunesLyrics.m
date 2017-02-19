@@ -146,8 +146,7 @@
     }];
 }
 -(void)updateInfo{
-    [self performSelectorOnMainThread:@selector(handleCoverChange) withObject:nil waitUntilDone:YES];
-    //[self performSelectorOnMainThread:@selector(refreshLyrics) withObject:nil waitUntilDone:YES];
+    [self performSelectorOnMainThread:@selector(handleCoverChange) withObject:nil waitUntilDone:NO];
     [self performSelectorOnMainThread:@selector(handleSongTitle) withObject:nil waitUntilDone:YES];
 }
 -(void)watchiTunes:(NSNotification*)notif{

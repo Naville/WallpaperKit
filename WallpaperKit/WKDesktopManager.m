@@ -82,7 +82,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     [self DisplayDesktop:wk];
 }
 -(void)DisplayDesktop:(WKDesktop*)wk{
-    [wk makeKeyAndOrderFront:nil];
+    [wk orderFront:nil];
     [wk play];
     [self->DummyWindow orderFront:nil];
     //Keep Current Video Playing if next Window is not playing video,etc
