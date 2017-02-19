@@ -39,6 +39,8 @@
     self->LM=[LyricManager sharedManager];
     self->currentPosition=0;
     self->iTunes=[SBApplication applicationWithBundleIdentifier:@"com.apple.itunes"];
+    [window setBackgroundColor:[NSColor clearColor]];
+    [self.layer setBackgroundColor:[NSColor clearColor].CGColor];
     return self;
 }
 -(void)play{
