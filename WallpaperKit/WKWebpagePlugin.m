@@ -20,6 +20,7 @@
 }
 
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
+    [window setBackgroundColor:[NSColor blackColor]];
     NSRect frameRect=window.frame;
     WKWebViewConfiguration * config=[WKWebViewConfiguration new];
     WKUserContentController *controller = [[WKUserContentController alloc]

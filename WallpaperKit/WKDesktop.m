@@ -19,7 +19,6 @@
     self= [super initWithContentRect:contentRect styleMask:style backing:bufferingType defer:flag];
     self.releasedWhenClosed=NO;//Fix Memory Issue
     self.delegate=self;
-    [self setBackgroundColor:[NSColor blackColor]];
     [self setLevel:kCGDesktopIconWindowLevel-1];
     [self setAcceptsMouseMovedEvents:YES];
     [self setMovableByWindowBackground:NO];

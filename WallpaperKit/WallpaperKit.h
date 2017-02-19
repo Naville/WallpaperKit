@@ -13,3 +13,4 @@
 #import "WKMarkdownPlugin.h"
 #import "WKOpenGLPlugin.h"
 #import "WKImageSlideshow.h"
+#import "WKiTunesLyrics.h"

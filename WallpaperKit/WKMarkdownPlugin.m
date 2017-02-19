@@ -11,6 +11,7 @@
 @implementation WKMarkdownPlugin
 
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
+    [window setBackgroundColor:[NSColor blackColor]];
     NSString* markdown=[args objectForKey:@"Markdown"];
     NSString* CSS=[args objectForKey:@"CSS"];
     NSString *rawHTML = [MMMarkdown HTMLStringWithMarkdown:markdown extensions:MMMarkdownExtensionsGitHubFlavored error:NULL];

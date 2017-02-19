@@ -13,6 +13,7 @@
 }
 
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
+    [window setBackgroundColor:[NSColor blackColor]];
     NSRect frameRect=window.frame;
     NSOpenGLPixelFormatAttribute attrs[] =
     {

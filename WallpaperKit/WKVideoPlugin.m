@@ -12,6 +12,7 @@
 }
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
     NSRect frameRect=window.frame;
+    [window setBackgroundColor:[NSColor blackColor]];
     self=[super initWithFrame:frameRect];
     self->URL=[args objectForKey:@"Path"];
     self.player=[AVPlayer playerWithURL:[args objectForKey:@"Path"]];
