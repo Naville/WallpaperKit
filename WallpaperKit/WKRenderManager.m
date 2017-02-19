@@ -45,18 +45,23 @@
         NSMutableDictionary* ProjectInfo=[NSJSONSerialization JSONObjectWithData:projectData options:NSJSONReadingMutableContainers error:nil];
         
         NSString* projectType=[(NSString*)[ProjectInfo objectForKey:@"type"] lowercaseString];
+        Class render=nil;
         if([projectType isEqualToString:@"video"]){
-            NSString* FileName=[ProjectInfo objectForKey:@"file"];
-            NSURL* actualPath=[path URLByAppendingPathComponent:FileName];
-            [[WKRenderManager sharedInstance].renderList addObject:@{@"Path":actualPath,@"Render":[WKVideoPlugin class]}];
+            render=[WKVideoPlugin class];
         }
         else if([projectType isEqualToString:@"web"]){
-            NSString* FileName=[ProjectInfo objectForKey:@"file"];
-            NSURL* actualPath=[path URLByAppendingPathComponent:FileName];
-            [[WKRenderManager sharedInstance].renderList addObject:@{@"Path":actualPath,@"Render":[WKWebpagePlugin class]}];
+            render=[WKWebpagePlugin class];
         }
         else{
             NSLog(@"WallpaperEngine Project Type:%@ Unsupported",[ProjectInfo objectForKey:@"type"]);
+    
+        }
+        if(render!=nil){
+            NSString* FileName=[ProjectInfo objectForKey:@"file"];
+            NSURL* actualPath=[path URLByAppendingPathComponent:FileName];
+            ProjectInfo[@"Path"]=actualPath;
+            ProjectInfo[@"Render"]=render;
+            [[WKRenderManager sharedInstance].renderList addObject:ProjectInfo];
         }
         projectData=nil;
         ProjectInfo=nil;

@@ -106,7 +106,9 @@
 {
     if(blur<=0){
         
-        return [[NSImage alloc] initWithData:imagedata];
+        NSImage *img=[[NSImage alloc] initWithData:imagedata];
+        CGImageRef cgImage = [img CGImageForProposedRect:nil context:nil hints:nil];
+        img.size=NSMakeSize(CGImageGetWidth(cgImage), CGImageGetHeight(cgImage));
     }
     CIContext *context = [CIContext contextWithOptions:nil];
     CIImage *inputImage= [CIImage imageWithData:imagedata];
