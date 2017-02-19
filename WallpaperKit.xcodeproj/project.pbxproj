@@ -627,7 +627,7 @@
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Application/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = naville.Application;
+				PRODUCT_BUNDLE_IDENTIFIER = naville.wallpaperkit.application;
 				PRODUCT_NAME = WallpaperKit;
 			};
 			name = Debug;
@@ -641,7 +641,7 @@
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Application/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = naville.Application;
+				PRODUCT_BUNDLE_IDENTIFIER = naville.wallpaperkit.application;
 				PRODUCT_NAME = WallpaperKit;
 			};
 			name = Release;
