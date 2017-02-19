@@ -126,41 +126,33 @@
     {
         NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
         NSString * key = [tempArray objectAtIndex:(NSUInteger)i];
-        NSString *secondKey = [self timeToSecond:key]; // 转换成以秒为单位的时间计数器
         [dic setObject:key forKey:@"LRCTIME"];
         [dic setObject:value forKey:@"LRC"];
-        [dic setObject:secondKey forKey:@"TIME"];
+        [dic setObject:[self timeToSecond:key] forKey:@"TIME"];
         [self.lrcArrayList addObject:dic];
     }
     [tempArray removeAllObjects];
 }
--(NSString *)timeToSecond:(NSString *)formatTime {
-    if (!formatTime || formatTime.length <= 0){
-        return @"0";
+-(NSNumber *)timeToSecond:(NSString *)formatTime {
+    
+    @autoreleasepool {
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:
+                                      @"\\[(\\d{1,2}):(\\d{1,2})\\.(\\d{0,4})\\]"
+                                                                               options:NSRegularExpressionCaseInsensitive
+                                                                                 error:nil];
+        NSArray<NSTextCheckingResult *> * matches=[regex matchesInString:formatTime options:NSMatchingReportCompletion range:NSMakeRange(0, formatTime.length)];
+        if(matches.count<=0){
+            return [NSNumber numberWithInt:0];
+        }
+        NSTextCheckingResult * match=[matches objectAtIndex:0];
+        //[mm:ss.xx]
+        float minute=[formatTime substringWithRange:[match rangeAtIndex:1]].floatValue;//mm
+        float second=[formatTime substringWithRange:[match rangeAtIndex:2]].floatValue;//ss
+        float xecond=[formatTime substringWithRange:[match rangeAtIndex:3]].floatValue;//xx == 0.01 s
+        
+        
+        return [NSNumber numberWithFloat:60*minute+second+0.01*xecond];
     }
-    
-    if ([formatTime rangeOfString:@"["].length <= 0 && [formatTime rangeOfString:@"]"].length <= 0){
-        return @"0";
-    }
-    NSString * minutes = [formatTime substringWithRange:NSMakeRange(1, 2)];
-    
-    NSString *  second =@"0";
-    
-    if (formatTime.length==10) {
-        
-        NSUInteger length;
-        
-        NSUInteger position=4;
-        
-        length=formatTime.length-6;
-        
-        second  = [formatTime substringWithRange:NSMakeRange(position, length)];
-        
-    }
-    
-    float finishSecond = minutes.intValue * 60 + second.floatValue;
-    
-    return [NSString stringWithFormat:@"%f",finishSecond];
 }
 
 -(void)sortAllItem:(NSMutableArray *)array {

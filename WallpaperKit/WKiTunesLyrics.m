@@ -21,6 +21,8 @@
     Lyric *proADT;
     iTunesTrack *lyricBasedSong;
     NSImageView *coverView;
+    NSTimer* refreshLRCTimer;
+
 }
 -(instancetype)initWithWindow:(WKDesktop *)window andArguments:(NSDictionary *)args{
     self=[super initWithFrame:window.frame];
@@ -46,21 +48,24 @@
 -(void)play{
     [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(watchiTunes:) name:@"com.apple.iTunes.playerInfo" object:@"com.apple.iTunes.player"];
     [self updateInfo];
-    [self refreshLyrics];
-    [self foo];
+    //[self refreshLyrics];
+    self->refreshLRCTimer=[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(refreshLyrics) userInfo:nil repeats:YES];
+
 }
 -(void)pause{
-    
+    [self->refreshLRCTimer invalidate];
+    [[NSDistributedNotificationCenter defaultCenter] removeObserver:self name:@"com.apple.iTunes.playerInfo" object:@"com.apple.iTunes.player"];
 }
 -(void)refreshLyrics{
     @autoreleasepool {
         iTunesTrack* track=iTunes.currentTrack;
         currentPosition=iTunes.playerPosition;
-        NSDictionary* queryDict=[[LyricManager sharedManager] exportLyric:@{@"Artist":track.artist,@"Song":track.name,@"Album":track.album,@"AlbumArtist":track.albumArtist}];
         if(![lyricBasedSong isEqualTo:iTunes.currentTrack]){//NewSong. Update Cached Lyrics ADT
+            NSDictionary* queryDict=[[LyricManager sharedManager] exportLyric:@{@"Artist":track.artist,@"Song":track.name,@"Album":track.album,@"AlbumArtist":track.albumArtist}];
             lrcADT=[[Lyric alloc] initWithLRC:[queryDict objectForKey:@"Lyric"]];
             translatedADT=[[Lyric alloc] initWithLRC:[queryDict objectForKey:@"Translated"]];
             proADT=[[Lyric alloc] initWithLRC:[queryDict objectForKey:@"Pronounce"]];
+            lyricBasedSong=iTunes.currentTrack;
         }
         NSString* LRCTemplate=[[Utils sharedManager].ViewRenderTemplates  objectForKey:@"Lyric"];
         NSString* TranslatedTemplate=[[Utils sharedManager].ViewRenderTemplates  objectForKey:@"Translated"];
@@ -136,14 +141,6 @@
 -(void)handleSongTitle{
     NSMutableAttributedString* title=[self generateSongTitle];
     [self->titleView.textStorage setAttributedString:title];
-}
--(void)foo{
-    [NSThread detachNewThreadWithBlock:^(){
-        while(true){
-            sleep(1);
-            [self performSelectorOnMainThread:@selector(refreshLyrics) withObject:nil waitUntilDone:YES];
-        }
-    }];
 }
 -(void)updateInfo{
     [self performSelectorOnMainThread:@selector(handleCoverChange) withObject:nil waitUntilDone:NO];
