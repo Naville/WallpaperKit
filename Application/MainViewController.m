@@ -86,7 +86,7 @@
             if(objc_getClass(Key.UTF8String)!=NULL){
                 NSArray* List=Pref[Key];
                 for(NSDictionary* Arg in  List){
-                    NSMutableDictionary* RenderArg=[NSClassFromString(Key) convertArgument:Arg Operation:FROMJSON];
+                    NSDictionary* RenderArg=[NSClassFromString(Key) convertArgument:Arg Operation:FROMJSON];
                     [[WKRenderManager sharedInstance].renderList addObject:RenderArg];
                 }
             }

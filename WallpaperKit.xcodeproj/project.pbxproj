@@ -7,32 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA0063091E585D12007BCA29 /* WKUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = FA0063071E585D12007BCA29 /* WKUtils.h */; };
 		FA00630A1E585D12007BCA29 /* WKUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0063081E585D12007BCA29 /* WKUtils.m */; };
 		FA1ECD331E55A779007BF0C2 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1ECD321E55A779007BF0C2 /* GLUT.framework */; };
-		FA3433E61E594028009A67DA /* WKiTunesLyrics.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3433E41E594028009A67DA /* WKiTunesLyrics.h */; };
 		FA3433E71E594028009A67DA /* WKiTunesLyrics.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3433E51E594028009A67DA /* WKiTunesLyrics.m */; };
 		FA357C9C1E55667B0083D95A /* MMMarkdown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FA696B7B1E4EAF5200541B0A /* MMMarkdown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FA3D1F421E2534BC005A57CF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3D1F411E2534BC005A57CF /* AppDelegate.m */; };
 		FA3D1F451E2534BC005A57CF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3D1F441E2534BC005A57CF /* main.m */; };
 		FA3D1F471E2534BC005A57CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA3D1F461E2534BC005A57CF /* Assets.xcassets */; };
 		FA3D1F4A1E2534BC005A57CF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA3D1F481E2534BC005A57CF /* MainMenu.xib */; };
-		FA5361DF1E59A8D20072B0DB /* iTunes.h in Headers */ = {isa = PBXBuildFile; fileRef = FA5361D41E59A8D20072B0DB /* iTunes.h */; };
-		FA5361E01E59A8D20072B0DB /* Lyric.h in Headers */ = {isa = PBXBuildFile; fileRef = FA5361D51E59A8D20072B0DB /* Lyric.h */; };
 		FA5361E11E59A8D20072B0DB /* Lyric.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5361D61E59A8D20072B0DB /* Lyric.m */; };
-		FA5361E21E59A8D20072B0DB /* NeteaseLyricSearchEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = FA5361D71E59A8D20072B0DB /* NeteaseLyricSearchEngine.h */; };
 		FA5361E31E59A8D20072B0DB /* NeteaseLyricSearchEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5361D81E59A8D20072B0DB /* NeteaseLyricSearchEngine.m */; };
-		FA5361E41E59A8D20072B0DB /* Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = FA5361D91E59A8D20072B0DB /* Utils.h */; };
 		FA5361E51E59A8D20072B0DB /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5361DA1E59A8D20072B0DB /* Utils.m */; };
-		FA5361E61E59A8D20072B0DB /* DLLRCParser.h in Headers */ = {isa = PBXBuildFile; fileRef = FA5361DB1E59A8D20072B0DB /* DLLRCParser.h */; };
 		FA5361E71E59A8D20072B0DB /* DLLRCParser.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5361DC1E59A8D20072B0DB /* DLLRCParser.m */; };
-		FA5361E81E59A8D20072B0DB /* LyricManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FA5361DD1E59A8D20072B0DB /* LyricManager.h */; };
 		FA5361E91E59A8D20072B0DB /* LyricManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5361DE1E59A8D20072B0DB /* LyricManager.m */; };
-		FA5361F01E59A9190072B0DB /* AbstractLyricSearchEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = FA5361EF1E59A9190072B0DB /* AbstractLyricSearchEngine.h */; };
 		FA5361F21E59AA4D0072B0DB /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA5361F11E59AA4D0072B0DB /* CoreImage.framework */; };
 		FA5361F41E59AA920072B0DB /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FA5361F31E59AA920072B0DB /* libsqlite3.0.tbd */; };
 		FA53CCEC1E254BB400B23AC8 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA53CCEB1E254BB400B23AC8 /* MainViewController.m */; };
-		FA574A731E58DFD1002CEF64 /* WKOcclusionStateWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = FA574A711E58DFD1002CEF64 /* WKOcclusionStateWindow.h */; };
 		FA574A741E58DFD1002CEF64 /* WKOcclusionStateWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FA574A721E58DFD1002CEF64 /* WKOcclusionStateWindow.m */; };
 		FA696B901E4EB02400541B0A /* WallpaperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA696B891E4EB02400541B0A /* WallpaperKit.framework */; };
 		FA696B911E4EB02400541B0A /* WallpaperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FA696B891E4EB02400541B0A /* WallpaperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -50,18 +40,21 @@
 		FA696BA11E4EB07800541B0A /* WKRenderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA25DC191E23BCB800EB029C /* WKRenderManager.m */; };
 		FA696BA21E4EB0B100541B0A /* MMMarkdown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA696B7B1E4EAF5200541B0A /* MMMarkdown.framework */; };
 		FA696BA61E4EB18300541B0A /* WKMarkdownPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = FA696BA41E4EB0CD00541B0A /* WKMarkdownPlugin.m */; };
-		FA73B5861E54CE03005F5835 /* WKRenderProtocal.h in Headers */ = {isa = PBXBuildFile; fileRef = FA25DC0E1E237D4E00EB029C /* WKRenderProtocal.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FA73B5871E54CE03005F5835 /* WKDesktop.h in Headers */ = {isa = PBXBuildFile; fileRef = FA4C45A11E2307AE00B35322 /* WKDesktop.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FA73B5881E54CE03005F5835 /* WKVideoPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FA25DC131E23B6AB00EB029C /* WKVideoPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FA73B5891E54CE03005F5835 /* WKImagePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FACCBA751E23C1D10092E594 /* WKImagePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FA73B58A1E54CE03005F5835 /* WKWebpagePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FACCBA791E23C3A40092E594 /* WKWebpagePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FA73B58B1E54CE03005F5835 /* WKOpenGLPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FA4FFEEE1E2413BE00E4AF31 /* WKOpenGLPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FA73B58C1E54CE03005F5835 /* WKMarkdownPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FA696BA31E4EB0CD00541B0A /* WKMarkdownPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FA73B58D1E54CE03005F5835 /* WKDesktopManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FA25DC0F1E23842200EB029C /* WKDesktopManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FA73B58E1E54CE03005F5835 /* WKRenderManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FA25DC181E23BCB800EB029C /* WKRenderManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FA73B58F1E54CE03005F5835 /* WallpaperKit.h in Headers */ = {isa = PBXBuildFile; fileRef = FA73B5711E54CB10005F5835 /* WallpaperKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FA73B5921E54D738005F5835 /* WKImageSlideshow.h in Headers */ = {isa = PBXBuildFile; fileRef = FA73B5901E54D738005F5835 /* WKImageSlideshow.h */; };
 		FA73B5931E54D738005F5835 /* WKImageSlideshow.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73B5911E54D738005F5835 /* WKImageSlideshow.m */; };
+		FA7F1A121E5B3CC700619E4D /* WKRenderProtocal.h in Headers */ = {isa = PBXBuildFile; fileRef = FA25DC0E1E237D4E00EB029C /* WKRenderProtocal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA7F1A131E5B3CC700619E4D /* WKOcclusionStateWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = FA574A711E58DFD1002CEF64 /* WKOcclusionStateWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA7F1A141E5B3CC700619E4D /* WKDesktop.h in Headers */ = {isa = PBXBuildFile; fileRef = FA4C45A11E2307AE00B35322 /* WKDesktop.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA7F1A151E5B3CC700619E4D /* WKUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = FA0063071E585D12007BCA29 /* WKUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA7F1A161E5B3CC700619E4D /* WKVideoPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FA25DC131E23B6AB00EB029C /* WKVideoPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA7F1A171E5B3CC700619E4D /* WKImagePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FACCBA751E23C1D10092E594 /* WKImagePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA7F1A181E5B3CC700619E4D /* WKWebpagePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FACCBA791E23C3A40092E594 /* WKWebpagePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA7F1A191E5B3CC700619E4D /* WKOpenGLPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FA4FFEEE1E2413BE00E4AF31 /* WKOpenGLPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA7F1A1A1E5B3CC700619E4D /* WKMarkdownPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FA696BA31E4EB0CD00541B0A /* WKMarkdownPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA7F1A1B1E5B3CC700619E4D /* WKImageSlideshow.h in Headers */ = {isa = PBXBuildFile; fileRef = FA73B5901E54D738005F5835 /* WKImageSlideshow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA7F1A1C1E5B3CC700619E4D /* WKiTunesLyrics.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3433E41E594028009A67DA /* WKiTunesLyrics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA7F1A1D1E5B3CC700619E4D /* WKDesktopManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FA25DC0F1E23842200EB029C /* WKDesktopManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA7F1A1E1E5B3CC700619E4D /* WKRenderManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FA25DC181E23BCB800EB029C /* WKRenderManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA7F1A3E1E5B3F7800619E4D /* WallpaperKit.h in Headers */ = {isa = PBXBuildFile; fileRef = FA73B5711E54CB10005F5835 /* WallpaperKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -373,27 +366,20 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA5361E01E59A8D20072B0DB /* Lyric.h in Headers */,
-				FA5361F01E59A9190072B0DB /* AbstractLyricSearchEngine.h in Headers */,
-				FA73B5861E54CE03005F5835 /* WKRenderProtocal.h in Headers */,
-				FA5361DF1E59A8D20072B0DB /* iTunes.h in Headers */,
-				FA73B5871E54CE03005F5835 /* WKDesktop.h in Headers */,
-				FA574A731E58DFD1002CEF64 /* WKOcclusionStateWindow.h in Headers */,
-				FA73B5881E54CE03005F5835 /* WKVideoPlugin.h in Headers */,
-				FA5361E21E59A8D20072B0DB /* NeteaseLyricSearchEngine.h in Headers */,
-				FA73B5891E54CE03005F5835 /* WKImagePlugin.h in Headers */,
-				FA73B58A1E54CE03005F5835 /* WKWebpagePlugin.h in Headers */,
-				FA73B58B1E54CE03005F5835 /* WKOpenGLPlugin.h in Headers */,
-				FA5361E81E59A8D20072B0DB /* LyricManager.h in Headers */,
-				FA73B58C1E54CE03005F5835 /* WKMarkdownPlugin.h in Headers */,
-				FA73B58D1E54CE03005F5835 /* WKDesktopManager.h in Headers */,
-				FA5361E41E59A8D20072B0DB /* Utils.h in Headers */,
-				FA73B5921E54D738005F5835 /* WKImageSlideshow.h in Headers */,
-				FA5361E61E59A8D20072B0DB /* DLLRCParser.h in Headers */,
-				FA3433E61E594028009A67DA /* WKiTunesLyrics.h in Headers */,
-				FA73B58E1E54CE03005F5835 /* WKRenderManager.h in Headers */,
-				FA0063091E585D12007BCA29 /* WKUtils.h in Headers */,
-				FA73B58F1E54CE03005F5835 /* WallpaperKit.h in Headers */,
+				FA7F1A3E1E5B3F7800619E4D /* WallpaperKit.h in Headers */,
+				FA7F1A121E5B3CC700619E4D /* WKRenderProtocal.h in Headers */,
+				FA7F1A131E5B3CC700619E4D /* WKOcclusionStateWindow.h in Headers */,
+				FA7F1A141E5B3CC700619E4D /* WKDesktop.h in Headers */,
+				FA7F1A151E5B3CC700619E4D /* WKUtils.h in Headers */,
+				FA7F1A161E5B3CC700619E4D /* WKVideoPlugin.h in Headers */,
+				FA7F1A171E5B3CC700619E4D /* WKImagePlugin.h in Headers */,
+				FA7F1A181E5B3CC700619E4D /* WKWebpagePlugin.h in Headers */,
+				FA7F1A191E5B3CC700619E4D /* WKOpenGLPlugin.h in Headers */,
+				FA7F1A1A1E5B3CC700619E4D /* WKMarkdownPlugin.h in Headers */,
+				FA7F1A1B1E5B3CC700619E4D /* WKImageSlideshow.h in Headers */,
+				FA7F1A1C1E5B3CC700619E4D /* WKiTunesLyrics.h in Headers */,
+				FA7F1A1D1E5B3CC700619E4D /* WKDesktopManager.h in Headers */,
+				FA7F1A1E1E5B3CC700619E4D /* WKRenderManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

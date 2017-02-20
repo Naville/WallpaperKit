@@ -60,7 +60,11 @@
     
     if(self->EventMonitor==nil){
         
-        self->EventMonitor=[WKUtils registerGlobalEventMonitorForMask:ALLKEYBOARDMOUSEEVENTS withCallback:^(NSEvent* event){
+        self->EventMonitor=[WKUtils registerGlobalEventMonitorForMask:NSEventMaskKeyDown|NSEventMaskKeyUp|NSEventMaskLeftMouseDown|\
+                            NSEventMaskLeftMouseUp|NSEventMaskMouseMoved|NSEventMaskLeftMouseDragged|\
+                            NSEventMaskRightMouseDragged|NSEventMaskMouseEntered|NSEventMaskMouseExited|\
+                            NSEventMaskCursorUpdate|NSEventMaskScrollWheel|NSEventMaskOtherMouseDown|NSEventMaskOtherMouseUp|\
+                            NSEventMaskOtherMouseDragged withCallback:^(NSEvent* event){
             [self.window sendEvent:event];
         }];
     }
