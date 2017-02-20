@@ -26,7 +26,7 @@
     [_SongMatchRules addObject:@"%SONG% %ARTIST%"];
     [_SongMatchRules addObject:@"%SONG% %ALBUMARTIST%"];
     [_SongMatchRules addObject:@"%SONG% "];
-    NSURL* BasePath=[Utils BaseURL];
+    NSURL* BasePath=[WKUtils BaseURL];
     NSURL* LyricsTemplatePath=[BasePath URLByAppendingPathComponent:@"Lyric.html"];
     NSURL* TranslatedTemplatePath=[BasePath URLByAppendingPathComponent:@"Translated.html"];
     NSURL* PronounceTemplatePath=[BasePath URLByAppendingPathComponent:@"Pronounce.html"];
@@ -74,18 +74,6 @@
         [retVal addObject:Query];
     }
     
-    return retVal;
-}
-+(NSURL*)BaseURL{
-    NSURL* retVal= [NSURL fileURLWithPath:[NSHomeDirectory() stringByAppendingPathComponent:@"WallpaperKit"] isDirectory:YES];
-    BOOL isFolder=NO;
-    if([[NSFileManager defaultManager] fileExistsAtPath:retVal.absoluteURL.absoluteString isDirectory:&isFolder]==NO || isFolder==NO){
-        NSError* err;
-        BOOL flag=[[NSFileManager defaultManager] createDirectoryAtPath:retVal.absoluteURL.absoluteString withIntermediateDirectories:YES attributes:nil error:&err];
-        if(!flag || err!=nil){
-            @throw [NSException exceptionWithName:NSGenericException reason:@"Create Base Failed" userInfo:@{@"Error":err.localizedDescription}];
-        }
-    }
     return retVal;
 }
 

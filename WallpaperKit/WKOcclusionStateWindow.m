@@ -25,7 +25,7 @@
     self=[super initWithContentRect:NSMakeRect(center.x-diagonalLength,center.y-diagonalLength,2*diagonalLength,2*diagonalLength) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:YES];
     [self setIgnoresMouseEvents:YES];
     self.delegate=self;
-    [self setLevel:kCGDesktopIconWindowLevel+1];
+    [self setLevel:kCGDesktopIconWindowLevel];
     [self setBackgroundColor:[NSColor clearColor]];
     [self setOpaque:YES];
     self.collectionBehavior=(NSWindowCollectionBehaviorCanJoinAllSpaces |
