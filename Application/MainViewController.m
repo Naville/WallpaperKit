@@ -28,8 +28,7 @@
     self.view.window.collectionBehavior=(NSWindowCollectionBehaviorCanJoinAllSpaces|NSWindowCollectionBehaviorParticipatesInCycle);
     self.RenderListView.dataSource=self;
     self.RenderListView.delegate=self;
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self CollectPref];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self->wkrm.renderList addObject:@{@"Render":[WKiTunesLyrics class]}];
@@ -38,7 +37,6 @@
             [self.RenderListView reloadData];
         });
     });
-    
 }
 - (IBAction)discardExistingWindows:(id)sender {
     [[WKDesktopManager sharedInstance] stop];
