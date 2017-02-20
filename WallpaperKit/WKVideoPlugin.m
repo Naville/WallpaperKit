@@ -42,14 +42,14 @@
     [self.player play];
 }
 -(NSString*)description{
-    return [@"WKVideoPlugin " stringByAppendingString:[self->URL.absoluteString stringByRemovingPercentEncoding]];
+    return [@"WKVideoPlugin " stringByAppendingString:self->URL.path];
 }
 +(NSDictionary*)convertArgument:(NSDictionary *)args Operation:(NSUInteger)op{
     NSMutableDictionary* returnValue=[NSMutableDictionary dictionaryWithDictionary:args];
     if(op==TOJSON){
         returnValue[@"Render"]=@"WKVideoPlugin";
         if([returnValue.allKeys containsObject:@"Path"]){
-            returnValue[@"Path"]=[[(NSURL*)returnValue[@"Path"] absoluteString] stringByRemovingPercentEncoding];
+            returnValue[@"Path"]=[(NSURL*)returnValue[@"Path"] path];
         }
     }
     else if(op==FROMJSON){

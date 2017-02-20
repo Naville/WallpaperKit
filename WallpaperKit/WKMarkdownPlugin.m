@@ -33,7 +33,7 @@
     if(op==TOJSON){
         returnValue[@"Render"]=@"WKMarkdownPlugin";
         if([returnValue.allKeys containsObject:@"Path"]){
-            returnValue[@"Path"]=[[(NSURL*)returnValue[@"Path"] absoluteString] stringByRemovingPercentEncoding];
+            returnValue[@"Path"]=[(NSURL*)returnValue[@"Path"] path];
         }
     }
     else if(op==FROMJSON){

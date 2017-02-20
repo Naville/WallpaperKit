@@ -21,7 +21,7 @@
     [self setImageScaling:NSImageScaleProportionallyUpOrDown];
     self->ImageURLList=[args objectForKey:@"Images"];
     if(self->ImageURLList==nil){
-        self->descript=[@"ImagePath: " stringByAppendingString:[[(NSURL*)[args objectForKey:@"ImagePath"]  absoluteString] stringByRemovingPercentEncoding] ];
+        self->descript=[@"ImagePath: " stringByAppendingString:[(NSURL*)[args objectForKey:@"ImagePath"]  path]];
         self->ImageURLList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[args objectForKey:@"ImagePath"] includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:&error];
     }
     if(self->ImageURLList==0){
@@ -65,7 +65,7 @@
 }
 -(NSString*)description{
     if(self->descript==nil){
-        self->descript=[self->ImageURLList[0].absoluteString stringByRemovingPercentEncoding];
+        self->descript=self->ImageURLList[0].path;
     }
     return [@"WKImageSlideshow " stringByAppendingString:self->descript];
 }
@@ -77,12 +77,12 @@
             if([returnValue.allKeys containsObject:@"Images"]){
                 NSMutableArray* urllist=[NSMutableArray array];
                 for(NSURL* url in [returnValue objectForKey:@"Images"]){
-                    [urllist addObject:[url.absoluteString stringByRemovingPercentEncoding]];
+                    [urllist addObject:url.path];
                 }
                 [returnValue setObject:urllist forKey:@"Images"];
             }
             else if([returnValue.allKeys containsObject:@"ImagePath"]){
-                NSString* ip=[[(NSURL*)[returnValue objectForKey:@"ImagePath"] absoluteString] stringByRemovingPercentEncoding];
+                NSString* ip=[(NSURL*)[returnValue objectForKey:@"ImagePath"] path];
                 [returnValue setObject:ip forKey:@"ImagePath"];
             }
         }
@@ -95,7 +95,11 @@
                     if([murl hasPrefix:@"/"]){
                         [murl insertString:@"file://" atIndex:0];
                     }
-                    [urllist addObject:[NSURL URLWithString:[murl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+                    NSURL* url2=[NSURL URLWithString:[murl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                    if(url2==nil){
+                        return nil;
+                    }
+                    [urllist addObject:url2];
                 }
                 [returnValue setObject:urllist forKey:@"Images"];
             }
@@ -104,7 +108,11 @@
                 if([url hasPrefix:@"/"]){
                     [url insertString:@"file://" atIndex:0];
                 }
-                [returnValue setObject:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] forKey:@"ImagePath"];
+                NSURL* url2=[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                if(url2==nil){
+                    return nil;
+                }
+                [returnValue setObject:url2 forKey:@"ImagePath"];
             }
         }
         

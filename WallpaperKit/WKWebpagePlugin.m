@@ -36,7 +36,7 @@
     if(webURL!=nil && HTMLString!=nil){
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Please Specify Either URL or HTML String." userInfo:args];
     }
-    self->description=(webURL!=nil)?[webURL.absoluteString stringByRemovingPercentEncoding]:self->HTMLString;
+    self->description=(webURL!=nil)?webURL.path:self->HTMLString;
     self.acceptsTouchEvents=YES;
     self.requiresConsistentAccess=NO;
     return self;
@@ -130,7 +130,7 @@
     if(op==TOJSON){
         returnValue[@"Render"]=@"WKWebpagePlugin";
         if([returnValue.allKeys containsObject:@"Path"]){
-            returnValue[@"Path"]=[[(NSURL*)returnValue[@"Path"] absoluteString] stringByRemovingPercentEncoding];
+            returnValue[@"Path"]=[(NSURL*)returnValue[@"Path"] path];
         }
     }
     else if(op==FROMJSON){

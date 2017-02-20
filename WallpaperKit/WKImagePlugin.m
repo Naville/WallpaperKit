@@ -19,7 +19,7 @@
     [window setBackgroundColor:[NSColor blackColor]];
     self=[super initWithFrame:frameRect];
     self->ImagePath=[args objectForKey:@"Path"];
-    self->desc=[[(NSURL*)[args objectForKey:@"Path"] absoluteString] stringByRemovingPercentEncoding];
+    self->desc=[(NSURL*)[args objectForKey:@"Path"] path];
     [self setImageScaling:NSImageScaleProportionallyUpOrDown];
     self.requiresConsistentAccess=NO;
     return self;
@@ -38,7 +38,7 @@
     if(op==TOJSON){
         returnValue[@"Render"]=@"WKImagePlugin";
         if([returnValue.allKeys containsObject:@"Path"]){
-            returnValue[@"Path"]=[[(NSURL*)returnValue[@"Path"] absoluteString] stringByRemovingPercentEncoding];
+            returnValue[@"Path"]=[(NSURL*)returnValue[@"Path"] path];
         }
     }
     else if(op==FROMJSON){
