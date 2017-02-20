@@ -26,7 +26,7 @@
     self->wkdm=[WKDesktopManager sharedInstance];
     self->wkrm=[WKRenderManager sharedInstance];
     self.view.window.collectionBehavior=(NSWindowCollectionBehaviorCanJoinAllSpaces|NSWindowCollectionBehaviorParticipatesInCycle);
-    self.RenderListView.dataSource=[WKRenderManager sharedInstance];
+    self.RenderListView.dataSource=self;
     self.RenderListView.delegate=self;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -95,5 +95,21 @@
             }
         }
     }
+}
+//NSTableViewDataSource
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+    return self->wkrm.renderList.count;
+}
+- (NSString*)tableView:(NSTableView *)tableView objectValueForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row{
+    NSDictionary* arg=[self->wkrm.renderList objectAtIndex:row];
+    Class cls=[arg objectForKey:@"Render"];
+    NSDictionary* convertedJSON= [cls convertArgument:arg Operation:TOJSON];
+    return [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:convertedJSON options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
+}
+- (void)tableView:(NSTableView *)tableView setObjectValue:(nullable id)object forTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row{
+    NSDictionary* dict=[NSJSONSerialization JSONObjectWithData:[object dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableLeaves error:nil];
+    Class cls=NSClassFromString([dict objectForKey:@"Render"]);
+    NSDictionary* convertedJSON= [cls convertArgument:dict Operation:FROMJSON];
+    [self->wkrm.renderList setObject:convertedJSON atIndexedSubscript:row];
 }
 @end

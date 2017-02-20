@@ -8,7 +8,7 @@
 
 #import <AppKit/AppKit.h>
 
-@interface WKRenderManager : NSObject<NSTableViewDataSource>
+@interface WKRenderManager : NSObject
 #define EmptyRenderListNotification @"com.naville.wallpaperkit.emptyrenderlist"
 +(instancetype)sharedInstance;
 /**

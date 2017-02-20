@@ -70,21 +70,5 @@
     }
     
 }
-//NSTableViewDataSource
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
-    return self.renderList.count;
-}
-- (NSString*)tableView:(NSTableView *)tableView objectValueForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row{
-    NSDictionary* arg=[self.renderList objectAtIndex:row];
-    Class cls=[arg objectForKey:@"Render"];
-    NSDictionary* convertedJSON= [cls convertArgument:arg Operation:TOJSON];
-    return [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:convertedJSON options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
-}
-- (void)tableView:(NSTableView *)tableView setObjectValue:(nullable id)object forTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row{
-    NSDictionary* dict=[NSJSONSerialization JSONObjectWithData:[object dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableLeaves error:nil];
-    Class cls=NSClassFromString([dict objectForKey:@"Render"]);
-    NSDictionary* convertedJSON= [cls convertArgument:dict Operation:FROMJSON];
-    [self.renderList setObject:convertedJSON atIndexedSubscript:row];
-}
 
 @end

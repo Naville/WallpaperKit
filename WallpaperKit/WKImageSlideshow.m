@@ -70,36 +70,46 @@
     return [@"WKImageSlideshow " stringByAppendingString:self->descript];
 }
 +(NSDictionary*)convertArgument:(NSDictionary *)args Operation:(NSUInteger)op{
-    NSMutableDictionary* returnValue=[NSMutableDictionary dictionaryWithDictionary:args];
-    if(op==TOJSON){
-        returnValue[@"Render"]=@"WKImageSlideshow";
-        if([returnValue.allKeys containsObject:@"Images"]){
-            NSMutableArray* urllist=[NSMutableArray array];
-            for(NSURL* url in [returnValue objectForKey:@"Images"]){
-                [urllist addObject:[url.absoluteString stringByRemovingPercentEncoding]];
+    @autoreleasepool {
+        NSMutableDictionary* returnValue=[NSMutableDictionary dictionaryWithDictionary:args];
+        if(op==TOJSON){
+            returnValue[@"Render"]=@"WKImageSlideshow";
+            if([returnValue.allKeys containsObject:@"Images"]){
+                NSMutableArray* urllist=[NSMutableArray array];
+                for(NSURL* url in [returnValue objectForKey:@"Images"]){
+                    [urllist addObject:[url.absoluteString stringByRemovingPercentEncoding]];
+                }
+                [returnValue setObject:urllist forKey:@"Images"];
             }
-            [returnValue setObject:urllist forKey:@"Images"];
-        }
-        else if([returnValue.allKeys containsObject:@"ImagePath"]){
-            NSString* ip=[[(NSURL*)[returnValue objectForKey:@"ImagePath"] absoluteString] stringByRemovingPercentEncoding];
-            [returnValue setObject:ip forKey:@"ImagePath"];
-        }
-    }
-    else if(op==FROMJSON){
-        returnValue[@"Render"]=NSClassFromString(@"WKImageSlideshow");
-        if([returnValue.allKeys containsObject:@"Images"]){
-            NSMutableArray* urllist=[NSMutableArray array];
-            for(NSString* url in [returnValue objectForKey:@"Images"]){
-                [urllist addObject:[NSURL fileURLWithPath:url]];
+            else if([returnValue.allKeys containsObject:@"ImagePath"]){
+                NSString* ip=[[(NSURL*)[returnValue objectForKey:@"ImagePath"] absoluteString] stringByRemovingPercentEncoding];
+                [returnValue setObject:ip forKey:@"ImagePath"];
             }
-            [returnValue setObject:urllist forKey:@"Images"];
         }
-        else if([returnValue.allKeys containsObject:@"ImagePath"]){
-            [returnValue setObject:[NSURL fileURLWithPath:[returnValue objectForKey:@"ImagePath"]] forKey:@"ImagePath"];
+        else if(op==FROMJSON){
+            returnValue[@"Render"]=NSClassFromString(@"WKImageSlideshow");
+            if([returnValue.allKeys containsObject:@"Images"]){
+                NSMutableArray* urllist=[NSMutableArray array];
+                for(NSString* url in [returnValue objectForKey:@"Images"]){
+                    NSMutableString* murl=[url mutableCopy];
+                    if([murl hasPrefix:@"/"]){
+                        [murl insertString:@"file://" atIndex:0];
+                    }
+                    [urllist addObject:[NSURL URLWithString:[murl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+                }
+                [returnValue setObject:urllist forKey:@"Images"];
+            }
+            else if([returnValue.allKeys containsObject:@"ImagePath"]){
+                NSMutableString* url=[[returnValue objectForKey:@"ImagePath"] mutableCopy];
+                if([url hasPrefix:@"/"]){
+                    [url insertString:@"file://" atIndex:0];
+                }
+                [returnValue setObject:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] forKey:@"ImagePath"];
+            }
         }
+        
+        return returnValue;
     }
-    
-    return returnValue;
 }
 
 @end

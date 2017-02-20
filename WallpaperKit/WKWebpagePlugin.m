@@ -136,7 +136,11 @@
     else if(op==FROMJSON){
         returnValue[@"Render"]=NSClassFromString(@"WKWebpagePlugin");
         if([returnValue.allKeys containsObject:@"Path"]){
-            returnValue[@"Path"]=[NSURL fileURLWithPath:[args objectForKey:@"Path"]];
+            NSMutableString* url=[[args objectForKey:@"Path"] mutableCopy];
+            if([url hasPrefix:@"/"]){
+                [url insertString:@"file://" atIndex:0];
+            }
+            returnValue[@"Path"]=[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         }
     }
     
