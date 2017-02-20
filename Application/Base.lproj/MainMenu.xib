@@ -742,7 +742,7 @@
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn editable="NO" width="518" minWidth="40" maxWidth="1000" id="ZDc-iT-U6W">
+                                        <tableColumn width="518" minWidth="40" maxWidth="1000" id="ZDc-iT-U6W">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>

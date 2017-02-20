@@ -35,4 +35,7 @@
 -(void)pause{
     
 }
++(NSDictionary*)convertArgument:(NSDictionary *)args Operation:(NSUInteger)op{
+    return nil;
+}
 @end

@@ -29,11 +29,15 @@
     self.RenderListView.dataSource=[WKRenderManager sharedInstance];
     self.RenderListView.delegate=self;
     
-    [self CollectPref];
-    [self->wkrm.renderList addObject:@{@"Render":[WKiTunesLyrics class]}];
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observe) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
-    [self observe];
-    [self.RenderListView reloadData];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self CollectPref];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self->wkrm.renderList addObject:@{@"Render":[WKiTunesLyrics class]}];
+            [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observe) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
+            [self observe];
+            [self.RenderListView reloadData];
+        });
+    });
     
 }
 - (IBAction)discardExistingWindows:(id)sender {
@@ -69,8 +73,8 @@
 - (CGFloat)tableView:(NSTableView *)tableView
               heightOfRow:(NSInteger)row {
     // Access the content of the cell.
-    return tableView.rowHeight*4;
-
+    NSString* value=[tableView.dataSource tableView:tableView objectValueForTableColumn:nil row:row];
+    return ([value componentsSeparatedByString:@"\n"].count+1)*tableView.rowHeight;
 }
 
 -(void)CollectPref{
@@ -82,21 +86,7 @@
             if(objc_getClass(Key.UTF8String)!=NULL){
                 NSArray* List=Pref[Key];
                 for(NSDictionary* Arg in  List){
-                    NSMutableDictionary* RenderArg=[NSMutableDictionary dictionaryWithDictionary:Arg];
-                    RenderArg[@"Render"]=objc_getClass(Key.UTF8String);
-                    if([RenderArg.allKeys containsObject:@"Path"]){
-                        RenderArg[@"Path"]=[NSURL fileURLWithPath:RenderArg[@"Path"]];
-                    }
-                    if([RenderArg.allKeys containsObject:@"ImagePath"]){
-                        RenderArg[@"ImagePath"]=[NSURL fileURLWithPath:RenderArg[@"ImagePath"]];
-                    }
-                    if([RenderArg.allKeys containsObject:@"Images"]){
-                        NSMutableArray* FixedArray=[NSMutableArray arrayWithCapacity:[(NSArray*)RenderArg[@"Images"] count]];
-                        for (NSString* Path in RenderArg[@"Images"]){
-                            [FixedArray addObject:[NSURL fileURLWithPath:Path]];
-                        }
-                        RenderArg[@"Images"]=FixedArray;
-                    }
+                    NSMutableDictionary* RenderArg=[NSClassFromString(Key) convertArgument:Arg Operation:FROMJSON];
                     [[WKRenderManager sharedInstance].renderList addObject:RenderArg];
                 }
             }

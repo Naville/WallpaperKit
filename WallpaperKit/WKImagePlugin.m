@@ -33,4 +33,21 @@
 -(NSString*)description{
     return [@"WKImagePlugin " stringByAppendingString:self->desc];
 }
++(NSDictionary*)convertArgument:(NSDictionary *)args Operation:(NSUInteger)op{
+    NSMutableDictionary* returnValue=[NSMutableDictionary dictionaryWithDictionary:args];
+    if(op==TOJSON){
+        returnValue[@"Render"]=@"WKImagePlugin";
+        if([returnValue.allKeys containsObject:@"Path"]){
+            returnValue[@"Path"]=[[(NSURL*)returnValue[@"Path"] absoluteString] stringByRemovingPercentEncoding];
+        }
+    }
+    else if(op==FROMJSON){
+        returnValue[@"Render"]=[WKImagePlugin class];
+        if([returnValue.allKeys containsObject:@"Path"]){
+            returnValue[@"Path"]=[NSURL fileURLWithPath:[args objectForKey:@"Path"]];
+        }
+    }
+    
+    return returnValue;
+}
 @end

@@ -164,4 +164,13 @@
 -(NSString*)description{
     return @"WKiTunesLyrics";
 }
++(NSDictionary*)convertArgument:(NSDictionary *)args Operation:(NSUInteger)op{
+    if(op==TOJSON){
+        return @{@"Render":@"WKiTunesLyrics"};
+    }
+    else if(op==FROMJSON){
+        return @{@"Render":[WKiTunesLyrics class]};
+    }
+    return nil;
+}
 @end
