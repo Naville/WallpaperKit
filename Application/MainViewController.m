@@ -28,14 +28,10 @@
     self.view.window.collectionBehavior=(NSWindowCollectionBehaviorCanJoinAllSpaces|NSWindowCollectionBehaviorParticipatesInCycle);
     self.RenderListView.dataSource=self;
     self.RenderListView.delegate=self;
-   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self CollectPref];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self->wkrm.renderList addObject:@{@"Render":[WKiTunesLyrics class]}];
-            [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observe) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
-            [self observe];
-            [self.RenderListView reloadData];
-        });
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self->wkrm.renderList addObject:@{@"Render":[WKiTunesLyrics class]}];
+        [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observe) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
+        [self.RenderListView reloadData];
     });
 }
 - (IBAction)discardExistingWindows:(id)sender {
@@ -79,7 +75,7 @@
 
 -(void)CollectPref{
     @autoreleasepool {
-        NSMutableDictionary* Pref=[NSMutableDictionary dictionaryWithContentsOfFile:[NSString stringWithFormat:@"%@/WallpaperKit/WallpaperKit.plist",NSHomeDirectory()]];
+        NSMutableDictionary* Pref=[NSMutableDictionary dictionaryWithContentsOfFile:[NSString stringWithFormat:@"%@/WallpaperKit/WallpaperKitPref.plist",NSHomeDirectory()]];
         [WKRenderManager collectFromWallpaperEnginePath:Pref[@"WEWorkshopPath"]];
         [Pref removeObjectForKey:@"WEWorkshopPath"];
         for(NSString* Key in Pref){

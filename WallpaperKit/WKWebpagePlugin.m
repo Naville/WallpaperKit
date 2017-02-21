@@ -66,7 +66,7 @@
                             NSEventMaskLeftMouseUp|NSEventMaskMouseMoved|NSEventMaskLeftMouseDragged|\
                             NSEventMaskRightMouseDragged|NSEventMaskMouseEntered|NSEventMaskMouseExited|\
                             NSEventMaskCursorUpdate|NSEventMaskScrollWheel|NSEventMaskOtherMouseDown|NSEventMaskOtherMouseUp|\
-                            NSEventMaskOtherMouseDragged withCallback:^(NSEvent* event){
+                            NSEventMaskOtherMouseDragged|NSEventMaskRightMouseUp|NSEventMaskRightMouseDown withCallback:^(NSEvent* event){
             [self.window sendEvent:event];
         }];
     }
@@ -85,7 +85,7 @@
 
 }
 -(void)mouseDown:(NSEvent *)event{
-    [super mouseDown:event];
+    //[super mouseDown:event];
     NSMutableDictionary* Event=[NSMutableDictionary dictionary];
     Event[@"screenX"]=[NSNumber numberWithFloat:event.locationInWindow.x];
     Event[@"screenY"]=[NSNumber numberWithFloat:event.locationInWindow.y];
@@ -93,7 +93,7 @@
     [self dispatchEvent:@"mousedown" Args:Event andConstructor:@"MouseEvent"];
 }
 - (void)mouseUp:(NSEvent *)event{
-    [super mouseUp:event];
+    //[super mouseUp:event];
     NSMutableDictionary* Event=[NSMutableDictionary dictionary];
     Event[@"screenX"]=[NSNumber numberWithFloat:event.locationInWindow.x];
     Event[@"screenY"]=[NSNumber numberWithFloat:event.locationInWindow.y];
