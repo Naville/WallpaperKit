@@ -6,7 +6,7 @@
 //  Copyright © 2017年 NavilleZhang. All rights reserved.
 //
 
-#import <AppKit/AppKit.h>
+#import "WallpaperKit.h"
 
 @interface WKRenderManager : NSObject
 #define EmptyRenderListNotification @"com.naville.wallpaperkit.emptyrenderlist"

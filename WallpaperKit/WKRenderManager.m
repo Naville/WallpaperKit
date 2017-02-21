@@ -8,9 +8,6 @@
 
 #import "WKRenderManager.h"
 #import <objc/runtime.h>
-#import "WKRenderProtocal.h"
-#import "WKVideoPlugin.h"
-#import "WKWebpagePlugin.h"
 @implementation WKRenderManager
 + (instancetype)sharedInstance{
     static WKRenderManager *sharedInstance = nil;

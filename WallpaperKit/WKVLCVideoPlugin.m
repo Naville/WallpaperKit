@@ -27,13 +27,13 @@
 +(NSDictionary*)convertArgument:(NSDictionary *)args Operation:(NSUInteger)op{
     NSMutableDictionary* returnValue=[NSMutableDictionary dictionaryWithDictionary:args];
     if(op==TOJSON){
-        returnValue[@"Render"]=@"WKVideoPlugin";
+        returnValue[@"Render"]=@"WKVLCVideoPlugin";
         if([returnValue.allKeys containsObject:@"Path"]){
             returnValue[@"Path"]=[(NSURL*)returnValue[@"Path"] path];
         }
     }
     else if(op==FROMJSON){
-        returnValue[@"Render"]=NSClassFromString(@"WKVideoPlugin");
+        returnValue[@"Render"]=NSClassFromString(@"WKVLCVideoPlugin");
         if([returnValue.allKeys containsObject:@"Path"]){
             NSMutableString* url=[[args objectForKey:@"Path"] mutableCopy];
             if([url hasPrefix:@"/"]){
