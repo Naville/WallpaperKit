@@ -23,25 +23,6 @@
     [HTTPHeaders setObject:@"https://music.163.com/search/" forKey:@"Referer"];
     return self;
 }
--(NSData*)POST:(NSString*)URL Params:(id)Params{
-    NSURL* POSTURL=[NSURL URLWithString:URL];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:POSTURL];
-    request.allHTTPHeaderFields=self->HTTPHeaders;
-    [request setHTTPMethod:@"POST"];
-    NSMutableArray* ParamsList=[NSMutableArray array];
-    [Params enumerateKeysAndObjectsUsingBlock:^(id Key,id obj,BOOL* stop){
-        [ParamsList addObject:[NSString stringWithFormat:@"%@=%@",Key,obj]];
-    }];
-    NSString* POSTBody=[ParamsList componentsJoinedByString:@"&"];
-    [request setHTTPBody:[POSTBody dataUsingEncoding:NSUTF8StringEncoding]];
-    NSURLResponse* response;
-    NSError* err;
-    NSData* retVal=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-    if(err!=nil){
-        NSLog(@"%s %@",__PRETTY_FUNCTION__,err.localizedDescription);
-    }
-    return retVal;
-}
 -(NSDictionary*)searchSongInfo:(NSString*)s{
    // NSString* s=[NSString stringWithFormat:@"%@ %@",[Info objectForKey:@"Song"],[Info objectForKey:@"Artist"]];
     NSDictionary* Params=@{@"s":s,
@@ -73,6 +54,26 @@
     NSString* Translated=LRCInfo[@"tlyric"][@"lyric"];
     if(![Translated isEqual:[NSNull null]] && Translated.length>0){
         [retVal setObject:Translated forKey:@"Translated"];
+    }
+    return retVal;
+}
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+-(NSData*)POST:(NSString*)URL Params:(id)Params{
+    NSURL* POSTURL=[NSURL URLWithString:URL];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:POSTURL];
+    request.allHTTPHeaderFields=self->HTTPHeaders;
+    [request setHTTPMethod:@"POST"];
+    NSMutableArray* ParamsList=[NSMutableArray array];
+    [Params enumerateKeysAndObjectsUsingBlock:^(id Key,id obj,BOOL* stop){
+        [ParamsList addObject:[NSString stringWithFormat:@"%@=%@",Key,obj]];
+    }];
+    NSString* POSTBody=[ParamsList componentsJoinedByString:@"&"];
+    [request setHTTPBody:[POSTBody dataUsingEncoding:NSUTF8StringEncoding]];
+    NSURLResponse* response;
+    NSError* err;
+    NSData* retVal=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+    if(err!=nil){
+        NSLog(@"%s %@",__PRETTY_FUNCTION__,err.localizedDescription);
     }
     return retVal;
 }

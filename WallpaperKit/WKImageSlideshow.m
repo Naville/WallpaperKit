@@ -69,6 +69,7 @@
     }
     return [@"WKImageSlideshow " stringByAppendingString:self->descript];
 }
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 +(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(RenderConvertOperation)op{
     @autoreleasepool {
         NSMutableDictionary* returnValue=[NSMutableDictionary dictionaryWithDictionary:args];

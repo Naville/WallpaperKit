@@ -14,8 +14,26 @@ NSEventMaskCursorUpdate|NSEventMaskScrollWheel|NSEventMaskOtherMouseDown|NSEvent
 NSEventMaskOtherMouseDragged
 
 @interface WKUtils : NSObject
+/**
+ Wrapper around NSEvent to register Global Event Handlers
+
+ @param mask Event masks to monitor
+ @param block Callback Block
+ @return Event Handler
+ */
 +(id)registerGlobalEventMonitorForMask:(NSEventMask)mask withCallback:(void (^)(NSEvent*))block;
+/**
+ Wrapper around NSEvent to remove a global event handler
+
+ @param mon Event Handler Obtained from registerGlobalEventMonitorForMask:withCallback:
+ */
 +(void)InvalidateEventMonitor:(id)mon;
+/**
+ Check if user has trusted current process.
+ Untrusted process is not allowed to monitor certain events
+
+ @return YES on trusted, NO otherwise
+ */
 +(BOOL)isTrustedByAccessibility;
 /**
  Check how much of a NSWindow is covered by another window.

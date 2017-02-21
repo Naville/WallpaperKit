@@ -26,7 +26,7 @@
 +(CGRect)calculatedRenderSize;
 -(NSUInteger)currentSpaceID;
 /**
- Display Give WKDesktop.
+ Display Given WKDesktop.
  @param wk Desktop to display
  */
 -(void)DisplayDesktop:(nonnull WKDesktop*)wk;

@@ -18,7 +18,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 -(void)renderWithEngine:(Class)renderEngine withArguments:(NSDictionary*)args;
 -(instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)style backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag NS_DESIGNATED_INITIALIZER;
+/**
+ Pause wrapped render with internal state manipulation.
+ Call this instead of directly interacting with render
+ */
 -(void)pause;
+/**
+ Play wrapped render with internal state manipulation.
+ Call this instead of rdirectly interacting with render
+ */
 -(void)play;
 @property (readwrite,retain,nonatomic,nonnull) NSView<WKRenderProtocal>* currentView;
 /**

@@ -43,6 +43,7 @@
 -(void)pause{
     
 }
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 +(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(RenderConvertOperation)op{
     if(op==TOJSON){
         return [NSMutableDictionary dictionaryWithDictionary:@{@"Render":@"WKOpenGLPlugin"}];

@@ -29,7 +29,7 @@
         memset(&pixelStatusArray, 0, (int)(screenSize.size.width+1)*(int)(screenSize.size.height+1));
         
         for (NSDictionary *win in windows) {
-            NSDictionary* Bounds=[win objectForKey:kCGWindowBounds];
+            NSDictionary* Bounds=[win objectForKey:(id)kCGWindowBounds];
             CGRect upperWindowFrame;
             CGRectMakeWithDictionaryRepresentation((__bridge CFDictionaryRef)Bounds,&upperWindowFrame);
             //NSLog(@"Iterating PID:%@ Owned By:%@ Frame:%@",[win objectForKey:kCGWindowOwnerPID],[win objectForKey:kCGWindowOwnerName],NSStringFromRect(upperWindowFrame));

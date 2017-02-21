@@ -27,6 +27,19 @@
 -(void)pause{
     [self->VMP pause];
 }
+-(void)dealloc{
+    self->VMP=nil;
+}
+- (void)mediaPlayerTimeChanged:(NSNotification *)aNotification{
+    if([self->VMP state]==VLCMediaPlayerStateEnded){
+        //Seek to start
+        self->VMP.time=[VLCTime nullTime];
+    }
+}
+-(NSString*)description{
+    return [@"WKVideoPlugin " stringByAppendingString:self->URL.path];
+}
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 +(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(RenderConvertOperation)op{
     NSMutableDictionary* returnValue=[NSMutableDictionary dictionaryWithDictionary:args];
     if(op==TOJSON){
@@ -47,17 +60,5 @@
     }
     
     return returnValue;
-}
--(void)dealloc{
-    self->VMP=nil;
-}
-- (void)mediaPlayerTimeChanged:(NSNotification *)aNotification{
-    if([self->VMP state]==VLCMediaPlayerStateEnded){
-        //Seek to start
-        self->VMP.time=[VLCTime nullTime];
-    }
-}
--(NSString*)description{
-    return [@"WKVideoPlugin " stringByAppendingString:self->URL.path];
 }
 @end

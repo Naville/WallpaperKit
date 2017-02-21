@@ -16,6 +16,9 @@ typedef NS_ENUM(NSUInteger, RenderConvertOperation) {
 @protocol WKRenderProtocal
 
 @required
+/**
+ Used to determine whether the render should be paused during Workspace changes
+ */
 @property (nonatomic) BOOL requiresConsistentAccess;
 - (_Nonnull instancetype)initWithWindow:( WKDesktop* _Nonnull )window andArguments:( NSDictionary* _Nonnull )args;
 /**
