@@ -13,6 +13,6 @@
  
  Downloadable from https://nightlies.videolan.org/build/macosx-intel/
  */
-@interface WKVLCVideoPlugin : VLCVideoView<WKRenderProtocal>
+@interface WKVLCVideoPlugin : VLCVideoView<WKRenderProtocal,VLCMediaPlayerDelegate>
 @property (nonatomic) BOOL requiresConsistentAccess;
 @end

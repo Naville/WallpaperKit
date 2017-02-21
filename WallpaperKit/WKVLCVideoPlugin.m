@@ -10,12 +10,15 @@
 
 @implementation WKVLCVideoPlugin{
     VLCMediaPlayer* VMP;
+    NSURL* URL;
 }
 -(instancetype)initWithWindow:(WKDesktop *)window andArguments:(NSDictionary *)args{
     self=[super initWithFrame:window.frame];
     self->VMP=[[VLCMediaPlayer alloc] initWithVideoView:self];
-    [self->VMP setMedia:[VLCMedia mediaWithURL:[args objectForKey:@"Path"]]];
+    self->URL=[args objectForKey:@"Path"];
+    [self->VMP setMedia:[VLCMedia mediaWithURL:self->URL]];
     self.requiresConsistentAccess=YES;
+    self->VMP.delegate=self;
     return self;
 }
 -(void)play{
@@ -47,5 +50,14 @@
 }
 -(void)dealloc{
     self->VMP=nil;
+}
+- (void)mediaPlayerTimeChanged:(NSNotification *)aNotification{
+    if([self->VMP state]==VLCMediaPlayerStateEnded){
+        //Seek to start
+        self->VMP.time=[VLCTime nullTime];
+    }
+}
+-(NSString*)description{
+    return [@"WKVideoPlugin " stringByAppendingString:self->URL.path];
 }
 @end

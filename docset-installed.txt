@@ -1,4 +1,4 @@
 Documentation set was installed to Xcode!
 
 Path: /Users/Naville/Library/Developer/Shared/Documentation/DocSets/com.naville.wallpaperkit.WallpaperKit.docset
-Time: 2017-02-21 11:26:17 am +0000
+Time: 2017-02-21 7:52:57 pm +0000

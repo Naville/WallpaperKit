@@ -30,6 +30,6 @@
  @param op Convert operation
  @return Converted NSDictionary
  */
-+(nullable NSMutableDictionary*)convertArgument:( NSDictionary* _Nonnull )args Operation:(NSUInteger)op;
++( NSMutableDictionary* _Nonnull )convertArgument:( NSDictionary* _Nonnull )args Operation:(NSUInteger)op;
 @end
 
