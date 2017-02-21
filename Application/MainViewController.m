@@ -40,6 +40,7 @@
 }
 - (IBAction)discardExistingWindows:(id)sender {
     [[WKDesktopManager sharedInstance] stop];
+    [self.view.window setTitle:@"No Render Loaded"];
     return;
 }
 - (IBAction)discardActiveSpace:(id)sender {
@@ -65,6 +66,7 @@
     [self->wkdm discardSpaceID:[self->wkdm currentSpaceID]];
     WKDesktop* wk=[self->wkdm createDesktopWithSpaceID:[self->wkdm currentSpaceID] andRender:[self->wkrm.renderList objectAtIndex:index]];
     [self->wkdm DisplayDesktop:wk];
+    [self.view.window setTitle:[wk description]];
     
     
 }

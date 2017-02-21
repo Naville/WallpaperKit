@@ -12,6 +12,7 @@
     unsigned int interval;
     NSString* descript;
     NSOperationQueue* op;
+    NSUInteger index;
 }
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
     NSError* error;
@@ -46,7 +47,6 @@
     NSBlockOperation *operation = [[NSBlockOperation alloc] init];
     __weak NSBlockOperation *weakOperation = operation;
     [operation addExecutionBlock: ^ {
-        NSUInteger index=0;
         while(true){
             if ([weakOperation isCancelled]) return;
             [self performSelectorOnMainThread:@selector(setImage:) withObject:[[NSImage alloc] initWithContentsOfURL:ImageURLList[index]] waitUntilDone:YES];
@@ -69,7 +69,7 @@
     }
     return [@"WKImageSlideshow " stringByAppendingString:self->descript];
 }
-+(NSDictionary*)convertArgument:(NSDictionary *)args Operation:(NSUInteger)op{
++(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(NSUInteger)op{
     @autoreleasepool {
         NSMutableDictionary* returnValue=[NSMutableDictionary dictionaryWithDictionary:args];
         if(op==TOJSON){

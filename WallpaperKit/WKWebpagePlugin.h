@@ -19,7 +19,8 @@
             @"Path" the NSURL of target webpage
             @"HTML" the raw HTML
  
-    @"Javascript" is an optional item,which will be evaluated after the page is loaded
+    @"Javascript" is an optional NSString*,which will be evaluated after the page is loaded
+    @"BaseURL" is an optional NSURL*,which will be used as BaseURL for the request
  @return UIView for Caller to deal with
  @discussion MouseEvents are supported by explicited overwrite NSEvent Handlers and execute JS
  */

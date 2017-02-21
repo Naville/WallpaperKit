@@ -24,7 +24,7 @@
 -(void)pause{
     [self->VMP pause];
 }
-+(NSDictionary*)convertArgument:(NSDictionary *)args Operation:(NSUInteger)op{
++(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(NSUInteger)op{
     NSMutableDictionary* returnValue=[NSMutableDictionary dictionaryWithDictionary:args];
     if(op==TOJSON){
         returnValue[@"Render"]=@"WKVLCVideoPlugin";
@@ -44,5 +44,8 @@
     }
     
     return returnValue;
+}
+-(void)dealloc{
+    self->VMP=nil;
 }
 @end

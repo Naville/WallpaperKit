@@ -15,6 +15,7 @@
     NSString* Javascript;
     NSString* description;
     AVPlayerItem * currentPlayerItem;
+    NSURL* baseURL;
     id EventMonitor;
 
 }
@@ -31,6 +32,7 @@
     self=[super initWithFrame:frameRect configuration:config];
     
     self->webURL=(NSURL*)[args objectForKey:@"Path"];
+    self->baseURL=(NSURL*)[args objectForKey:@"BaseURL"];
     self->HTMLString=(NSString*)[args objectForKey:@"HTML"];
     self->Javascript=(NSString*)[args objectForKey:@"Javascript"];
     if(webURL!=nil && HTMLString!=nil){
@@ -49,7 +51,7 @@
                 [self loadRequest:[NSURLRequest requestWithURL:self->webURL]];
             }
             else{
-                [self loadHTMLString:HTMLString baseURL:nil];
+                [self loadHTMLString:HTMLString baseURL:self->baseURL];
             }
             
         }
@@ -129,12 +131,15 @@
         [self evaluateJavaScript:js completionHandler:nil];
     }
 }
-+(NSDictionary*)convertArgument:(NSDictionary *)args Operation:(NSUInteger)op{
++(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(NSUInteger)op{
     NSMutableDictionary* returnValue=[NSMutableDictionary dictionaryWithDictionary:args];
     if(op==TOJSON){
         returnValue[@"Render"]=@"WKWebpagePlugin";
         if([returnValue.allKeys containsObject:@"Path"]){
             returnValue[@"Path"]=[(NSURL*)returnValue[@"Path"] path];
+        }
+        if([returnValue.allKeys containsObject:@"BaseURL"]){
+            returnValue[@"BaseURL"]=[(NSURL*)returnValue[@"BaseURL"] path];
         }
     }
     else if(op==FROMJSON){
@@ -145,6 +150,13 @@
                 [url insertString:@"file://" atIndex:0];
             }
             returnValue[@"Path"]=[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        }
+        if([returnValue.allKeys containsObject:@"BaseURL"]){
+            NSMutableString* url=[[args objectForKey:@"BaseURL"] mutableCopy];
+            if([url hasPrefix:@"/"]){
+                [url insertString:@"file://" atIndex:0];
+            }
+            returnValue[@"BaseURL"]=[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         }
     }
     

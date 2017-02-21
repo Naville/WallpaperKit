@@ -31,39 +31,39 @@
     return renderer;
 }
 +(void)collectFromWallpaperEnginePath:(NSString*)RootPath{
-    for(NSURL* path in  [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:RootPath]
-                                                      includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey]
-                                                                         options:NSDirectoryEnumerationSkipsHiddenFiles
-                                                                           error:nil]){
-        NSData* projectData=[NSData dataWithContentsOfURL:[path URLByAppendingPathComponent:@"project.json"]];
-        if(projectData==nil){
-            continue;
+    @autoreleasepool {
+        for(NSURL* path in  [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:RootPath]
+                                                          includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey]
+                                                                             options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                                               error:nil]){
+            NSData* projectData=[NSData dataWithContentsOfURL:[path URLByAppendingPathComponent:@"project.json"]];
+            if(projectData==nil){
+                continue;
+            }
+            NSMutableDictionary* ProjectInfo=[NSJSONSerialization JSONObjectWithData:projectData options:NSJSONReadingMutableContainers error:nil];
+            
+            NSString* projectType=[(NSString*)[ProjectInfo objectForKey:@"type"] lowercaseString];
+            
+            NSURL* filePath=[path URLByAppendingPathComponent:[ProjectInfo objectForKey:@"file"]];
+            [ProjectInfo setObject:filePath.path forKey:@"Path"];
+                                
+            if([projectType isEqualToString:@"video"]){
+                NSDictionary* ConvertedProjectInfo=[[WKVideoPlugin class] convertArgument:ProjectInfo Operation:FROMJSON];
+                [[WKRenderManager sharedInstance].renderList addObject:ConvertedProjectInfo];
+                
+            }
+            else if([projectType isEqualToString:@"web"]){
+                NSMutableDictionary* ConvertedProjectInfo=[[WKWebpagePlugin class] convertArgument:ProjectInfo Operation:FROMJSON];
+                [ConvertedProjectInfo setObject:path forKey:@"BaseURL"];
+                [[WKRenderManager sharedInstance].renderList addObject:ConvertedProjectInfo];
+            }
+            else{
+                NSLog(@"WallpaperEngine Project Type:%@ Unsupported",[ProjectInfo objectForKey:@"type"]);
+                
+            }
+            
+            
         }
-        NSMutableDictionary* ProjectInfo=[NSJSONSerialization JSONObjectWithData:projectData options:NSJSONReadingMutableContainers error:nil];
-        
-        NSString* projectType=[(NSString*)[ProjectInfo objectForKey:@"type"] lowercaseString];
-        Class render=nil;
-        if([projectType isEqualToString:@"video"]){
-            render=[WKVideoPlugin class];
-        }
-        else if([projectType isEqualToString:@"web"]){
-            render=[WKWebpagePlugin class];
-        }
-        else{
-            NSLog(@"WallpaperEngine Project Type:%@ Unsupported",[ProjectInfo objectForKey:@"type"]);
-    
-        }
-        if(render!=nil){
-            NSString* FileName=[ProjectInfo objectForKey:@"file"];
-            NSURL* actualPath=[path URLByAppendingPathComponent:FileName];
-            ProjectInfo[@"Path"]=actualPath;
-            ProjectInfo[@"Render"]=render;
-            [[WKRenderManager sharedInstance].renderList addObject:ProjectInfo];
-        }
-        projectData=nil;
-        ProjectInfo=nil;
-        
-    
     }
     
 }

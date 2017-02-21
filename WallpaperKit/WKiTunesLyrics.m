@@ -118,6 +118,7 @@
         NSImage *img=[[NSImage alloc] initWithData:imagedata];
         CGImageRef cgImage = [img CGImageForProposedRect:nil context:nil hints:nil];
         img.size=NSMakeSize(CGImageGetWidth(cgImage), CGImageGetHeight(cgImage));
+        return img;
     }
     CIContext *context = [CIContext contextWithOptions:nil];
     CIImage *inputImage= [CIImage imageWithData:imagedata];
@@ -131,20 +132,24 @@
     return blurImage;
 }
 -(NSMutableAttributedString*)generateSongTitle{
-    NSString* TitleTemplate=[[Utils sharedManager].ViewRenderTemplates objectForKey:@"Title"];
-    TitleTemplate=[TitleTemplate stringByReplacingOccurrencesOfString:@"%SONGNAME%" withString:iTunes.currentTrack.name];
-    TitleTemplate=[TitleTemplate stringByReplacingOccurrencesOfString:@"%ALBUMNAME%" withString:iTunes.currentTrack.album];
-    TitleTemplate=[TitleTemplate stringByReplacingOccurrencesOfString:@"%ARTISTNAME%" withString:iTunes.currentTrack.artist];
-    
-    NSMutableAttributedString* title=[[NSMutableAttributedString alloc] initWithHTML:[TitleTemplate dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:nil];
-    NSMutableParagraphStyle *paragraphStyle = NSMutableParagraphStyle.new;
-    paragraphStyle.alignment                = NSTextAlignmentCenter;
-    [title addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, title.length)];
-    return title;
+    @autoreleasepool {
+        NSString* TitleTemplate=[[Utils sharedManager].ViewRenderTemplates objectForKey:@"Title"];
+        TitleTemplate=[TitleTemplate stringByReplacingOccurrencesOfString:@"%SONGNAME%" withString:iTunes.currentTrack.name];
+        TitleTemplate=[TitleTemplate stringByReplacingOccurrencesOfString:@"%ALBUMNAME%" withString:iTunes.currentTrack.album];
+        TitleTemplate=[TitleTemplate stringByReplacingOccurrencesOfString:@"%ARTISTNAME%" withString:iTunes.currentTrack.artist];
+        
+        NSMutableAttributedString* title=[[NSMutableAttributedString alloc] initWithHTML:[TitleTemplate dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:nil];
+        NSMutableParagraphStyle *paragraphStyle = NSMutableParagraphStyle.new;
+        paragraphStyle.alignment                = NSTextAlignmentCenter;
+        [title addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, title.length)];
+        return title;
+    }
 }
 -(void)handleSongTitle{
-    NSMutableAttributedString* title=[self generateSongTitle];
-    [self->titleView.textStorage setAttributedString:title];
+    @autoreleasepool {
+        NSMutableAttributedString* title=[self generateSongTitle];
+        [self->titleView.textStorage setAttributedString:title];
+    }
 }
 -(void)updateInfo{
     @try{
@@ -164,12 +169,12 @@
 -(NSString*)description{
     return @"WKiTunesLyrics";
 }
-+(NSDictionary*)convertArgument:(NSDictionary *)args Operation:(NSUInteger)op{
++(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(NSUInteger)op{
     if(op==TOJSON){
-        return @{@"Render":@"WKiTunesLyrics"};
+        return [NSMutableDictionary dictionaryWithDictionary:@{@"Render":@"WKiTunesLyrics"}];
     }
     else if(op==FROMJSON){
-        return @{@"Render":[WKiTunesLyrics class]};
+        return [NSMutableDictionary dictionaryWithDictionary:@{@"Render":[WKiTunesLyrics class]}];
     }
     return nil;
 }
