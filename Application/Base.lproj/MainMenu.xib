@@ -730,13 +730,13 @@
                         </connections>
                     </button>
                     <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5zV-JS-zcQ">
-                        <rect key="frame" x="40" y="40" width="523" height="348"/>
+                        <rect key="frame" x="40" y="40" width="523" height="226"/>
                         <clipView key="contentView" id="CNN-Yb-ObF">
-                            <rect key="frame" x="1" y="1" width="521" height="346"/>
+                            <rect key="frame" x="1" y="1" width="521" height="224"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnSelection="YES" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" id="eQn-sH-pBJ">
-                                    <rect key="frame" x="0.0" y="0.0" width="521" height="346"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="521" height="224"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -768,24 +768,50 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
+                    <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GBb-dE-gvu">
+                        <rect key="frame" x="188" y="360" width="208" height="32"/>
+                        <buttonCell key="cell" type="push" title="Save Current Render" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="OUh-B7-kS7">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="SaveCurrentRender:" target="wYf-3C-MfM" id="guM-GH-gSj"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ssJ-qJ-hKE">
+                        <rect key="frame" x="188" y="299" width="208" height="32"/>
+                        <buttonCell key="cell" type="push" title="Load Render From Default Path" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Fph-bo-55d">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="LoadCurrentRender:" target="wYf-3C-MfM" id="AFo-ZG-ald"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="GBb-dE-gvu" firstAttribute="top" secondItem="SMF-DO-3MV" secondAttribute="bottom" constant="40" id="1oK-5f-g8A"/>
                     <constraint firstAttribute="trailing" secondItem="5zV-JS-zcQ" secondAttribute="trailing" constant="40" id="5tc-HM-pTP"/>
                     <constraint firstItem="QR1-YW-7M4" firstAttribute="top" secondItem="437-3c-OlT" secondAttribute="bottom" constant="40" id="AYH-xS-sGe"/>
-                    <constraint firstItem="5zV-JS-zcQ" firstAttribute="top" secondItem="SMF-DO-3MV" secondAttribute="bottom" constant="40" id="Adq-9I-rPg"/>
                     <constraint firstItem="kUG-2j-2gR" firstAttribute="top" secondItem="QR1-YW-7M4" secondAttribute="bottom" constant="40" id="Gyb-6g-dcW"/>
+                    <constraint firstItem="GBb-dE-gvu" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="5" id="H9A-MB-NY9"/>
                     <constraint firstItem="SMF-DO-3MV" firstAttribute="top" secondItem="kUG-2j-2gR" secondAttribute="bottom" constant="40" id="Jsg-YP-pdD"/>
                     <constraint firstItem="QR1-YW-7M4" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="5" id="M1z-be-J7R"/>
+                    <constraint firstItem="ssJ-qJ-hKE" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="5" id="SSQ-ba-WNF"/>
                     <constraint firstAttribute="trailing" secondItem="kUG-2j-2gR" secondAttribute="trailing" constant="5" id="Tbs-8Z-g6e"/>
+                    <constraint firstItem="ssJ-qJ-hKE" firstAttribute="top" secondItem="GBb-dE-gvu" secondAttribute="bottom" constant="40" id="TjX-tp-g7Y"/>
                     <constraint firstAttribute="bottom" secondItem="5zV-JS-zcQ" secondAttribute="bottom" constant="40" id="UnM-Bv-NGL"/>
                     <constraint firstItem="SMF-DO-3MV" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="5" id="WXw-Sm-pFg"/>
                     <constraint firstAttribute="trailing" secondItem="SMF-DO-3MV" secondAttribute="trailing" constant="5" id="Whv-Mj-JRy"/>
                     <constraint firstAttribute="trailing" secondItem="437-3c-OlT" secondAttribute="trailing" constant="5" id="dNN-vG-VmL"/>
                     <constraint firstItem="437-3c-OlT" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="5" id="dsx-Ay-8fE"/>
                     <constraint firstItem="kUG-2j-2gR" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="5" id="g8Z-RS-w9D"/>
+                    <constraint firstAttribute="trailing" secondItem="ssJ-qJ-hKE" secondAttribute="trailing" constant="5" id="i49-HC-zw0"/>
                     <constraint firstAttribute="trailing" secondItem="QR1-YW-7M4" secondAttribute="trailing" constant="5" id="iMb-tU-mwM"/>
                     <constraint firstItem="5zV-JS-zcQ" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="40" id="jGQ-DE-2Wa"/>
+                    <constraint firstAttribute="trailing" secondItem="GBb-dE-gvu" secondAttribute="trailing" constant="5" id="nBm-k1-ZmP"/>
                     <constraint firstItem="437-3c-OlT" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="40" id="vUk-D0-oF2"/>
+                    <constraint firstItem="5zV-JS-zcQ" firstAttribute="top" secondItem="ssJ-qJ-hKE" secondAttribute="bottom" constant="40" id="wPX-v9-JXb"/>
                 </constraints>
             </view>
             <point key="canvasLocation" x="160.5" y="-292"/>

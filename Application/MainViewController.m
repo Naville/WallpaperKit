@@ -96,6 +96,26 @@
         }
     }
 }
+- (IBAction)LoadCurrentRender:(id)sender {
+    NSString* SavePath=[NSString stringWithFormat:@"%@/WallpaperKit/WallpaperKit.plist",NSHomeDirectory()];
+    NSMutableArray* JSONCompatibleArray=[NSMutableArray arrayWithContentsOfFile:SavePath];
+    if(JSONCompatibleArray!=nil){
+        NSArray* converted=[WKRenderManager CovertRenders:JSONCompatibleArray operation:FROMJSON];
+        [self->wkrm.renderList addObjectsFromArray:converted];
+        [self->_RenderListView reloadData];
+    }
+    
+}
+
+- (IBAction)SaveCurrentRender:(id)sender {
+    
+    NSString* SavePath=[NSString stringWithFormat:@"%@/WallpaperKit/WallpaperKit.plist",NSHomeDirectory()];
+    
+    NSArray* converted=[WKRenderManager CovertRenders:self->wkrm.renderList operation:TOJSON];
+    [converted writeToFile:SavePath atomically:YES];
+    
+}
+
 //NSTableViewDataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     return self->wkrm.renderList.count;

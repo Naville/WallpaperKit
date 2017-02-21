@@ -30,8 +30,27 @@
     NSDictionary* renderer=[self.renderList objectAtIndex: arc4random()%[_renderList count]];
     return renderer;
 }
++(NSArray*)CovertRenders:(NSMutableArray<NSDictionary*>*)renderList operation:(int)op{
+    NSMutableArray* retArray=[NSMutableArray array];
+    for (NSDictionary* dict in renderList){
+        Class<WKRenderProtocal> cls;
+        id render=dict[@"Render"];
+        if ([render respondsToSelector:@selector(isEqualToString:)]){
+            cls=NSClassFromString(render);
+        }
+        else{
+            cls=render;
+        }
+        [retArray addObject:[cls convertArgument:dict Operation:op]];
+    }
+    return retArray;
+    
+}
 +(void)collectFromWallpaperEnginePath:(NSString*)RootPath{
     @autoreleasepool {
+        if([[NSFileManager defaultManager] fileExistsAtPath:RootPath]==NO){
+            return ;
+        }
         for(NSURL* path in  [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:RootPath]
                                                           includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey]
                                                                              options:NSDirectoryEnumerationSkipsHiddenFiles
