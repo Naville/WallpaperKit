@@ -24,6 +24,14 @@
     NSOpenGLPixelFormat* pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
     self=[super initWithFrame:frameRect pixelFormat:pixelFormat];
     self->OpenGLDrawingBlock=[args objectForKey:@"OpenGLDrawingBlock"];
+    if(self->OpenGLDrawingBlock==nil){
+        __weak typeof(self) weakSelf = self;
+        self->OpenGLDrawingBlock=^(){
+            NSTextView* tv=[[NSTextView alloc] initWithFrame:window.frame];
+            [tv setString:@"WKOpenGLView\nOpenGLDrawingBlock Not Supplied!\nNote That OpenGL Drawing Block is not saved/loaded to/from disk"];
+            [weakSelf addSubview:tv];
+        };
+    }
     self.requiresConsistentAccess=NO;
     return self;
 }
@@ -35,7 +43,12 @@
 -(void)pause{
     
 }
-+(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(NSUInteger)op{
-    return nil;
++(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(RenderConvertOperation)op{
+    if(op==TOJSON){
+        return [NSMutableDictionary dictionaryWithDictionary:@{@"Render":@"WKOpenGLPlugin"}];
+    }
+    else{
+        return [NSMutableDictionary dictionaryWithDictionary:@{@"Render":[WKOpenGLPlugin class]}];
+    }
 }
 @end

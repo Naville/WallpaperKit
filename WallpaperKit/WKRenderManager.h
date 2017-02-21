@@ -32,7 +32,7 @@
  @param op Convert Type
  @return Converted NSArray
  */
-+(NSArray*)CovertRenders:(NSMutableArray<NSDictionary*>*)renderList operation:(int)op;
++(NSArray*)CovertRenders:(NSMutableArray<NSDictionary*>*)renderList operation:(RenderConvertOperation)op;
 /**
  An NSMutableArray of NSDictionary. Each NSDictionary has the same structure as described in randomRender's documentation
  */

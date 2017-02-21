@@ -30,7 +30,7 @@
     NSDictionary* renderer=[self.renderList objectAtIndex: arc4random()%[_renderList count]];
     return renderer;
 }
-+(NSArray*)CovertRenders:(NSMutableArray<NSDictionary*>*)renderList operation:(int)op{
++(NSArray*)CovertRenders:(NSMutableArray<NSDictionary*>*)renderList operation:(RenderConvertOperation)op{
     NSMutableArray* retArray=[NSMutableArray array];
     for (NSDictionary* dict in renderList){
         Class<WKRenderProtocal> cls;

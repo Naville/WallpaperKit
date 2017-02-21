@@ -131,7 +131,7 @@
         [self evaluateJavaScript:js completionHandler:nil];
     }
 }
-+(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(NSUInteger)op{
++(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(RenderConvertOperation)op{
     NSMutableDictionary* returnValue=[NSMutableDictionary dictionaryWithDictionary:args];
     if(op==TOJSON){
         returnValue[@"Render"]=@"WKWebpagePlugin";

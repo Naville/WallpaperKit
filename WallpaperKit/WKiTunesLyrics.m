@@ -169,7 +169,7 @@
 -(NSString*)description{
     return @"WKiTunesLyrics";
 }
-+(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(NSUInteger)op{
++(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(RenderConvertOperation)op{
     if(op==TOJSON){
         return [NSMutableDictionary dictionaryWithDictionary:@{@"Render":@"WKiTunesLyrics"}];
     }

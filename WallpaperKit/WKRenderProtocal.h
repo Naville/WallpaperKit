@@ -6,8 +6,11 @@
 //  Copyright © 2017年 NavilleZhang. All rights reserved.
 //
 #import <AppKit/AppKit.h>
-#define TOJSON 1
-#define FROMJSON 0
+typedef NS_ENUM(NSUInteger, RenderConvertOperation) {
+    TOJSON,
+    FROMJSON
+};
+
 @class WKDesktop;
 
 @protocol WKRenderProtocal
@@ -30,6 +33,6 @@
  @param op Convert operation
  @return Converted NSDictionary
  */
-+( NSMutableDictionary* _Nonnull )convertArgument:( NSDictionary* _Nonnull )args Operation:(NSUInteger)op;
++( NSMutableDictionary* _Nonnull )convertArgument:( NSDictionary* _Nonnull )args Operation:(RenderConvertOperation)op;
 @end
 
