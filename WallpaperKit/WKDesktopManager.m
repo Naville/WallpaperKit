@@ -137,16 +137,10 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
         }
     }
 }
-+(CGRect)calculatedRenderSize{
-    CGRect rawSize=[NSScreen mainScreen].visibleFrame;
-    //rawSize.origin.y+=7;
-    //rawSize.size.height*=0.97;
-    return rawSize;
-}
 -(WKDesktop*)createDesktopWithSpaceID:(NSUInteger)SpaceID andRender:(NSDictionary*)render{
     WKDesktop* wk=(WKDesktop*)[self.windows objectForKey:[NSNumber numberWithInteger:SpaceID]];//New Space's WKDesktop
     if(wk==nil){
-        wk=[[WKDesktop alloc] initWithContentRect:[self.class calculatedRenderSize] styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
+        wk=[[WKDesktop alloc] initWithContentRect:CGDisplayBounds(CGMainDisplayID()) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
         if(render==nil|| ![render.allKeys containsObject:@"Render"]){
             @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Render Invalid" userInfo:render];
         }

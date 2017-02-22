@@ -23,7 +23,6 @@
  @return Wallpaper Window of current space.
  */
 -(nonnull WKDesktop*)createDesktopWithSpaceID:(NSUInteger)SpaceID andRender:(nonnull NSDictionary*)render;
-+(CGRect)calculatedRenderSize;
 -(NSUInteger)currentSpaceID;
 /**
  Display Given WKDesktop.
