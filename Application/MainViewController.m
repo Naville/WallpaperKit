@@ -30,7 +30,6 @@
     self.RenderListView.delegate=self;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self->wkrm.renderList addObject:@{@"Render":[WKiTunesLyrics class]}];
-        [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(observe) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
         [self.RenderListView reloadData];
     });
 }
@@ -44,18 +43,7 @@
     [self.view.window setTitle:@"No Render Loaded"];
 }
 - (IBAction)loadActiveSpace:(id)sender {
-    [self observe];
-}
--(void)observe{
-    @try{
-        WKDesktop* window=[self->wkdm createDesktopWithSpaceID:[self->wkdm currentSpaceID] andRender:[self->wkrm randomRender]];
-        [self.view.window setTitle:[window description]];
-        [self->wkdm DisplayDesktop:window];
-    }
-    @catch(NSException* exp){
-        [self.view.window setTitle:exp.reason];
-    }
-
+    [self->wkdm createDesktopWithSpaceID:[self->wkdm currentSpaceID] andRender:[self->wkrm randomRender]];
 }
 - (IBAction)chooseRenderForCurrentDesktop:(id)sender {
     NSUInteger index=[self.RenderListView selectedRow];

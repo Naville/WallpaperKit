@@ -117,8 +117,10 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
 
 }
 -(void)discardSpaceID:(NSUInteger)spaceID{
-    [[self->_windows objectForKey:[NSNumber numberWithInteger:spaceID]] close];
-    [self->_windows removeObjectForKey:[NSNumber numberWithInteger:spaceID]];
+    if([self.windows.allKeys containsObject:[NSNumber numberWithInteger:spaceID]]){
+        [[self->_windows objectForKey:[NSNumber numberWithInteger:spaceID]] close];
+        [self->_windows removeObjectForKey:[NSNumber numberWithInteger:spaceID]];
+    }
     
 }
 -(void)handleOSChange:(NSNotification*)notification{
