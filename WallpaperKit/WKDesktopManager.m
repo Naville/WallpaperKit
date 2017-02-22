@@ -140,9 +140,8 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     }
 }
 -(WKDesktop*)createDesktopWithSpaceID:(NSUInteger)SpaceID andRender:(NSDictionary*)render{
-    WKDesktop* wk=(WKDesktop*)[self.windows objectForKey:[NSNumber numberWithInteger:SpaceID]];//New Space's WKDesktop
-    if(wk==nil){
-        wk=[[WKDesktop alloc] initWithContentRect:CGDisplayBounds(CGMainDisplayID()) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
+    [self discardSpaceID:SpaceID];
+      WKDesktop*  wk=[[WKDesktop alloc] initWithContentRect:CGDisplayBounds(CGMainDisplayID()) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
         if(render==nil|| ![render.allKeys containsObject:@"Render"]){
             @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Render Invalid" userInfo:render];
         }
@@ -150,7 +149,6 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
         self.activeWallpaperView=wk.currentView;
         
         [self.windows setObject:wk forKey:[NSNumber numberWithInteger:SpaceID]];
-    }
     return wk;
 
     
