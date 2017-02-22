@@ -78,8 +78,19 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
         return;
     }
     lastActiveSpaceID=currentSpaceID;
-    WKDesktop* wk=[self createDesktopWithSpaceID:currentSpaceID andRender:[[WKRenderManager sharedInstance] randomRender]];
+    WKDesktop* wk=[self desktopForSpaceID:currentSpaceID];
+    if(wk==nil){
+        wk=[self createDesktopWithSpaceID:currentSpaceID andRender:[[WKRenderManager sharedInstance] randomRender]];
+    }
     [self DisplayDesktop:wk];
+}
+-(WKDesktop*)desktopForSpaceID:(NSUInteger)spaceID{
+    if([self.windows.allKeys containsObject:[NSNumber numberWithInteger:spaceID]]){
+        return [self.windows objectForKey:[NSNumber numberWithInteger:spaceID]];
+    }
+    else{
+        return nil;
+    }
 }
 -(void)DisplayDesktop:(WKDesktop*)wk{
     [wk orderFront:nil];

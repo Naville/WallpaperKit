@@ -17,7 +17,7 @@
 -(void)stop;
 -(void)discardSpaceID:(NSUInteger)spaceID;
 /**
- Create Window of current workspace using given render if not exists. And return it.
+ Create Window of current workspace using given render. Remove existing Window
  @param SpaceID SpaceID of target Workspace
  @param render Render.Can be obtained from WKRenderManager
  @return Wallpaper Window of current space.
@@ -29,6 +29,13 @@
  @param wk Desktop to display
  */
 -(void)DisplayDesktop:(nonnull WKDesktop*)wk;
-@property (readwrite,retain,atomic)  NSMutableDictionary* _Nonnull  windows;
+/**
+ Obtain Desktop for a give SpaceID. Return nil if there is no Desktop for the SpaceID
+
+ @param spaceID SpaceID for the query
+ @return <#return value description#>
+ */
+-(nullable WKDesktop*)desktopForSpaceID:(NSUInteger)spaceID;
+@property (readwrite,retain,atomic)  NSMutableDictionary<NSNumber*,WKDesktop *>* _Nonnull  windows;
 @property (readwrite,retain,atomic)  NSView* _Nullable  activeWallpaperView;
 @end
