@@ -711,7 +711,7 @@
                     </button>
                     <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kUG-2j-2gR">
                         <rect key="frame" x="188" y="482" width="208" height="32"/>
-                        <buttonCell key="cell" type="push" title="Load Active Workspace" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lsQ-fj-FrD">
+                        <buttonCell key="cell" type="push" title="Load Active Workspace  Randomly" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lsQ-fj-FrD">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -721,7 +721,7 @@
                     </button>
                     <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SMF-DO-3MV">
                         <rect key="frame" x="188" y="421" width="208" height="32"/>
-                        <buttonCell key="cell" type="push" title="Choose Active Desktop" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yNJ-Bh-5Xo">
+                        <buttonCell key="cell" type="push" title="Render Active Workspace With Chosen Render" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yNJ-Bh-5Xo">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>

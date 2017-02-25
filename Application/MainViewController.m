@@ -44,7 +44,9 @@
     [self.view.window setTitle:@"No Render Loaded"];
 }
 - (IBAction)loadActiveSpace:(id)sender {
-    [self->wkdm createDesktopWithSpaceID:[self->wkdm currentSpaceID] andRender:[self->wkrm randomRender]];
+    WKDesktop* render=[self->wkdm createDesktopWithSpaceID:[self->wkdm currentSpaceID] andRender:[self->wkrm randomRender]];
+    [self->wkdm DisplayDesktop:render];
+    [self.view.window setTitle:[render description]];
 }
 - (IBAction)chooseRenderForCurrentDesktop:(id)sender {
     NSUInteger index=[self.RenderListView selectedRow];
