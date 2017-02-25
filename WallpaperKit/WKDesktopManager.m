@@ -82,6 +82,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     if(wk==nil){
         wk=[self createDesktopWithSpaceID:currentSpaceID andRender:[[WKRenderManager sharedInstance] randomRender]];
     }
+
     [self DisplayDesktop:wk];
 }
 -(WKDesktop*)desktopForSpaceID:(NSUInteger)spaceID{
@@ -130,7 +131,8 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
 }
 -(void)discardSpaceID:(NSUInteger)spaceID{
     if([self.windows.allKeys containsObject:[NSNumber numberWithInteger:spaceID]]){
-        [[self->_windows objectForKey:[NSNumber numberWithInteger:spaceID]] close];
+        __weak WKDesktop* win=[self->_windows objectForKey:[NSNumber numberWithInteger:spaceID]];
+        [win close];
         [self->_windows removeObjectForKey:[NSNumber numberWithInteger:spaceID]];
     }
     

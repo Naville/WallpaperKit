@@ -37,5 +37,7 @@ typedef NS_ENUM(NSUInteger, RenderConvertOperation) {
  @return Converted NSDictionary
  */
 +( NSMutableDictionary* _Nonnull )convertArgument:( NSDictionary* _Nonnull )args Operation:(RenderConvertOperation)op;
+@optional
+-(void)stop;
 @end
 

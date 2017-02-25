@@ -21,7 +21,7 @@
 -(instancetype)init{
     CGRect rawSize=[NSScreen mainScreen].visibleFrame;
     CGPoint center=NSMakePoint((rawSize.origin.x+rawSize.size.width)/2, (rawSize.origin.y+rawSize.size.height)/2);
-    CGFloat diagonalLength=400;
+    CGFloat diagonalLength=500;
     self=[super initWithContentRect:NSMakeRect(center.x-diagonalLength,center.y-diagonalLength,2*diagonalLength,2*diagonalLength) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:YES];
     [self setIgnoresMouseEvents:YES];
     self.delegate=self;

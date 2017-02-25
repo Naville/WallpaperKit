@@ -38,11 +38,11 @@
 -(void)pause{
     [self.player pause];
 }
--(void)dealloc{
-    [self pause];
-}
 -(void)play{
     [self.player play];
+}
+-(void)stop{
+    [self pause];
 }
 -(NSString*)description{
     return [@"WKVideoPlugin " stringByAppendingString:self->URL.path];

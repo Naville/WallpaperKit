@@ -50,6 +50,9 @@
 }
 -(void)close{
     [self pause];
+    if([self.currentView respondsToSelector:@selector(stop)]){
+        [self.currentView performSelector:@selector(stop)];
+    }
     [super close];
 }
 -(void)play{

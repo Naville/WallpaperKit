@@ -42,7 +42,7 @@
         [self->VMP play];
     }
 }
--(void)dealloc{
+-(void)stop{
     [self->VMP stop];
 }
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
