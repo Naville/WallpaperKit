@@ -27,8 +27,7 @@
     if([_renderList count]==0){//This is the last renderer
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"No Available Render" userInfo:nil];
     }
-    NSDictionary* renderer=[self.renderList objectAtIndex: arc4random()%[_renderList count]];
-    return renderer;
+    return [self.renderList objectAtIndex: arc4random()%[_renderList count]];
 }
 +(NSArray*)CovertRenders:(NSMutableArray<NSDictionary*>*)renderList operation:(RenderConvertOperation)op{
     NSMutableArray* retArray=[NSMutableArray array];

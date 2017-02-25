@@ -124,6 +124,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
         CFRelease(spaces);
         return spaceId;
     }
+    CFRelease(spaces);
     return WRONG_WINDOW_ID;
 
 }

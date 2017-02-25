@@ -25,7 +25,6 @@
     [_SongMatchRules addObject:@"%SONG% %ALBUM%"];
     [_SongMatchRules addObject:@"%SONG% %ARTIST%"];
     [_SongMatchRules addObject:@"%SONG% %ALBUMARTIST%"];
-    [_SongMatchRules addObject:@"%SONG% "];
     NSURL* BasePath=[WKUtils BaseURL];
     NSURL* LyricsTemplatePath=[BasePath URLByAppendingPathComponent:@"Lyric.html"];
     NSURL* TranslatedTemplatePath=[BasePath URLByAppendingPathComponent:@"Translated.html"];

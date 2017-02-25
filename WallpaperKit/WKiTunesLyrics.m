@@ -49,12 +49,15 @@
     [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(watchiTunes:) name:@"com.apple.iTunes.playerInfo" object:@"com.apple.iTunes.player"];
     [self updateInfo];
     //[self refreshLyrics];
-    self->refreshLRCTimer=[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(refreshLyrics) userInfo:nil repeats:YES];
+    self->refreshLRCTimer=[NSTimer scheduledTimerWithTimeInterval:0.7 target:self selector:@selector(refreshLyrics) userInfo:nil repeats:YES];
 
 }
 -(void)pause{
     [self->refreshLRCTimer invalidate];
     [[NSDistributedNotificationCenter defaultCenter] removeObserver:self name:@"com.apple.iTunes.playerInfo" object:@"com.apple.iTunes.player"];
+}
+-(void)dealloc{
+    [self->refreshLRCTimer invalidate];
 }
 -(void)refreshLyrics{
     @try {
@@ -173,9 +176,8 @@
     if(op==TOJSON){
         return [NSMutableDictionary dictionaryWithDictionary:@{@"Render":@"WKiTunesLyrics"}];
     }
-    else if(op==FROMJSON){
+    else{
         return [NSMutableDictionary dictionaryWithDictionary:@{@"Render":[WKiTunesLyrics class]}];
     }
-    return nil;
 }
 @end

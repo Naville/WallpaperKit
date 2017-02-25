@@ -21,7 +21,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.window.delegate=self;
     NSApp.delegate=self;
     self->wkdm=[WKDesktopManager sharedInstance];
     self->wkrm=[WKRenderManager sharedInstance];

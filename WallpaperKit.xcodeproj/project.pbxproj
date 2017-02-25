@@ -758,7 +758,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/WallpaperKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = naville.Framework;
+				PRODUCT_BUNDLE_IDENTIFIER = naville.wallpaperkit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SKIP_INSTALL = YES;
@@ -786,7 +786,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/WallpaperKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = naville.Framework;
+				PRODUCT_BUNDLE_IDENTIFIER = naville.wallpaperkit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SKIP_INSTALL = YES;

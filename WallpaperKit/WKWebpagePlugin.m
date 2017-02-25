@@ -14,7 +14,6 @@
     NSString* HTMLString;
     NSString* Javascript;
     NSString* description;
-    AVPlayerItem * currentPlayerItem;
     NSURL* baseURL;
     id EventMonitor;
 
@@ -130,6 +129,13 @@
         NSString* js=[NSString stringWithFormat:@"document.dispatchEvent(new %@(\"%@\",%@))",constructor,name,EventString];
         [self evaluateJavaScript:js completionHandler:nil];
     }
+}
+-(void)dealloc{
+    if(self->EventMonitor!=nil){
+        [WKUtils InvalidateEventMonitor:self->EventMonitor];
+        self->EventMonitor=nil;
+    }
+    
 }
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 +(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(RenderConvertOperation)op{

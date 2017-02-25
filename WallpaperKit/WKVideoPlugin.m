@@ -38,6 +38,9 @@
 -(void)pause{
     [self.player pause];
 }
+-(void)dealloc{
+    [self pause];
+}
 -(void)play{
     [self.player play];
 }

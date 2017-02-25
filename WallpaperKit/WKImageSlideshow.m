@@ -97,9 +97,6 @@
                         [murl insertString:@"file://" atIndex:0];
                     }
                     NSURL* url2=[NSURL URLWithString:[murl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-                    if(url2==nil){
-                        return nil;
-                    }
                     [urllist addObject:url2];
                 }
                 [returnValue setObject:urllist forKey:@"Images"];
@@ -110,9 +107,6 @@
                     [url insertString:@"file://" atIndex:0];
                 }
                 NSURL* url2=[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-                if(url2==nil){
-                    return nil;
-                }
                 [returnValue setObject:url2 forKey:@"ImagePath"];
             }
         }

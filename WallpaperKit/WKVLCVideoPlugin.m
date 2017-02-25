@@ -42,7 +42,9 @@
         [self->VMP play];
     }
 }
-
+-(void)dealloc{
+    [self->VMP stop];
+}
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 +(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(RenderConvertOperation)op{
     NSMutableDictionary* returnValue=[NSMutableDictionary dictionaryWithDictionary:args];

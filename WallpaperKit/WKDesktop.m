@@ -33,7 +33,7 @@
     if(![renderEngine conformsToProtocol:@protocol(WKRenderProtocal)]||![renderEngine isSubclassOfClass:[NSView class]]){
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"%@ is not a valid WKRenderProtocal class",NSStringFromClass(renderEngine)] userInfo:nil];
     }
-    _currentView=[[renderEngine alloc] initWithWindow:self andArguments:args];
+    self.currentView=[[renderEngine alloc] initWithWindow:self andArguments:args];
     if(self.err!=nil){
         @throw [NSException exceptionWithName:NSGenericException reason:self.err.localizedDescription userInfo:args];
     }
@@ -49,9 +49,7 @@
     self->isPlaying=NO;
 }
 -(void)close{
-    
     [self pause];
-    self->_currentView=nil;
     [super close];
 }
 -(void)play{
@@ -66,6 +64,11 @@
 }
 -(NSString*)description{
     return [self.contentView description];
+}
+-(void)dealloc{
+    [self.currentView pause];
+    self.contentView=nil;
+    self.err=nil;
 }
 @end
 

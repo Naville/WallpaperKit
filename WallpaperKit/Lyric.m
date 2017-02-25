@@ -10,6 +10,7 @@
 #import "DLLRCParser.h"
 @implementation Lyric
 -(instancetype)initWithLRC:(NSString*)LRC{
+    self=[super init];
     if(LRC==nil){
         self->lyrics=[NSMutableArray array];
     }
