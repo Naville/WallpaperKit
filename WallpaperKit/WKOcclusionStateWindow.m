@@ -8,21 +8,23 @@
 
 #import "WKOcclusionStateWindow.h"
 #import "WKDesktopManager.h"
+static WKOcclusionStateWindow *sI = nil;
+static dispatch_once_t onceToken;
 @implementation WKOcclusionStateWindow
 + (instancetype)sharedInstance{
-    static WKOcclusionStateWindow *sharedInstance = nil;
-    static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[WKOcclusionStateWindow alloc] init];
-        // Do any other initialisation stuff here
+        CGRect rawSize=[NSScreen mainScreen].visibleFrame;
+        CGPoint center=NSMakePoint((rawSize.origin.x+rawSize.size.width)/2, (rawSize.origin.y+rawSize.size.height)/2);
+        CGFloat diagonalLength=500;
+        sI = [[WKOcclusionStateWindow alloc] initWithContentRect:NSMakeRect(center.x-diagonalLength,center.y-diagonalLength,2*diagonalLength,2*diagonalLength) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:YES];
     });
-    return sharedInstance;
+    return sI;
 }
--(instancetype)init{
-    CGRect rawSize=[NSScreen mainScreen].visibleFrame;
-    CGPoint center=NSMakePoint((rawSize.origin.x+rawSize.size.width)/2, (rawSize.origin.y+rawSize.size.height)/2);
-    CGFloat diagonalLength=500;
-    self=[super initWithContentRect:NSMakeRect(center.x-diagonalLength,center.y-diagonalLength,2*diagonalLength,2*diagonalLength) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:YES];
+-(instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)style backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag{
+    if(sI!=nil){
+        return sI;
+    }
+    self=[super initWithContentRect:contentRect styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:YES];
     [self setIgnoresMouseEvents:YES];
     self.delegate=self;
     [self setLevel:kCGDesktopIconWindowLevel];
@@ -31,6 +33,7 @@
     self.collectionBehavior=(NSWindowCollectionBehaviorCanJoinAllSpaces |
                              NSWindowCollectionBehaviorStationary |
                              NSWindowCollectionBehaviorIgnoresCycle);
+    sI=self;
     return self;
 }
 -(BOOL)canBecomeKeyWindow{
