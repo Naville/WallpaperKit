@@ -16,11 +16,14 @@ Built and saved in project root automatically when attempting to build the frame
 [UpdateWallpaperKitDBSample.py](https://gist.github.com/Naville/b7b635d82ba520044be031a297efa008)
 
 ##Database Version 2
-An ***NSArray*** of serialised ***NSDictionary***
+An ***NSArray*** of serialised ***NSDictionary***  
+
 Serialization can be achieved bidirectionally by calling 
 ```
 +(NSMutableDictionary*)convertArgument:(NSDictionary*)args Operation:(RenderConvertOperation)op;  
 ```
+of corresponding Plugin
+
 Check **WKRenderProtocal.h** for usage
 
 
