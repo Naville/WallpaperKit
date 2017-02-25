@@ -186,4 +186,7 @@
         return [NSMutableDictionary dictionaryWithDictionary:@{@"Render":[WKiTunesLyrics class]}];
     }
 }
+-(void)mouseDragged:(NSEvent *)event{
+    NSLog(@"event");
+}
 @end

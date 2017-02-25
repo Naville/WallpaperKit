@@ -164,8 +164,5 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
         
         [self.windows setObject:wk forKey:[NSNumber numberWithInteger:SpaceID]];
     return wk;
-
-    
-    
 }
 @end

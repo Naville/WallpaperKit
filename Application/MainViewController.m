@@ -29,6 +29,7 @@
                                          NSWindowCollectionBehaviorIgnoresCycle);
     self.RenderListView.dataSource=self;
     self.RenderListView.delegate=self;
+    [self.view.window setLevel:NSStatusWindowLevel];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self->wkrm.renderList addObject:@{@"Render":[WKiTunesLyrics class]}];
         [self.RenderListView reloadData];
@@ -63,7 +64,6 @@
     NSString* value=[tableView.dataSource tableView:tableView objectValueForTableColumn:nil row:row];
     return ([value componentsSeparatedByString:@"\n"].count+1)*tableView.rowHeight;
 }
-
 -(void)CollectPref{
     @autoreleasepool {
         NSMutableDictionary* Pref=[NSMutableDictionary dictionaryWithContentsOfFile:[NSString stringWithFormat:@"%@/WallpaperKit/WallpaperKitPref.plist",NSHomeDirectory()]];

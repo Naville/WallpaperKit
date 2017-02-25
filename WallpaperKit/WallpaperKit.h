@@ -6,6 +6,7 @@
 //  Copyright © 2017 NavilleZhang. All rights reserved.
 //
 
+//Renders
 #import "WKRenderProtocal.h"
 #import "WKVideoPlugin.h"
 #import "WKImagePlugin.h"
@@ -15,6 +16,8 @@
 #import "WKImageSlideshow.h"
 #import "WKiTunesLyrics.h"
 #import "WKVLCVideoPlugin.h"
+#import "WKDraggableImage.h"
+//Managers
 #import "WKDesktopManager.h"
 #import "WKRenderManager.h"
 #import "WKDesktop.h"
