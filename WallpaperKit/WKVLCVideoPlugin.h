@@ -9,10 +9,21 @@
 #import "WKDesktop.h"
 #import "VLCKit/VLCKit.h"
 /**
+ Video Player Using FFMPEG Wrapped In VLCKit As Decoder
+ 
  Requires VLCKit to build and run
  
  Downloadable from https://nightlies.videolan.org/build/macosx-intel/
  */
 @interface WKVLCVideoPlugin : VLCVideoView<WKRenderProtocal,VLCMediaPlayerDelegate>
+/**
+ Init Plugin
+ 
+ @param window NSWindow to draw in.Caller will handle view adding
+ @param args Arguments For Rendering. Available Keys:
+ 
+ Path NSURL of target Video
+ */
+- (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args;
 @property (nonatomic) BOOL requiresConsistentAccess;
 @end

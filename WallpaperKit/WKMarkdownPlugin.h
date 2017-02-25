@@ -16,7 +16,6 @@
  
             @"Markdown" NSString* of the markdown
             @"CSS" Optional. NSString of CSS
- @return UIView for Caller to deal with
  */
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args;
 @end

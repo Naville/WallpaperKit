@@ -17,11 +17,10 @@
     Webpage can be specified by using either:
  
             @"Path" the NSURL of target webpage
-            @"HTML" the raw HTML
+            @"HTML" the raw HTML NSString*
  
     @"Javascript" is an optional NSString*,which will be evaluated after the page is loaded
     @"BaseURL" is an optional NSURL*,which will be used as BaseURL for the request
- @return UIView for Caller to deal with
  @discussion MouseEvents are supported by explicited overwrite NSEvent Handlers and execute JS
  */
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args;

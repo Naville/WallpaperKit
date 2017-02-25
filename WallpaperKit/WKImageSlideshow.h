@@ -18,7 +18,6 @@
     @"Images" NSArray* of image path NSURL
     or @"ImagePath" NSURL* Path to Image Folder
  
- @return UIView for Caller to deal with
  */
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args;
 @property (nonatomic) BOOL requiresConsistentAccess;

@@ -29,7 +29,7 @@
                                          NSWindowCollectionBehaviorIgnoresCycle);
     self.RenderListView.dataSource=self;
     self.RenderListView.delegate=self;
-    [self.view.window setLevel:NSStatusWindowLevel];
+    [NSApp.mainWindow setLevel:NSStatusWindowLevel];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self->wkrm.renderList addObject:@{@"Render":[WKiTunesLyrics class]}];
         [self.RenderListView reloadData];

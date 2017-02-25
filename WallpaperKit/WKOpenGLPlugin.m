@@ -26,7 +26,7 @@
     self->OpenGLDrawingBlock=[args objectForKey:@"OpenGLDrawingBlock"];
     if(self->OpenGLDrawingBlock==nil){
         __weak typeof(self) weakSelf = self;
-        self->OpenGLDrawingBlock=^(){
+        self->OpenGLDrawingBlock=^(NSView* self){
             NSTextView* tv=[[NSTextView alloc] initWithFrame:window.frame];
             [tv setString:@"WKOpenGLView\nOpenGLDrawingBlock Not Supplied!\nNote That OpenGL Drawing Block is not saved/loaded to/from disk"];
             [weakSelf addSubview:tv];
@@ -37,7 +37,7 @@
 }
 -(void)play{
     [self.openGLContext makeCurrentContext];
-    self->OpenGLDrawingBlock();
+    self->OpenGLDrawingBlock(self);
     [self.openGLContext flushBuffer];
 }
 -(void)pause{

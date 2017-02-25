@@ -163,7 +163,7 @@
     @try{
         [self performSelectorOnMainThread:@selector(updateLyricADT) withObject:nil waitUntilDone:NO];
         [self performSelectorOnMainThread:@selector(handleCoverChange) withObject:nil waitUntilDone:NO];
-        [self performSelectorOnMainThread:@selector(handleSongTitle) withObject:nil waitUntilDone:YES];
+        [self performSelectorOnMainThread:@selector(handleSongTitle) withObject:nil waitUntilDone:NO];
     }
     @catch(NSException* exp){
         return ;
@@ -185,8 +185,5 @@
     else{
         return [NSMutableDictionary dictionaryWithDictionary:@{@"Render":[WKiTunesLyrics class]}];
     }
-}
--(void)mouseDragged:(NSEvent *)event{
-    NSLog(@"event");
 }
 @end

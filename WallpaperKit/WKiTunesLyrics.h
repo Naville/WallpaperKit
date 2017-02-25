@@ -12,5 +12,12 @@
 #import "LyricManager.h"
 #import "Lyric.h"
 @interface WKiTunesLyrics : NSView<WKRenderProtocal>
+/**
+ Init Plugin
+ 
+ @param window NSWindow to draw in.Caller will handle view adding
+ @param args Not Used
+ */
+- (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args;
 @property (nonatomic) BOOL requiresConsistentAccess;
 @end

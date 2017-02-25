@@ -7,13 +7,12 @@
 //
 
 #import "WKDraggableImage.h"
-
 @implementation WKDraggableImage
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
     self=[super initWithWindow:window andArguments:args];
     [self setImageScaling:NSImageScaleNone];
     [window setBackgroundColor:[NSColor clearColor]];
-    [window setLevel:NSStatusWindowLevel];
+    [window setLevel:NSStatusWindowLevel-1];
     [window setAcceptsMouseMovedEvents:NO];
     return self;
 }
@@ -37,7 +36,7 @@
 {
     if([event clickCount]==2){
         if(self.window.level==(kCGDesktopIconWindowLevel+1)){
-            [self.window setLevel:NSStatusWindowLevel];
+             [self.window setLevel:NSStatusWindowLevel-1];
         }
         else{
             [self.window setLevel:kCGDesktopIconWindowLevel+1];
