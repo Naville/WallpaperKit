@@ -24,7 +24,9 @@
     NSApp.delegate=self;
     self->wkdm=[WKDesktopManager sharedInstance];
     self->wkrm=[WKRenderManager sharedInstance];
-    self.view.window.collectionBehavior=(NSWindowCollectionBehaviorCanJoinAllSpaces|NSWindowCollectionBehaviorParticipatesInCycle);
+    self.view.window.collectionBehavior=(NSWindowCollectionBehaviorCanJoinAllSpaces |
+                                         NSWindowCollectionBehaviorStationary |
+                                         NSWindowCollectionBehaviorIgnoresCycle);
     self.RenderListView.dataSource=self;
     self.RenderListView.delegate=self;
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -115,4 +117,5 @@
     NSDictionary* convertedJSON= [cls convertArgument:dict Operation:FROMJSON];
     [self->wkrm.renderList setObject:convertedJSON atIndexedSubscript:row];
 }
+
 @end

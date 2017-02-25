@@ -15,11 +15,9 @@
     NSTextView *ID3View;
     iTunesApplication *iTunes;
     LyricManager *LM;
-    double currentPosition;
     Lyric *lrcADT;
     Lyric *translatedADT;
     Lyric *proADT;
-    iTunesTrack *lyricBasedSong;
     NSImageView *coverView;
     NSTimer* refreshLRCTimer;
 
@@ -39,7 +37,6 @@
     }
     self.requiresConsistentAccess=NO;
     self->LM=[LyricManager sharedManager];
-    self->currentPosition=0;
     self->iTunes=[SBApplication applicationWithBundleIdentifier:@"com.apple.itunes"];
     [window setBackgroundColor:[NSColor clearColor]];
     [self.layer setBackgroundColor:[NSColor clearColor].CGColor];
@@ -62,14 +59,8 @@
 -(void)refreshLyrics{
     @try {
         @autoreleasepool {
-            iTunesTrack* track=iTunes.currentTrack;
-            currentPosition=iTunes.playerPosition;
-            if(![lyricBasedSong isEqualTo:iTunes.currentTrack]){//NewSong. Update Cached Lyrics ADT
-                NSDictionary* queryDict=[[LyricManager sharedManager] exportLyric:@{@"Artist":track.artist,@"Song":track.name,@"Album":track.album,@"AlbumArtist":track.albumArtist}];
-                lrcADT=[[Lyric alloc] initWithLRC:[queryDict objectForKey:@"Lyric"]];
-                translatedADT=[[Lyric alloc] initWithLRC:[queryDict objectForKey:@"Translated"]];
-                proADT=[[Lyric alloc] initWithLRC:[queryDict objectForKey:@"Pronounce"]];
-                lyricBasedSong=iTunes.currentTrack;
+            if(lrcADT==nil&&translatedADT==nil&&proADT==nil){
+                [self updateLyricADT];
             }
             NSString* LRCTemplate=[[Utils sharedManager].ViewRenderTemplates  objectForKey:@"Lyric"];
             NSString* TranslatedTemplate=[[Utils sharedManager].ViewRenderTemplates  objectForKey:@"Translated"];
@@ -111,6 +102,15 @@
                                                     )];
         [self addSubview:self->coverView positioned:NSWindowBelow relativeTo:self->titleView];
         [self needsLayout];
+    }
+}
+-(void)updateLyricADT{
+    @autoreleasepool {
+        iTunesTrack* track=iTunes.currentTrack;
+        NSDictionary* queryDict=[[LyricManager sharedManager] exportLyric:@{@"Artist":track.artist,@"Song":track.name,@"Album":track.album,@"AlbumArtist":track.albumArtist}];
+        lrcADT=[[Lyric alloc] initWithLRC:[queryDict objectForKey:@"Lyric"]];
+        translatedADT=[[Lyric alloc] initWithLRC:[queryDict objectForKey:@"Translated"]];
+        proADT=[[Lyric alloc] initWithLRC:[queryDict objectForKey:@"Pronounce"]];
     }
 }
 
@@ -156,6 +156,7 @@
 }
 -(void)updateInfo{
     @try{
+        [self updateLyricADT];
         [self performSelectorOnMainThread:@selector(handleCoverChange) withObject:nil waitUntilDone:NO];
         [self performSelectorOnMainThread:@selector(handleSongTitle) withObject:nil waitUntilDone:YES];
     }
