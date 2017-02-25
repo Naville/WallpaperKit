@@ -20,6 +20,7 @@
     Lyric *proADT;
     NSImageView *coverView;
     NSTimer* refreshLRCTimer;
+    NSObject* refreshLyricsToken;
 
 }
 -(instancetype)initWithWindow:(WKDesktop *)window andArguments:(NSDictionary *)args{
@@ -40,6 +41,8 @@
     self->iTunes=[SBApplication applicationWithBundleIdentifier:@"com.apple.itunes"];
     [window setBackgroundColor:[NSColor clearColor]];
     [self.layer setBackgroundColor:[NSColor clearColor].CGColor];
+    //Init Sync Tokens
+    self->refreshLyricsToken=[NSObject new];
     return self;
 }
 -(void)play{
@@ -57,35 +60,35 @@
     [self->refreshLRCTimer invalidate];
 }
 -(void)refreshLyrics{
-    @try {
-        @autoreleasepool {
-            if(lrcADT==nil&&translatedADT==nil&&proADT==nil){
-                [self updateLyricADT];
+        @try {
+            @autoreleasepool {
+                if(lrcADT==nil&&translatedADT==nil&&proADT==nil){
+                    [self updateLyricADT];
+                }
+                NSString* LRCTemplate=[[Utils sharedManager].ViewRenderTemplates  objectForKey:@"Lyric"];
+                NSString* TranslatedTemplate=[[Utils sharedManager].ViewRenderTemplates  objectForKey:@"Translated"];
+                NSString* PronounceTemplate=[[Utils sharedManager].ViewRenderTemplates  objectForKey:@"Pronounce"];
+                LRCTemplate=[LRCTemplate stringByReplacingOccurrencesOfString:@"%LYRIC%" withString:[lrcADT nextLinewithTime:iTunes.playerPosition]];
+                TranslatedTemplate=[TranslatedTemplate stringByReplacingOccurrencesOfString:@"%TRANSLATED%" withString:[translatedADT nextLinewithTime:iTunes.playerPosition]];
+                PronounceTemplate=[PronounceTemplate stringByReplacingOccurrencesOfString:@"%PRONOUNCE%" withString:[proADT nextLinewithTime:iTunes.playerPosition]];
+                
+                NSMutableAttributedString* LRCAString=[[NSMutableAttributedString alloc]
+                                                       initWithData:[LRCTemplate dataUsingEncoding:NSUTF8StringEncoding]
+                                                       options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType}
+                                                       documentAttributes:nil error:nil];
+                NSMutableAttributedString* PROAString=[[NSMutableAttributedString alloc] initWithHTML:[PronounceTemplate dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:nil];
+                NSMutableAttributedString* TransAString=[[NSMutableAttributedString alloc] initWithHTML:[TranslatedTemplate dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:nil];
+                for(NSMutableAttributedString* AS in @[LRCAString,PROAString,TransAString]){
+                    [AS setAlignment:NSTextAlignmentCenter range:NSMakeRange(0, AS.length)];
+                }
+                
+                [self->pronounceView.textStorage setAttributedString:PROAString];
+                [self->ID3View.textStorage setAttributedString:LRCAString];
+                [self->translatedView.textStorage setAttributedString:TransAString];
             }
-            NSString* LRCTemplate=[[Utils sharedManager].ViewRenderTemplates  objectForKey:@"Lyric"];
-            NSString* TranslatedTemplate=[[Utils sharedManager].ViewRenderTemplates  objectForKey:@"Translated"];
-            NSString* PronounceTemplate=[[Utils sharedManager].ViewRenderTemplates  objectForKey:@"Pronounce"];
-            LRCTemplate=[LRCTemplate stringByReplacingOccurrencesOfString:@"%LYRIC%" withString:[lrcADT nextLinewithTime:iTunes.playerPosition]];
-            TranslatedTemplate=[TranslatedTemplate stringByReplacingOccurrencesOfString:@"%TRANSLATED%" withString:[translatedADT nextLinewithTime:iTunes.playerPosition]];
-            PronounceTemplate=[PronounceTemplate stringByReplacingOccurrencesOfString:@"%PRONOUNCE%" withString:[proADT nextLinewithTime:iTunes.playerPosition]];
-            
-            NSMutableAttributedString* LRCAString=[[NSMutableAttributedString alloc]
-                                                   initWithData:[LRCTemplate dataUsingEncoding:NSUTF8StringEncoding]
-                                                   options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType}
-                                                   documentAttributes:nil error:nil];
-            NSMutableAttributedString* PROAString=[[NSMutableAttributedString alloc] initWithHTML:[PronounceTemplate dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:nil];
-            NSMutableAttributedString* TransAString=[[NSMutableAttributedString alloc] initWithHTML:[TranslatedTemplate dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:nil];
-            for(NSMutableAttributedString* AS in @[LRCAString,PROAString,TransAString]){
-                [AS setAlignment:NSTextAlignmentCenter range:NSMakeRange(0, AS.length)];
-            }
-            
-            [self->pronounceView.textStorage setAttributedString:PROAString];
-            [self->ID3View.textStorage setAttributedString:LRCAString];
-            [self->translatedView.textStorage setAttributedString:TransAString];
+        } @catch (NSException *exception) {
+            return ;
         }
-    } @catch (NSException *exception) {
-        return ;
-    }
     
     
 }
@@ -105,12 +108,14 @@
     }
 }
 -(void)updateLyricADT{
+    @synchronized (refreshLyricsToken) {
     @autoreleasepool {
         iTunesTrack* track=iTunes.currentTrack;
         NSDictionary* queryDict=[[LyricManager sharedManager] exportLyric:@{@"Artist":track.artist,@"Song":track.name,@"Album":track.album,@"AlbumArtist":track.albumArtist}];
         lrcADT=[[Lyric alloc] initWithLRC:[queryDict objectForKey:@"Lyric"]];
         translatedADT=[[Lyric alloc] initWithLRC:[queryDict objectForKey:@"Translated"]];
         proADT=[[Lyric alloc] initWithLRC:[queryDict objectForKey:@"Pronounce"]];
+    }
     }
 }
 
@@ -156,7 +161,7 @@
 }
 -(void)updateInfo{
     @try{
-        [self updateLyricADT];
+        [self performSelectorOnMainThread:@selector(updateLyricADT) withObject:nil waitUntilDone:NO];
         [self performSelectorOnMainThread:@selector(handleCoverChange) withObject:nil waitUntilDone:NO];
         [self performSelectorOnMainThread:@selector(handleSongTitle) withObject:nil waitUntilDone:YES];
     }
