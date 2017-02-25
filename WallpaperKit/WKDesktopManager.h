@@ -33,7 +33,7 @@
  Obtain Desktop for a give SpaceID. Return nil if there is no Desktop for the SpaceID
 
  @param spaceID SpaceID for the query
- @return <#return value description#>
+ @return WKDesktop Object
  */
 -(nullable WKDesktop*)desktopForSpaceID:(NSUInteger)spaceID;
 @property (readwrite,retain,atomic)  NSMutableDictionary<NSNumber*,WKDesktop *>* _Nonnull  windows;
