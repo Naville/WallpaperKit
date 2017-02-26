@@ -11,8 +11,9 @@
     NSArray<NSURL*>* ImageURLList;
     unsigned int interval;
     NSString* descript;
-    NSOperationQueue* op;
+    NSTimer* tim;
     NSUInteger index;
+    NSObject* syncToken;
 }
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
     NSError* error;
@@ -33,35 +34,32 @@
         self->interval=[[args objectForKey:@"Interval"] unsignedIntValue];
     }
     else{
-        self->interval=10;
+        self->interval=5;
     }
-    self->op=[NSOperationQueue new];
-    [self->op setMaxConcurrentOperationCount:1];//Single Thread
     if(error!=nil){
         [window setErr:error];
     }
     self.requiresConsistentAccess=NO;
+    self->syncToken=[NSObject new];
     return self;
 }
 - (void)ImageUpdate{
-    NSBlockOperation *operation = [[NSBlockOperation alloc] init];
-    __weak NSBlockOperation *weakOperation = operation;
-    [operation addExecutionBlock: ^ {
-        while(true){
-            if ([weakOperation isCancelled]) return;
-            [self performSelectorOnMainThread:@selector(setImage:) withObject:[[NSImage alloc] initWithContentsOfURL:ImageURLList[index]] waitUntilDone:YES];
-            [self setNeedsDisplay];
-            sleep(self->interval);
-            index=(index+1)%ImageURLList.count;
-        }
-    }];
-    [self->op addOperation:operation];
+    self->tim=[NSTimer timerWithTimeInterval:self->interval target:self selector:@selector(ImageUpdateSlave) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self->tim forMode:NSDefaultRunLoopMode];
 }
 -(void)play{
     [self ImageUpdate];
 }
 -(void)pause{
-    [self->op cancelAllOperations];
+    [self->tim invalidate];
+}
+-(void)ImageUpdateSlave{
+    @synchronized (self->syncToken) {
+        [self performSelectorOnMainThread:@selector(setImage:) withObject:[[NSImage alloc] initWithContentsOfURL:ImageURLList[index]] waitUntilDone:NO];
+        [self setNeedsDisplay];
+        index=(index+1)%ImageURLList.count;
+    }
+
 }
 -(NSString*)description{
     if(self->descript==nil){
