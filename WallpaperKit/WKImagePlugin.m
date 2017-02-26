@@ -9,7 +9,6 @@
 #import "WKImagePlugin.h"
 
 @implementation WKImagePlugin{
-    NSString* desc;
     NSURL* ImagePath;
 }
 
@@ -19,7 +18,6 @@
     [window setBackgroundColor:[NSColor blackColor]];
     self=[super initWithFrame:frameRect];
     self->ImagePath=[args objectForKey:@"Path"];
-    self->desc=[(NSURL*)[args objectForKey:@"Path"] path];
     [self setImageScaling:NSImageScaleProportionallyUpOrDown];
     self.requiresConsistentAccess=NO;
     return self;
@@ -31,7 +29,7 @@
     
 }
 -(NSString*)description{
-    return [@"WKImagePlugin " stringByAppendingString:self->desc];
+    return [@"WKImagePlugin " stringByAppendingString:[self->ImagePath.absoluteString stringByRemovingPercentEncoding]];
 }
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 +(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(RenderConvertOperation)op{
@@ -39,17 +37,13 @@
     if(op==TOJSON){
         returnValue[@"Render"]=@"WKImagePlugin";
         if([returnValue.allKeys containsObject:@"Path"]){
-            returnValue[@"Path"]=[(NSURL*)returnValue[@"Path"] path];
+            returnValue[@"Path"]=[(NSURL*)returnValue[@"Path"] absoluteString];
         }
     }
     else if(op==FROMJSON){
         returnValue[@"Render"]=[WKImagePlugin class];
         if([returnValue.allKeys containsObject:@"Path"]){
-            NSMutableString* url=[[args objectForKey:@"Path"] mutableCopy];
-            if([url hasPrefix:@"/"]){
-                [url insertString:@"file://" atIndex:0];
-            }
-            returnValue[@"Path"]=[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            returnValue[@"Path"]=[NSURL URLWithString:[args objectForKey:@"Path"]];
         }
     }
     

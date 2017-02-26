@@ -10,6 +10,6 @@
 #define AbstractLyricSearchEngine_h
 #import "LyricManager.h"
 @protocol AbstractLyricSearchEngine
--(NSDictionary*)searchLyricForSongInfo:(NSDictionary*)Info;
+-(nullable NSDictionary*)searchLyricForSongInfo:(nonnull NSDictionary*)Info;
 @end
 #endif /* AbstractLyricSearchEngine_h */

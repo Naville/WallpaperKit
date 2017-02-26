@@ -51,17 +51,13 @@
     if(op==TOJSON){
         returnValue[@"Render"]=@"WKVLCVideoPlugin";
         if([returnValue.allKeys containsObject:@"Path"]){
-            returnValue[@"Path"]=[(NSURL*)returnValue[@"Path"] path];
+            returnValue[@"Path"]=[(NSURL*)returnValue[@"Path"] absoluteString];
         }
     }
     else if(op==FROMJSON){
         returnValue[@"Render"]=NSClassFromString(@"WKVLCVideoPlugin");
         if([returnValue.allKeys containsObject:@"Path"]){
-            NSMutableString* url=[[args objectForKey:@"Path"] mutableCopy];
-            if([url hasPrefix:@"/"]){
-                [url insertString:@"file://" atIndex:0];
-            }
-            returnValue[@"Path"]=[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            returnValue[@"Path"]=[NSURL URLWithString:[args objectForKey:@"Path"]];
         }
     }
     

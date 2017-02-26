@@ -21,6 +21,7 @@
     NSImageView *coverView;
     NSTimer* refreshLRCTimer;
     NSObject* refreshLyricsToken;
+    NSObject* synchroToken2;
 
 }
 -(instancetype)initWithWindow:(WKDesktop *)window andArguments:(NSDictionary *)args{
@@ -42,6 +43,7 @@
     [window setBackgroundColor:[NSColor clearColor]];
     [self.layer setBackgroundColor:[NSColor clearColor].CGColor];
     //Init Sync Tokens
+    self->synchroToken2=[NSObject new];
     self->refreshLyricsToken=[NSObject new];
     return self;
 }
@@ -161,9 +163,11 @@
 }
 -(void)updateInfo{
     @try{
-        [self performSelectorOnMainThread:@selector(updateLyricADT) withObject:nil waitUntilDone:NO];
-        [self performSelectorOnMainThread:@selector(handleCoverChange) withObject:nil waitUntilDone:NO];
-        [self performSelectorOnMainThread:@selector(handleSongTitle) withObject:nil waitUntilDone:NO];
+        @synchronized (synchroToken2) {
+            [self performSelectorOnMainThread:@selector(updateLyricADT) withObject:nil waitUntilDone:NO];
+            [self performSelectorOnMainThread:@selector(handleCoverChange) withObject:nil waitUntilDone:NO];
+            [self performSelectorOnMainThread:@selector(handleSongTitle) withObject:nil waitUntilDone:NO];
+        }
     }
     @catch(NSException* exp){
         return ;
@@ -172,7 +176,7 @@
 }
 -(void)watchiTunes:(NSNotification*)notif{
     
-    [self performSelectorOnMainThread:@selector(updateInfo) withObject:nil waitUntilDone:YES];
+    [self performSelectorOnMainThread:@selector(updateInfo) withObject:nil waitUntilDone:NO];
     
 }
 -(NSString*)description{

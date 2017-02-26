@@ -26,6 +26,8 @@ of corresponding Plugin
 
 Check **WKRenderProtocal.h** for usage
 
+Example Python Script: [WallpaperKitDatabaseExampleV2.py](https://gist.github.com/Naville/77947441895131545d065b8c36274d23)
+
 
 
 #Build Process

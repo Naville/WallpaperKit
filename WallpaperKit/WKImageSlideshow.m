@@ -78,12 +78,12 @@
             if([returnValue.allKeys containsObject:@"Images"]){
                 NSMutableArray* urllist=[NSMutableArray array];
                 for(NSURL* url in [returnValue objectForKey:@"Images"]){
-                    [urllist addObject:url.path];
+                    [urllist addObject:url.absoluteString];
                 }
                 [returnValue setObject:urllist forKey:@"Images"];
             }
             else if([returnValue.allKeys containsObject:@"ImagePath"]){
-                NSString* ip=[(NSURL*)[returnValue objectForKey:@"ImagePath"] path];
+                NSString* ip=[(NSURL*)[returnValue objectForKey:@"ImagePath"] absoluteString];
                 [returnValue setObject:ip forKey:@"ImagePath"];
             }
         }
@@ -92,21 +92,13 @@
             if([returnValue.allKeys containsObject:@"Images"]){
                 NSMutableArray* urllist=[NSMutableArray array];
                 for(NSString* url in [returnValue objectForKey:@"Images"]){
-                    NSMutableString* murl=[url mutableCopy];
-                    if([murl hasPrefix:@"/"]){
-                        [murl insertString:@"file://" atIndex:0];
-                    }
-                    NSURL* url2=[NSURL URLWithString:[murl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                    NSURL* url2=[NSURL URLWithString:url];
                     [urllist addObject:url2];
                 }
                 [returnValue setObject:urllist forKey:@"Images"];
             }
             else if([returnValue.allKeys containsObject:@"ImagePath"]){
-                NSMutableString* url=[[returnValue objectForKey:@"ImagePath"] mutableCopy];
-                if([url hasPrefix:@"/"]){
-                    [url insertString:@"file://" atIndex:0];
-                }
-                NSURL* url2=[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                NSURL* url2=[NSURL URLWithString:[returnValue objectForKey:@"ImagePath"]];
                 [returnValue setObject:url2 forKey:@"ImagePath"];
             }
         }

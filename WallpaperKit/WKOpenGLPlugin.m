@@ -29,6 +29,7 @@
         self->OpenGLDrawingBlock=^(NSView* self){
             NSTextView* tv=[[NSTextView alloc] initWithFrame:window.frame];
             [tv setString:@"WKOpenGLView\nOpenGLDrawingBlock Not Supplied!\nNote That OpenGL Drawing Block is not saved/loaded to/from disk"];
+            [tv alignCenter:nil];
             [weakSelf addSubview:tv];
         };
     }

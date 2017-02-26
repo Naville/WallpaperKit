@@ -29,7 +29,8 @@
                                          NSWindowCollectionBehaviorIgnoresCycle);
     self.RenderListView.dataSource=self;
     self.RenderListView.delegate=self;
-    [NSApp.mainWindow setLevel:NSStatusWindowLevel];
+    [self.view.window setLevel:NSStatusWindowLevel];
+    [self->wkrm.renderList addObject:@{@"Render":[WKWebpagePlugin class],@"Path":[NSURL URLWithString:@"https://www.google.com"]}];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self->wkrm.renderList addObject:@{@"Render":[WKiTunesLyrics class]}];
         [self.RenderListView reloadData];

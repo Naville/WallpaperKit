@@ -30,6 +30,13 @@
     
     self=[super initWithFrame:frameRect configuration:config];
     
+    //Stolen from http://stackoverflow.com/questions/40007753/macos-wkwebview-background-transparency 
+    if (NSAppKitVersionNumber > 1500) {
+         [self setValue:@(NO) forKey:@"drawsBackground"];
+    }
+    else {
+         [self setValue:@(YES) forKey:@"drawsTransparentBackground"];
+    }
     self->webURL=(NSURL*)[args objectForKey:@"Path"];
     self->baseURL=(NSURL*)[args objectForKey:@"BaseURL"];
     self->HTMLString=(NSString*)[args objectForKey:@"HTML"];
@@ -143,27 +150,19 @@
     if(op==TOJSON){
         returnValue[@"Render"]=@"WKWebpagePlugin";
         if([returnValue.allKeys containsObject:@"Path"]){
-            returnValue[@"Path"]=[(NSURL*)returnValue[@"Path"] path];
+            returnValue[@"Path"]=[(NSURL*)returnValue[@"Path"] absoluteString];
         }
         if([returnValue.allKeys containsObject:@"BaseURL"]){
-            returnValue[@"BaseURL"]=[(NSURL*)returnValue[@"BaseURL"] path];
+            returnValue[@"BaseURL"]=[(NSURL*)returnValue[@"BaseURL"] absoluteString];
         }
     }
     else if(op==FROMJSON){
         returnValue[@"Render"]=NSClassFromString(@"WKWebpagePlugin");
         if([returnValue.allKeys containsObject:@"Path"]){
-            NSMutableString* url=[[args objectForKey:@"Path"] mutableCopy];
-            if([url hasPrefix:@"/"]){
-                [url insertString:@"file://" atIndex:0];
-            }
-            returnValue[@"Path"]=[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            returnValue[@"Path"]=[NSURL URLWithString:[args objectForKey:@"Path"]];
         }
         if([returnValue.allKeys containsObject:@"BaseURL"]){
-            NSMutableString* url=[[args objectForKey:@"BaseURL"] mutableCopy];
-            if([url hasPrefix:@"/"]){
-                [url insertString:@"file://" atIndex:0];
-            }
-            returnValue[@"BaseURL"]=[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            returnValue[@"BaseURL"]=[NSURL URLWithString:[args objectForKey:@"BaseURL"]];
         }
     }
     

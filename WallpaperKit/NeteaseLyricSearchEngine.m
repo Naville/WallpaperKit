@@ -34,7 +34,7 @@
     NSData* POSTData=[self POST:@"https://music.163.com/api/search/get" Params:Params];
     return [NSJSONSerialization JSONObjectWithData:POSTData options:NSJSONReadingMutableLeaves error:nil];
 }
--(NSDictionary*)searchLyricForSongInfo:(NSDictionary*)Info{
+-(nullable NSDictionary*)searchLyricForSongInfo:(nonnull NSDictionary*)Info{
     NSMutableArray* allSongs=[NSMutableArray array];
     for (NSString* Rule in [[Utils sharedManager] SongMatchQueriesFromInfo:Info]){
         NSDictionary* MatchList=[self searchSongInfo:Rule];
@@ -43,6 +43,9 @@
         
     }
     
+    if(allSongs==nil||allSongs.count==0){
+        return nil;
+    }
     NSNumber* SongID=allSongs[0][@"id"];
     NSString* LRCURL=[NSString stringWithFormat:@"https://music.163.com/api/song/lyric?os=osx&id=%@&lv=-1&kv=-1&tv=-1",SongID];
     NSDictionary* LRCInfo=[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:LRCURL]] options:NSJSONReadingMutableLeaves error:nil];

@@ -30,24 +30,13 @@
 }
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 +(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(RenderConvertOperation)op{
-    NSMutableDictionary* returnValue=[NSMutableDictionary dictionaryWithDictionary:args];
+    NSMutableDictionary* returnValue=[super convertArgument:args Operation:op];
     if(op==TOJSON){
-        returnValue[@"Render"]=@"WKMarkdownPlugin";
-        if([returnValue.allKeys containsObject:@"Path"]){
-            returnValue[@"Path"]=[(NSURL*)returnValue[@"Path"] path];
-        }
+        [returnValue setObject:@"WKMarkdownPlugin" forKey:@"Render"];
     }
-    else if(op==FROMJSON){
-        returnValue[@"Render"]=NSClassFromString(@"WKMarkdownPlugin");
-        if([returnValue.allKeys containsObject:@"Path"]){
-            NSMutableString* url=[[args objectForKey:@"Path"] mutableCopy];
-            if([url hasPrefix:@"/"]){
-                [url insertString:@"file://" atIndex:0];
-            }
-            returnValue[@"Path"]=[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        }
+    else{
+        [returnValue setObject:NSClassFromString(@"WKMarkdownPlugin") forKey:@"Render"];
     }
-    
     return returnValue;
 }
 @end
