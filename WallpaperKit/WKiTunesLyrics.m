@@ -108,9 +108,9 @@
         NSMutableAttributedString* TranslatedString=[[NSMutableAttributedString alloc] initWithString:[translatedADT nextLinewithTime:iTunes.playerPosition]];
         NSMutableAttributedString* ProString=[[NSMutableAttributedString alloc] initWithString:[proADT nextLinewithTime:iTunes.playerPosition]];
         NSMutableAttributedString* ID3String=[[NSMutableAttributedString alloc] initWithString:[lrcADT nextLinewithTime:iTunes.playerPosition]];
-        [ID3String addAttribute:NSForegroundColorAttributeName value:self->SLCA.secondaryColor range:NSMakeRange(0, ID3String.length)];
-        [TranslatedString addAttribute:NSForegroundColorAttributeName value:self->SLCA.secondaryColor range:NSMakeRange(0, TranslatedString.length)];
-        [ProString addAttribute:NSForegroundColorAttributeName value:self->SLCA.secondaryColor range:NSMakeRange(0, ProString.length)];
+        [ID3String addAttribute:NSForegroundColorAttributeName value:self->SLCA.detailColor range:NSMakeRange(0, ID3String.length)];
+        [TranslatedString addAttribute:NSForegroundColorAttributeName value:self->SLCA.detailColor range:NSMakeRange(0, TranslatedString.length)];
+        [ProString addAttribute:NSForegroundColorAttributeName value:self->SLCA.detailColor range:NSMakeRange(0, ProString.length)];
      
         [self->pronounceView.textStorage setAttributedString:ProString];
         [self->translatedView.textStorage setAttributedString:TranslatedString];
@@ -202,8 +202,17 @@
         else{
             NSImage* img=[[NSImage alloc] initWithData:[(iTunesArtwork *)[[iTunes.currentTrack artworks] objectAtIndex:0] rawData]];
             self->SLCA=[SLColorArt colorArtWithImage:img scaledSize:NSZeroSize];
-            NSMutableAttributedString* retVal=[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n%@\n%@",iTunes.currentTrack.name,iTunes.currentTrack.album,iTunes.currentTrack.artist]];
-            [retVal addAttribute:NSForegroundColorAttributeName value:self->SLCA.primaryColor range:NSMakeRange(0, retVal.length)];
+            
+            NSMutableAttributedString* SongName=[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",iTunes.currentTrack.name]];
+            [SongName addAttribute:NSForegroundColorAttributeName value:self->SLCA.primaryColor range:NSMakeRange(0, SongName.length)];
+            NSMutableAttributedString* ArtistName=[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",iTunes.currentTrack.artist]];
+            [ArtistName addAttribute:NSForegroundColorAttributeName value:self->SLCA.detailColor range:NSMakeRange(0, ArtistName.length)];
+            NSMutableAttributedString* AlbumName=[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",iTunes.currentTrack.album]];
+            [AlbumName addAttribute:NSForegroundColorAttributeName value:self->SLCA.secondaryColor range:NSMakeRange(0, AlbumName.length)];
+            NSMutableAttributedString* retVal=[[NSMutableAttributedString alloc] initWithString:@""];
+            [retVal appendAttributedString:SongName];
+            [retVal appendAttributedString:AlbumName];
+            [retVal appendAttributedString:ArtistName];
             return retVal;
         }
     }
