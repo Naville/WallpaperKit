@@ -8,7 +8,9 @@
 
 #import "WKiTunesLyrics.h"
 #import <CoreImage/CoreImage.h>
+#import "WKOcclusionStateWindow.h"
 #import "SLColorArt.h"
+
 @implementation WKiTunesLyrics{
     NSTextView *titleView;
     NSTextView *translatedView;
@@ -111,8 +113,8 @@
         NSMutableAttributedString* TranslatedString=[[NSMutableAttributedString alloc] initWithString:[translatedADT nextLinewithTime:iTunes.playerPosition]];
         NSMutableAttributedString* ProString=[[NSMutableAttributedString alloc] initWithString:[proADT nextLinewithTime:iTunes.playerPosition]];
         NSMutableAttributedString* ID3String=[[NSMutableAttributedString alloc] initWithString:[lrcADT nextLinewithTime:iTunes.playerPosition]];
-        [ID3String addAttribute:NSForegroundColorAttributeName value:self->SLCA.detailColor range:NSMakeRange(0, ID3String.length)];
-        [TranslatedString addAttribute:NSForegroundColorAttributeName value:self->SLCA.detailColor range:NSMakeRange(0, TranslatedString.length)];
+        [ID3String addAttribute:NSForegroundColorAttributeName value:self->SLCA.primaryColor range:NSMakeRange(0, ID3String.length)];
+        [TranslatedString addAttribute:NSForegroundColorAttributeName value:self->SLCA.secondaryColor range:NSMakeRange(0, TranslatedString.length)];
         [ProString addAttribute:NSForegroundColorAttributeName value:self->SLCA.detailColor range:NSMakeRange(0, ProString.length)];
      
         [self->pronounceView.textStorage setAttributedString:ProString];
@@ -157,6 +159,7 @@
                 currentRect.size=blurredImage.size;//Stretch to full screen
             }
             [self->coverView setFrame:currentRect];
+        
             [self->coverView setFrameOrigin:NSMakePoint((NSWidth([self bounds]) - NSWidth([self->coverView frame])) / 2,
                                                         (NSHeight([self bounds]) - NSHeight([self->coverView frame])) / 2
                                                         )];
@@ -217,10 +220,10 @@
             
             NSMutableAttributedString* SongName=[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",iTunes.currentTrack.name]];
             [SongName addAttribute:NSForegroundColorAttributeName value:self->SLCA.primaryColor range:NSMakeRange(0, SongName.length)];
-            NSMutableAttributedString* ArtistName=[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",iTunes.currentTrack.artist]];
-            [ArtistName addAttribute:NSForegroundColorAttributeName value:self->SLCA.detailColor range:NSMakeRange(0, ArtistName.length)];
             NSMutableAttributedString* AlbumName=[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",iTunes.currentTrack.album]];
             [AlbumName addAttribute:NSForegroundColorAttributeName value:self->SLCA.secondaryColor range:NSMakeRange(0, AlbumName.length)];
+            NSMutableAttributedString* ArtistName=[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",iTunes.currentTrack.artist]];
+            [ArtistName addAttribute:NSForegroundColorAttributeName value:self->SLCA.detailColor range:NSMakeRange(0, ArtistName.length)];
             NSMutableAttributedString* retVal=[[NSMutableAttributedString alloc] initWithString:@""];
             [retVal appendAttributedString:SongName];
             [retVal appendAttributedString:AlbumName];
