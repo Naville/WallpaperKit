@@ -124,7 +124,7 @@
 	NSColor *primaryColor = nil;
 	NSColor *secondaryColor = nil;
 	NSColor *detailColor = nil;
-	BOOL darkBackground = [backgroundColor sl_isDarkColor];
+	//BOOL darkBackground = [backgroundColor sl_isDarkColor];
 
 	[self findTextColors:imageColors primaryColor:&primaryColor secondaryColor:&secondaryColor detailColor:&detailColor backgroundColor:backgroundColor];
 
@@ -133,10 +133,11 @@
 #if DEBUG
 		NSLog(@"SLColorArt::missed primary");
 #endif
-		if ( darkBackground )
+		/*
+         if ( darkBackground )
 			primaryColor = [NSColor whiteColor];
 		else
-			primaryColor = [NSColor blackColor];
+			primaryColor = [NSColor blackColor];*/
 	}
 	
 	if ( secondaryColor == nil )
@@ -144,10 +145,12 @@
 #if DEBUG
 		NSLog(@"SLColorArt::missed secondary");
 #endif
-		if ( darkBackground )
+		/*
+         if ( darkBackground )
 			secondaryColor = [NSColor whiteColor];
 		else
 			secondaryColor = [NSColor blackColor];
+         */
 	}
 	
 	if ( detailColor == nil )
@@ -155,10 +158,12 @@
 #if DEBUG
 		NSLog(@"SLColorArt::missed detail");
 #endif
-		if ( darkBackground )
+		/*
+         if ( darkBackground )
 			detailColor = [NSColor whiteColor];
 		else
 			detailColor = [NSColor blackColor];
+         */
 	}
 
 	self.backgroundColor = backgroundColor;
