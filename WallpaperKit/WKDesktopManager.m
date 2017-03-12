@@ -84,6 +84,12 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     for(id key in self.windows.allKeys){
             for( WKDesktop* currentDesktop in [self.windows objectForKey:key])
             {
+                if(![currentDesktop isEqualTo:wk] && wk.currentView.requiresExclusiveBackground==YES&&currentDesktop.currentView.requiresExclusiveBackground==YES){
+                    //Pause Old "Main" view;
+                    [currentDesktop close];
+                    [[self.windows objectForKey:key] removeObject:wk];
+                }
+                
                 if([currentDesktop isEqualTo:wk]){//Ignore next space's WKDesktop
                     continue;
                 }

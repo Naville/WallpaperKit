@@ -26,6 +26,7 @@
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:[self.player currentItem]];
     self.requiresConsistentAccess=YES;
+    self.requiresExclusiveBackground=YES;
     return self;
 }
 -(void)observer:(NSNotification *)notif{

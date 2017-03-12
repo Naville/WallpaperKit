@@ -62,6 +62,7 @@
         [window setErr:error];
     }
     self.requiresConsistentAccess=NO;
+    self.requiresExclusiveBackground=YES;
     self->syncToken=[NSObject new];
     return self;
 }

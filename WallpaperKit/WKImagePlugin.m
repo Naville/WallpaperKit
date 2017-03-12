@@ -20,6 +20,7 @@
     self->ImagePath=[args objectForKey:@"Path"];
     [self setImageScaling:NSImageScaleProportionallyUpOrDown];
     self.requiresConsistentAccess=NO;
+    self.requiresExclusiveBackground=YES;
     return self;
 }
 -(void)play{

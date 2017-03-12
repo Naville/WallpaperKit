@@ -47,6 +47,7 @@
     self->description=(webURL!=nil)?webURL.path:self->HTMLString;
     self.acceptsTouchEvents=YES;
     self.requiresConsistentAccess=NO;
+    self.requiresExclusiveBackground=YES;
     return self;
 }
 -(void)play{

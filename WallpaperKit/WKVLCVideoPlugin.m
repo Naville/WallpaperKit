@@ -19,6 +19,7 @@
     self->URL=[args objectForKey:@"Path"];
     [self->VMP setMedia:[VLCMedia mediaWithURL:self->URL]];
     self.requiresConsistentAccess=YES;
+    self.requiresExclusiveBackground=YES;
     return self;
 }
 -(void)play{

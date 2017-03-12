@@ -14,6 +14,7 @@
     [window setBackgroundColor:[NSColor clearColor]];
     [window setLevel:NSStatusWindowLevel-1];
     [window setAcceptsMouseMovedEvents:NO];
+    self.requiresExclusiveBackground=NO;
     return self;
 }
 -(void)mouseDragged:(NSEvent *)event{

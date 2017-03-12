@@ -58,8 +58,9 @@
     self->WKCM=[WKConfigurationManager sharedInstance];
     self->iTunes=[SBApplication applicationWithBundleIdentifier:@"com.apple.itunes"];
     [window setBackgroundColor:[NSColor clearColor]];
-    [self.layer setBackgroundColor:[NSColor clearColor].CGColor];
     [window setAcceptsMouseMovedEvents:NO];
+    [window setOpaque:YES];
+    
     //Init Sync Tokens
     self->synchroToken2=[NSObject new];
     self->refreshLyricsToken=[NSObject new];
@@ -73,7 +74,8 @@
     self->TitleTemplate=[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"TitleTemplate" andConfiguration:[[NSString alloc] initWithData:[[NSData alloc] initWithBase64EncodedString:@"PCFET0NUWVBFIGh0bWw+DQo8aHRtbCBsYW5nPSJlbiIgY2xhc3M9Im5vLWpzIj4NCgk8aGVhZD4NCgkJPG1ldGEgY2hhcnNldD0iVVRGLTgiIC8+DQogICAgPHN0eWxlPg0KICAgICAgICAjQ29udGV4dCB7DQogICAgICAgICAgICBjb2xvcjogYmx1ZTsNCiAgICAgICAgfQ0KICAgIDwvc3R5bGU+DQoJPC9oZWFkPg0KCTxib2R5Pg0KICA8ZGl2IGlkPSJDb250ZXh0Ij4NCiAgICA8cCBzdHlsZT0iY29sb3I6cmVkIj48c3Ryb25nPiVTT05HTkFNRSU8L3N0cm9uZz48L3A+DQogICAgPHAgc3R5bGU9ImNvbG9yOnJlZCI+PHN0cm9uZz4lQVJUSVNUTkFNRSU8L3N0cm9uZz48L3A+DQogICAgPHAgc3R5bGU9ImNvbG9yOnJlZCI+PHN0cm9uZz4lQUxCVU1OQU1FJTwvc3Ryb25nPjwvcD4NCiAgPC9kaXY+DQoNCgk8L2JvZHk+DQo8L2h0bWw+DQo=" options:NSDataBase64DecodingIgnoreUnknownCharacters] encoding:NSUTF8StringEncoding] type:READWRITE];
     self->coverBlurNumber=[[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"CoverBlurNumber" andConfiguration:[NSNumber numberWithFloat:4] type:READWRITE] floatValue];
     self->FitCoverImageToScreen=[[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"FitCoverImageToScreen" andConfiguration:[NSNumber numberWithBool:YES] type:READWRITE] boolValue];
-    
+    self.requiresExclusiveBackground=YES;
+    self.requiresConsistentAccess=NO;
     return self;
 }
 -(void)play{
@@ -88,6 +90,15 @@
 }
 -(void)dealloc{
     [self->refreshLRCTimer invalidate];
+}
+-(void)adjustLRCViews{
+    CGFloat width=self->coverView.frame.size.width/3;
+    CGFloat height=self->coverView.frame.size.height/8;
+    CGFloat originX=self->coverView.frame.size.width/3;
+    self->pronounceView.frame=NSMakeRect(originX, height, width, height);
+    self->translatedView.frame=NSMakeRect(originX, 2.5*height, width, height);
+    self->ID3View.frame=NSMakeRect(originX, 4*height, width, height);
+    self->titleView.frame=NSMakeRect(originX, 5.5*height, width, height);
 }
 -(void)refreshLyrics{
         @try {
@@ -151,6 +162,8 @@
             
             NSData* coverImage=[(iTunesArtwork *)[[iTunes.currentTrack artworks] objectAtIndex:0] rawData];
             NSImage* blurredImage=[self coreBlurImage:coverImage withBlurNumber:self->coverBlurNumber];
+            self->SLCA=[SLColorArt colorArtWithImage:blurredImage scaledSize:NSZeroSize];
+            [self.window setBackgroundColor:self->SLCA.backgroundColor];
             [self->coverView setImage:blurredImage];
             NSRect currentRect=self->coverView.frame;
             if(self->FitCoverImageToScreen){
@@ -165,6 +178,7 @@
                                                         )];
             dispatch_async( dispatch_get_main_queue(), ^{
                  [self needsLayout];
+                [self adjustLRCViews];
             });
         });
     }
@@ -215,8 +229,6 @@
             return title;
         }
         else{
-            NSImage* img=[[NSImage alloc] initWithData:[(iTunesArtwork *)[[iTunes.currentTrack artworks] objectAtIndex:0] rawData]];
-            self->SLCA=[SLColorArt colorArtWithImage:img scaledSize:NSZeroSize];
             
             NSMutableAttributedString* SongName=[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",iTunes.currentTrack.name]];
             [SongName addAttribute:NSForegroundColorAttributeName value:self->SLCA.primaryColor range:NSMakeRange(0, SongName.length)];
@@ -237,7 +249,6 @@
         NSMutableAttributedString* title=[self generateSongTitle];
         dispatch_async( dispatch_get_main_queue(), ^{
             [self->titleView.textStorage setAttributedString:title];
-            [self.window setBackgroundColor:self->SLCA.backgroundColor];
         });
     }
 }

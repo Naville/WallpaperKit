@@ -26,6 +26,7 @@
     self=[super initWithWindow:window andArguments:@{@"HTML":htmlString}];
     
     self.requiresConsistentAccess=NO;
+    self.requiresExclusiveBackground=YES;
     return self;
 }
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
