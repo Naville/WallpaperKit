@@ -124,9 +124,20 @@
         NSMutableAttributedString* TranslatedString=[[NSMutableAttributedString alloc] initWithString:[translatedADT nextLinewithTime:iTunes.playerPosition]];
         NSMutableAttributedString* ProString=[[NSMutableAttributedString alloc] initWithString:[proADT nextLinewithTime:iTunes.playerPosition]];
         NSMutableAttributedString* ID3String=[[NSMutableAttributedString alloc] initWithString:[lrcADT nextLinewithTime:iTunes.playerPosition]];
-        [ID3String addAttribute:NSForegroundColorAttributeName value:self->SLCA.primaryColor range:NSMakeRange(0, ID3String.length)];
-        [TranslatedString addAttribute:NSForegroundColorAttributeName value:self->SLCA.secondaryColor range:NSMakeRange(0, TranslatedString.length)];
-        [ProString addAttribute:NSForegroundColorAttributeName value:self->SLCA.detailColor range:NSMakeRange(0, ProString.length)];
+        
+        //Reuse Other Colors To Avoid Using Default Black Color
+        NSMutableArray* ColorArray=[NSMutableArray arrayWithCapacity:3];
+        NSArray* NameStringArray=@[TranslatedString,ProString,ID3String];
+        for(NSColor* col in @[self->SLCA.primaryColor,self->SLCA.secondaryColor,self->SLCA.detailColor]){
+            if(col!=nil){
+                [ColorArray addObject:col];
+            }
+        }
+        for(int i=0;i<NameStringArray.count;i++){
+            NSMutableAttributedString* attriStr=[NameStringArray objectAtIndex:i];
+            NSColor* col=ColorArray[i%ColorArray.count];
+            [attriStr addAttribute:NSForegroundColorAttributeName value:col range:NSMakeRange(0, attriStr.length)];
+        }
      
         [self->pronounceView.textStorage setAttributedString:ProString];
         [self->translatedView.textStorage setAttributedString:TranslatedString];
@@ -163,7 +174,12 @@
             NSData* coverImage=[(iTunesArtwork *)[[iTunes.currentTrack artworks] objectAtIndex:0] rawData];
             NSImage* blurredImage=[self coreBlurImage:coverImage withBlurNumber:self->coverBlurNumber];
             self->SLCA=[SLColorArt colorArtWithImage:blurredImage scaledSize:NSZeroSize];
-            [self.window setBackgroundColor:self->SLCA.backgroundColor];
+            if(self->SLCA.backgroundColor!=nil){
+                [self.window setBackgroundColor:self->SLCA.backgroundColor];
+            }
+            else{
+                [self.window setBackgroundColor:[NSColor clearColor]];
+            }
             [self->coverView setImage:blurredImage];
             NSRect currentRect=self->coverView.frame;
             if(self->FitCoverImageToScreen){
@@ -231,11 +247,24 @@
         else{
             
             NSMutableAttributedString* SongName=[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",iTunes.currentTrack.name]];
-            [SongName addAttribute:NSForegroundColorAttributeName value:self->SLCA.primaryColor range:NSMakeRange(0, SongName.length)];
             NSMutableAttributedString* AlbumName=[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",iTunes.currentTrack.album]];
-            [AlbumName addAttribute:NSForegroundColorAttributeName value:self->SLCA.secondaryColor range:NSMakeRange(0, AlbumName.length)];
             NSMutableAttributedString* ArtistName=[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",iTunes.currentTrack.artist]];
-            [ArtistName addAttribute:NSForegroundColorAttributeName value:self->SLCA.detailColor range:NSMakeRange(0, ArtistName.length)];
+            
+            //Reuse Other Colors To Avoid Using Default Black Color
+            NSMutableArray* ColorArray=[NSMutableArray arrayWithCapacity:3];
+            NSArray* NameStringArray=@[SongName,AlbumName,ArtistName];
+            for(NSColor* col in @[self->SLCA.primaryColor,self->SLCA.secondaryColor,self->SLCA.detailColor]){
+                if(col!=nil){
+                    [ColorArray addObject:col];
+                }
+            }
+            for(int i=0;i<NameStringArray.count;i++){
+                NSMutableAttributedString* attriStr=[NameStringArray objectAtIndex:i];
+                NSColor* col=ColorArray[i%ColorArray.count];
+                [attriStr addAttribute:NSForegroundColorAttributeName value:col range:NSMakeRange(0, attriStr.length)];
+            }
+            
+            
             NSMutableAttributedString* retVal=[[NSMutableAttributedString alloc] initWithString:@""];
             [retVal appendAttributedString:SongName];
             [retVal appendAttributedString:AlbumName];
