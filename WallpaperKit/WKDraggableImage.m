@@ -22,7 +22,7 @@
     newLocation.y-=self.frame.size.height/2;
     [self setFrameOrigin:newLocation];
 }
-+( NSMutableDictionary* _Nonnull )convertArgument:( NSDictionary* _Nonnull )args Operation:(RenderConvertOperation)op{
++( NSMutableDictionary* _Nonnull )convertArgument:( NSDictionary* _Nonnull )args Operation:(WKSerializeOption)op{
     NSMutableDictionary* orig=[super convertArgument:args Operation:op];
     if(op==TOJSON){
         [orig setObject:@"WKDraggableImage" forKey:@"Render"];

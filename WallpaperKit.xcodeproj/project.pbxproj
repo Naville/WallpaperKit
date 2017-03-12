@@ -17,13 +17,16 @@
 		FA3D1F4A1E2534BC005A57CF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA3D1F481E2534BC005A57CF /* MainMenu.xib */; };
 		FA5361E11E59A8D20072B0DB /* Lyric.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5361D61E59A8D20072B0DB /* Lyric.m */; };
 		FA5361E31E59A8D20072B0DB /* NeteaseLyricSearchEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5361D81E59A8D20072B0DB /* NeteaseLyricSearchEngine.m */; };
-		FA5361E51E59A8D20072B0DB /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5361DA1E59A8D20072B0DB /* Utils.m */; };
 		FA5361E71E59A8D20072B0DB /* DLLRCParser.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5361DC1E59A8D20072B0DB /* DLLRCParser.m */; };
 		FA5361E91E59A8D20072B0DB /* LyricManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5361DE1E59A8D20072B0DB /* LyricManager.m */; };
 		FA5361F21E59AA4D0072B0DB /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA5361F11E59AA4D0072B0DB /* CoreImage.framework */; };
 		FA5361F41E59AA920072B0DB /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FA5361F31E59AA920072B0DB /* libsqlite3.0.tbd */; };
 		FA53CCEC1E254BB400B23AC8 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA53CCEB1E254BB400B23AC8 /* MainViewController.m */; };
 		FA574A741E58DFD1002CEF64 /* WKOcclusionStateWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FA574A721E58DFD1002CEF64 /* WKOcclusionStateWindow.m */; };
+		FA686DA31E74F5C300F9F363 /* SLColorArt.h in Headers */ = {isa = PBXBuildFile; fileRef = FA686DA11E74F5C300F9F363 /* SLColorArt.h */; };
+		FA686DA41E74F5C300F9F363 /* SLColorArt.m in Sources */ = {isa = PBXBuildFile; fileRef = FA686DA21E74F5C300F9F363 /* SLColorArt.m */; };
+		FA686DAB1E74F64400F9F363 /* WKConfigurationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FA686DA91E74F64400F9F363 /* WKConfigurationManager.h */; };
+		FA686DAC1E74F64400F9F363 /* WKConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA686DAA1E74F64400F9F363 /* WKConfigurationManager.m */; };
 		FA696B901E4EB02400541B0A /* WallpaperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA696B891E4EB02400541B0A /* WallpaperKit.framework */; };
 		FA696B911E4EB02400541B0A /* WallpaperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FA696B891E4EB02400541B0A /* WallpaperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FA696B961E4EB04300541B0A /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4FFEEA1E240FA400E4AF31 /* CoreServices.framework */; };
@@ -164,8 +167,6 @@
 		FA5361D61E59A8D20072B0DB /* Lyric.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lyric.m; sourceTree = "<group>"; };
 		FA5361D71E59A8D20072B0DB /* NeteaseLyricSearchEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeteaseLyricSearchEngine.h; sourceTree = "<group>"; };
 		FA5361D81E59A8D20072B0DB /* NeteaseLyricSearchEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeteaseLyricSearchEngine.m; sourceTree = "<group>"; };
-		FA5361D91E59A8D20072B0DB /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
-		FA5361DA1E59A8D20072B0DB /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		FA5361DB1E59A8D20072B0DB /* DLLRCParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLLRCParser.h; sourceTree = "<group>"; };
 		FA5361DC1E59A8D20072B0DB /* DLLRCParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLLRCParser.m; sourceTree = "<group>"; };
 		FA5361DD1E59A8D20072B0DB /* LyricManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LyricManager.h; sourceTree = "<group>"; };
@@ -177,6 +178,10 @@
 		FA53CCEB1E254BB400B23AC8 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		FA574A711E58DFD1002CEF64 /* WKOcclusionStateWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKOcclusionStateWindow.h; sourceTree = "<group>"; };
 		FA574A721E58DFD1002CEF64 /* WKOcclusionStateWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKOcclusionStateWindow.m; sourceTree = "<group>"; };
+		FA686DA11E74F5C300F9F363 /* SLColorArt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLColorArt.h; sourceTree = "<group>"; };
+		FA686DA21E74F5C300F9F363 /* SLColorArt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLColorArt.m; sourceTree = "<group>"; };
+		FA686DA91E74F64400F9F363 /* WKConfigurationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKConfigurationManager.h; sourceTree = "<group>"; };
+		FA686DAA1E74F64400F9F363 /* WKConfigurationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKConfigurationManager.m; sourceTree = "<group>"; };
 		FA696B701E4EAF5100541B0A /* MMMarkdown.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MMMarkdown.xcodeproj; path = MMMarkdown/MMMarkdown.xcodeproj; sourceTree = "<group>"; };
 		FA696B891E4EB02400541B0A /* WallpaperKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WallpaperKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA696BA31E4EB0CD00541B0A /* WKMarkdownPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKMarkdownPlugin.h; sourceTree = "<group>"; };
@@ -259,6 +264,8 @@
 				FA25DC101E23842200EB029C /* WKDesktopManager.m */,
 				FA25DC181E23BCB800EB029C /* WKRenderManager.h */,
 				FA25DC191E23BCB800EB029C /* WKRenderManager.m */,
+				FA686DA91E74F64400F9F363 /* WKConfigurationManager.h */,
+				FA686DAA1E74F64400F9F363 /* WKConfigurationManager.m */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -327,14 +334,14 @@
 		FA5361EE1E59A8D80072B0DB /* iTunesLyrics */ = {
 			isa = PBXGroup;
 			children = (
+				FA686DA11E74F5C300F9F363 /* SLColorArt.h */,
+				FA686DA21E74F5C300F9F363 /* SLColorArt.m */,
 				FA5361D41E59A8D20072B0DB /* iTunes.h */,
 				FA5361D51E59A8D20072B0DB /* Lyric.h */,
 				FA5361D61E59A8D20072B0DB /* Lyric.m */,
 				FA5361EF1E59A9190072B0DB /* AbstractLyricSearchEngine.h */,
 				FA5361D71E59A8D20072B0DB /* NeteaseLyricSearchEngine.h */,
 				FA5361D81E59A8D20072B0DB /* NeteaseLyricSearchEngine.m */,
-				FA5361D91E59A8D20072B0DB /* Utils.h */,
-				FA5361DA1E59A8D20072B0DB /* Utils.m */,
 				FA5361DB1E59A8D20072B0DB /* DLLRCParser.h */,
 				FA5361DC1E59A8D20072B0DB /* DLLRCParser.m */,
 				FA5361DD1E59A8D20072B0DB /* LyricManager.h */,
@@ -389,9 +396,11 @@
 				FA87042D1E61B20A00DD2993 /* WKDraggableImage.h in Headers */,
 				FA7F1A161E5B3CC700619E4D /* WKVideoPlugin.h in Headers */,
 				FA7F1A171E5B3CC700619E4D /* WKImagePlugin.h in Headers */,
+				FA686DAB1E74F64400F9F363 /* WKConfigurationManager.h in Headers */,
 				FA7F1A181E5B3CC700619E4D /* WKWebpagePlugin.h in Headers */,
 				FA7F1A191E5B3CC700619E4D /* WKOpenGLPlugin.h in Headers */,
 				FA7F1A1A1E5B3CC700619E4D /* WKMarkdownPlugin.h in Headers */,
+				FA686DA31E74F5C300F9F363 /* SLColorArt.h in Headers */,
 				FA7F1A1B1E5B3CC700619E4D /* WKImageSlideshow.h in Headers */,
 				FA7F1A1C1E5B3CC700619E4D /* WKiTunesLyrics.h in Headers */,
 				FA7F1A1D1E5B3CC700619E4D /* WKDesktopManager.h in Headers */,
@@ -579,7 +588,6 @@
 				FA696BA61E4EB18300541B0A /* WKMarkdownPlugin.m in Sources */,
 				FA87042E1E61B20A00DD2993 /* WKDraggableImage.m in Sources */,
 				FA5361E11E59A8D20072B0DB /* Lyric.m in Sources */,
-				FA5361E51E59A8D20072B0DB /* Utils.m in Sources */,
 				FA696B9B1E4EB07800541B0A /* WKDesktop.m in Sources */,
 				FA3433E71E594028009A67DA /* WKiTunesLyrics.m in Sources */,
 				FA5361E71E59A8D20072B0DB /* DLLRCParser.m in Sources */,
@@ -589,6 +597,8 @@
 				FA696B9E1E4EB07800541B0A /* WKWebpagePlugin.m in Sources */,
 				FA5361E31E59A8D20072B0DB /* NeteaseLyricSearchEngine.m in Sources */,
 				FA696B9F1E4EB07800541B0A /* WKOpenGLPlugin.m in Sources */,
+				FA686DAC1E74F64400F9F363 /* WKConfigurationManager.m in Sources */,
+				FA686DA41E74F5C300F9F363 /* SLColorArt.m in Sources */,
 				FA696BA01E4EB07800541B0A /* WKDesktopManager.m in Sources */,
 				FA696BA11E4EB07800541B0A /* WKRenderManager.m in Sources */,
 				FA574A741E58DFD1002CEF64 /* WKOcclusionStateWindow.m in Sources */,

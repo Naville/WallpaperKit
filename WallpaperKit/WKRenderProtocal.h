@@ -6,7 +6,7 @@
 //  Copyright © 2017年 NavilleZhang. All rights reserved.
 //
 #import <AppKit/AppKit.h>
-typedef NS_ENUM(NSUInteger, RenderConvertOperation) {
+typedef NS_ENUM(NSUInteger, WKSerializeOption) {
     TOJSON,
     FROMJSON
 };
@@ -36,7 +36,7 @@ typedef NS_ENUM(NSUInteger, RenderConvertOperation) {
  @param op Convert operation
  @return Converted NSDictionary
  */
-+( NSMutableDictionary* _Nonnull )convertArgument:( NSDictionary* _Nonnull )args Operation:(RenderConvertOperation)op;
++( NSMutableDictionary* _Nonnull )convertArgument:( NSDictionary* _Nonnull )args Operation:(WKSerializeOption)op;
 @optional
 -(void)stop;
 @end

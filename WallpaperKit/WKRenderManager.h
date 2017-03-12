@@ -23,7 +23,7 @@
  
     Looks like SteamLibrary/steamapps/workshop/content/431960/
  */
-+(void)collectFromWallpaperEnginePath:(NSString*)RootPath;
+-(void)collectFromWallpaperEnginePath:(NSString*)RootPath;
 
 /**
  Convert Renders from/to JSON-Compatible Format
@@ -32,7 +32,7 @@
  @param op Convert Type
  @return Converted NSArray
  */
-+(NSArray*)CovertRenders:(NSMutableArray<NSDictionary*>*)renderList operation:(RenderConvertOperation)op;
++(NSArray*)CovertRenders:(NSMutableArray<NSDictionary*>*)renderList operation:(WKSerializeOption)op;
 /**
  An NSMutableArray of NSDictionary. Each NSDictionary has the same structure as described in randomRender's documentation
  */

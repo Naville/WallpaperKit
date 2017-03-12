@@ -14,6 +14,8 @@
     NSTimer* tim;
     NSUInteger index;
     NSObject* syncToken;
+    dispatch_source_t src;
+    int FolderFD;
 }
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
     NSError* error;
@@ -22,9 +24,29 @@
     [window setBackgroundColor:[NSColor blackColor]];
     [self setImageScaling:NSImageScaleProportionallyUpOrDown];
     self->ImageURLList=[args objectForKey:@"Images"];
+    
+    
     if(self->ImageURLList==nil){
         self->descript=[@"ImagePath: " stringByAppendingString:[(NSURL*)[args objectForKey:@"ImagePath"]  path]];
         self->ImageURLList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[args objectForKey:@"ImagePath"] includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:&error];
+        
+        self->FolderFD=open([[[args objectForKey:@"ImagePath"] path] fileSystemRepresentation],O_EVTONLY);
+        self->src = dispatch_source_create(DISPATCH_SOURCE_TYPE_VNODE, FolderFD, DISPATCH_VNODE_WRITE, dispatch_queue_create([[@"WKImageSlideShowFolderQueue " stringByAppendingString:[(NSURL*)[args objectForKey:@"ImagePath"]  path]] UTF8String], 0));
+        
+        // call the passed block if the source is modified
+        dispatch_source_set_event_handler(self->src,^(){
+            self->ImageURLList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[args objectForKey:@"ImagePath"] includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+        });
+        
+        // close the file descriptor when the dispatch source is cancelled
+        dispatch_source_set_cancel_handler(self->src, ^{
+            
+            close(self->FolderFD);
+        });
+        
+        // at this point the dispatch source is paused, so start watching
+        dispatch_resume(self->src);
+        
     }
     if(self->ImageURLList==0){
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"ImageList is empty" userInfo:args];
@@ -68,7 +90,7 @@
     return [@"WKImageSlideshow " stringByAppendingString:self->descript];
 }
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-+(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(RenderConvertOperation)op{
++(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(WKSerializeOption)op{
     @autoreleasepool {
         NSMutableDictionary* returnValue=[NSMutableDictionary dictionaryWithDictionary:args];
         if(op==TOJSON){

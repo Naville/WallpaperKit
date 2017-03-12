@@ -8,6 +8,7 @@
 
 #import "WKiTunesLyrics.h"
 #import <CoreImage/CoreImage.h>
+#import "SLColorArt.h"
 @implementation WKiTunesLyrics{
     NSTextView *titleView;
     NSTextView *translatedView;
@@ -22,6 +23,13 @@
     NSTimer* refreshLRCTimer;
     NSObject* refreshLyricsToken;
     NSObject* synchroToken2;
+    WKConfigurationManager* WKCM;
+    NSString* TitleTemplate;
+    NSString* LRCTemplate;
+    NSString* TranslatedTemplate;
+    NSString* PronounceTemplate;
+    SLColorArt* SLCA;
+    BOOL UseHTMLTemplate;
 
 }
 -(instancetype)initWithWindow:(WKDesktop *)window andArguments:(NSDictionary *)args{
@@ -39,19 +47,30 @@
     }
     self.requiresConsistentAccess=NO;
     self->LM=[LyricManager sharedManager];
+    self->WKCM=[WKConfigurationManager sharedInstance];
     self->iTunes=[SBApplication applicationWithBundleIdentifier:@"com.apple.itunes"];
     [window setBackgroundColor:[NSColor clearColor]];
     [self.layer setBackgroundColor:[NSColor clearColor].CGColor];
     //Init Sync Tokens
     self->synchroToken2=[NSObject new];
     self->refreshLyricsToken=[NSObject new];
+    //Load From Configuration
+    [self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"SongMatchRules" andConfiguration:[NSArray arrayWithObjects:@"%SONG% %ALBUM%",@"%SONG% %ARTIST%",@"%SONG% %ALBUMARTIST%", nil] type:READWRITE];//Set rules up for Search Plugins
+    self->UseHTMLTemplate=[[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"UseHTMLTemplate" andConfiguration:[NSNumber numberWithBool:NO] type:READWRITE] boolValue];
+    self->LRCTemplate=[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"LRCTemplate" andConfiguration:[[NSString alloc] initWithData:[[NSData alloc] initWithBase64EncodedString:@"PCFET0NUWVBFIGh0bWw+DQo8aHRtbCBsYW5nPSJlbiI+DQoJPGhlYWQ+DQoJCTxtZXRhIGNoYXJzZXQ9IlVURi04IiAvPg0KCTwvaGVhZD4NCgk8Ym9keT4NCiAgICA8cCBzdHlsZT0iY29sb3I6cmVkIj4lTFlSSUMlPC9wPg0KCTwvYm9keT4NCjwvaHRtbD4NCg==" options:NSDataBase64DecodingIgnoreUnknownCharacters] encoding:NSUTF8StringEncoding] type:READWRITE];
+    self->TranslatedTemplate=[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"TranslatedTemplate" andConfiguration:[[NSString alloc] initWithData:[[NSData alloc] initWithBase64EncodedString:@"PCFET0NUWVBFIGh0bWw+DQo8aHRtbCBsYW5nPSJlbiIgY2xhc3M9Im5vLWpzIj4NCgk8aGVhZD4NCgkJPG1ldGEgY2hhcnNldD0iVVRGLTgiIC8+DQogICAgPHN0eWxlPg0KICAgICAgICAjQ29udGV4dCB7DQogICAgICAgICAgICBjb2xvcjogYmx1ZTsNCiAgICAgICAgfQ0KICAgIDwvc3R5bGU+DQoJPC9oZWFkPg0KCTxib2R5Pg0KICA8ZGl2IGlkPSJDb250ZXh0Ij4NCiAgICA8c3Ryb25nPiVUUkFOU0xBVEVEJTwvc3Ryb25nPg0KICA8L2Rpdj4NCg0KCTwvYm9keT4NCjwvaHRtbD4NCg==" options:NSDataBase64DecodingIgnoreUnknownCharacters] encoding:NSUTF8StringEncoding] type:READWRITE];
+    
+    self->PronounceTemplate=[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"PronounceTemplate" andConfiguration:[[NSString alloc] initWithData:[[NSData alloc] initWithBase64EncodedString:@"PCFET0NUWVBFIGh0bWw+DQo8aHRtbCBsYW5nPSJlbiIgY2xhc3M9Im5vLWpzIj4NCgk8aGVhZD4NCgkJPG1ldGEgY2hhcnNldD0iVVRGLTgiIC8+DQogICAgPHN0eWxlPg0KICAgICAgICAjQ29udGV4dCB7DQogICAgICAgICAgICBjb2xvcjogYmx1ZTsNCiAgICAgICAgfQ0KICAgIDwvc3R5bGU+DQoJPC9oZWFkPg0KCTxib2R5Pg0KICA8ZGl2IGlkPSJDb250ZXh0Ij4NCiAgICA8c3Ryb25nPiVQUk9OT1VOQ0UlPC9zdHJvbmc+DQogIDwvZGl2Pg0KDQoJPC9ib2R5Pg0KPC9odG1sPg0K" options:NSDataBase64DecodingIgnoreUnknownCharacters] encoding:NSUTF8StringEncoding] type:READWRITE];
+    self->TitleTemplate=[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"Title" andConfiguration:[[NSString alloc] initWithData:[[NSData alloc] initWithBase64EncodedString:@"PCFET0NUWVBFIGh0bWw+DQo8aHRtbCBsYW5nPSJlbiIgY2xhc3M9Im5vLWpzIj4NCgk8aGVhZD4NCgkJPG1ldGEgY2hhcnNldD0iVVRGLTgiIC8+DQogICAgPHN0eWxlPg0KICAgICAgICAjQ29udGV4dCB7DQogICAgICAgICAgICBjb2xvcjogYmx1ZTsNCiAgICAgICAgfQ0KICAgIDwvc3R5bGU+DQoJPC9oZWFkPg0KCTxib2R5Pg0KICA8ZGl2IGlkPSJDb250ZXh0Ij4NCiAgICA8cCBzdHlsZT0iY29sb3I6cmVkIj48c3Ryb25nPiVTT05HTkFNRSU8L3N0cm9uZz48L3A+DQogICAgPHAgc3R5bGU9ImNvbG9yOnJlZCI+PHN0cm9uZz4lQVJUSVNUTkFNRSU8L3N0cm9uZz48L3A+DQogICAgPHAgc3R5bGU9ImNvbG9yOnJlZCI+PHN0cm9uZz4lQUxCVU1OQU1FJTwvc3Ryb25nPjwvcD4NCiAgPC9kaXY+DQoNCgk8L2JvZHk+DQo8L2h0bWw+DQo=" options:NSDataBase64DecodingIgnoreUnknownCharacters] encoding:NSUTF8StringEncoding] type:READWRITE];
+    
+    
     return self;
 }
 -(void)play{
     [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(watchiTunes:) name:@"com.apple.iTunes.playerInfo" object:@"com.apple.iTunes.player"];
     [self updateInfo];
     //[self refreshLyrics];
-    self->refreshLRCTimer=[NSTimer scheduledTimerWithTimeInterval:0.7 target:self selector:@selector(refreshLyrics) userInfo:nil repeats:YES];
+    self->refreshLRCTimer=[NSTimer scheduledTimerWithTimeInterval:[[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"iTunesPollingInterval" andConfiguration:[NSNumber numberWithFloat:0.5] type:READWRITE] floatValue] target:self selector:@selector(refreshLyrics) userInfo:nil repeats:YES];
 
 }
 -(void)pause{
@@ -67,26 +86,12 @@
                 if(lrcADT==nil&&translatedADT==nil&&proADT==nil){
                     [self updateLyricADT];
                 }
-                NSString* LRCTemplate=[[Utils sharedManager].ViewRenderTemplates  objectForKey:@"Lyric"];
-                NSString* TranslatedTemplate=[[Utils sharedManager].ViewRenderTemplates  objectForKey:@"Translated"];
-                NSString* PronounceTemplate=[[Utils sharedManager].ViewRenderTemplates  objectForKey:@"Pronounce"];
-                LRCTemplate=[LRCTemplate stringByReplacingOccurrencesOfString:@"%LYRIC%" withString:[lrcADT nextLinewithTime:iTunes.playerPosition]];
-                TranslatedTemplate=[TranslatedTemplate stringByReplacingOccurrencesOfString:@"%TRANSLATED%" withString:[translatedADT nextLinewithTime:iTunes.playerPosition]];
-                PronounceTemplate=[PronounceTemplate stringByReplacingOccurrencesOfString:@"%PRONOUNCE%" withString:[proADT nextLinewithTime:iTunes.playerPosition]];
-                
-                NSMutableAttributedString* LRCAString=[[NSMutableAttributedString alloc]
-                                                       initWithData:[LRCTemplate dataUsingEncoding:NSUTF8StringEncoding]
-                                                       options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType}
-                                                       documentAttributes:nil error:nil];
-                NSMutableAttributedString* PROAString=[[NSMutableAttributedString alloc] initWithHTML:[PronounceTemplate dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:nil];
-                NSMutableAttributedString* TransAString=[[NSMutableAttributedString alloc] initWithHTML:[TranslatedTemplate dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:nil];
-                for(NSMutableAttributedString* AS in @[LRCAString,PROAString,TransAString]){
-                    [AS setAlignment:NSTextAlignmentCenter range:NSMakeRange(0, AS.length)];
+                if(self->UseHTMLTemplate){
+                    [self refreshLyricsWithHTML];
                 }
-                
-                [self->pronounceView.textStorage setAttributedString:PROAString];
-                [self->ID3View.textStorage setAttributedString:LRCAString];
-                [self->translatedView.textStorage setAttributedString:TransAString];
+                else{
+                    [self refreshLyricsWithSCLA];
+                }
             }
         } @catch (NSException *exception) {
             return ;
@@ -94,8 +99,48 @@
     
     
 }
+-(void)refreshLyricsWithSCLA{
+    @autoreleasepool {
+        if(self->SLCA==nil){
+            NSImage* img=[[NSImage alloc] initWithData:[(iTunesArtwork *)[[iTunes.currentTrack artworks] objectAtIndex:0] rawData]];
+            self->SLCA=[SLColorArt colorArtWithImage:img scaledSize:NSZeroSize];
+        }
+        NSMutableAttributedString* TranslatedString=[[NSMutableAttributedString alloc] initWithString:[translatedADT nextLinewithTime:iTunes.playerPosition]];
+        NSMutableAttributedString* ProString=[[NSMutableAttributedString alloc] initWithString:[proADT nextLinewithTime:iTunes.playerPosition]];
+        NSMutableAttributedString* ID3String=[[NSMutableAttributedString alloc] initWithString:[lrcADT nextLinewithTime:iTunes.playerPosition]];
+        [ID3String addAttribute:NSForegroundColorAttributeName value:self->SLCA.secondaryColor range:NSMakeRange(0, ID3String.length)];
+        [TranslatedString addAttribute:NSForegroundColorAttributeName value:self->SLCA.detailColor range:NSMakeRange(0, TranslatedString.length)];
+        [ProString addAttribute:NSForegroundColorAttributeName value:self->SLCA.secondaryColor range:NSMakeRange(0, ProString.length)];
+     
+        [self->pronounceView.textStorage setAttributedString:ProString];
+        [self->translatedView.textStorage setAttributedString:TranslatedString];
+        [self->ID3View.textStorage setAttributedString:ID3String];
+    }
+    
+    
+}
+-(void)refreshLyricsWithHTML{
+    NSString* LRCHTML=[self->LRCTemplate stringByReplacingOccurrencesOfString:@"%LYRIC%" withString:[lrcADT nextLinewithTime:iTunes.playerPosition]];
+    NSString* TranslatedHTML=[TranslatedTemplate stringByReplacingOccurrencesOfString:@"%TRANSLATED%" withString:[translatedADT nextLinewithTime:iTunes.playerPosition]];
+    NSString* PronounceHTML=[PronounceTemplate stringByReplacingOccurrencesOfString:@"%PRONOUNCE%" withString:[proADT nextLinewithTime:iTunes.playerPosition]];
+    
+    NSMutableAttributedString* LRCAString=[[NSMutableAttributedString alloc]
+                                           initWithData:[LRCHTML dataUsingEncoding:NSUTF8StringEncoding]
+                                           options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType}
+                                           documentAttributes:nil error:nil];
+    NSMutableAttributedString* PROAString=[[NSMutableAttributedString alloc] initWithHTML:[PronounceHTML dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:nil];
+    NSMutableAttributedString* TransAString=[[NSMutableAttributedString alloc] initWithHTML:[TranslatedHTML dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:nil];
+    for(NSMutableAttributedString* AS in @[LRCAString,PROAString,TransAString]){
+        [AS setAlignment:NSTextAlignmentCenter range:NSMakeRange(0, AS.length)];
+    }
+    
+    [self->pronounceView.textStorage setAttributedString:PROAString];
+    [self->ID3View.textStorage setAttributedString:LRCAString];
+    [self->translatedView.textStorage setAttributedString:TransAString];
+}
 -(void)handleCoverChange{
     @autoreleasepool {
+        
         NSData* coverImage=[(iTunesArtwork *)[[iTunes.currentTrack artworks] objectAtIndex:0] rawData];
         NSImage* blurredImage=[self coreBlurImage:coverImage withBlurNumber:0 andSize:CGSizeMake(1200, 1200)];
         [self->coverView removeFromSuperview];
@@ -143,16 +188,24 @@
 }
 -(NSMutableAttributedString*)generateSongTitle{
     @autoreleasepool {
-        NSString* TitleTemplate=[[Utils sharedManager].ViewRenderTemplates objectForKey:@"Title"];
-        TitleTemplate=[TitleTemplate stringByReplacingOccurrencesOfString:@"%SONGNAME%" withString:iTunes.currentTrack.name];
-        TitleTemplate=[TitleTemplate stringByReplacingOccurrencesOfString:@"%ALBUMNAME%" withString:iTunes.currentTrack.album];
-        TitleTemplate=[TitleTemplate stringByReplacingOccurrencesOfString:@"%ARTISTNAME%" withString:iTunes.currentTrack.artist];
-        
-        NSMutableAttributedString* title=[[NSMutableAttributedString alloc] initWithHTML:[TitleTemplate dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:nil];
-        NSMutableParagraphStyle *paragraphStyle = NSMutableParagraphStyle.new;
-        paragraphStyle.alignment                = NSTextAlignmentCenter;
-        [title addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, title.length)];
-        return title;
+        if(self->UseHTMLTemplate){
+            NSString* TitleTemplateHTML=[TitleTemplate stringByReplacingOccurrencesOfString:@"%SONGNAME%" withString:iTunes.currentTrack.name];
+            TitleTemplateHTML=[TitleTemplateHTML stringByReplacingOccurrencesOfString:@"%ALBUMNAME%" withString:iTunes.currentTrack.album];
+            TitleTemplateHTML=[TitleTemplateHTML stringByReplacingOccurrencesOfString:@"%ARTISTNAME%" withString:iTunes.currentTrack.artist];
+            
+            NSMutableAttributedString* title=[[NSMutableAttributedString alloc] initWithHTML:[TitleTemplateHTML dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:nil];
+            NSMutableParagraphStyle *paragraphStyle = NSMutableParagraphStyle.new;
+            paragraphStyle.alignment                = NSTextAlignmentCenter;
+            [title addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, title.length)];
+            return title;
+        }
+        else{
+            NSImage* img=[[NSImage alloc] initWithData:[(iTunesArtwork *)[[iTunes.currentTrack artworks] objectAtIndex:0] rawData]];
+            self->SLCA=[SLColorArt colorArtWithImage:img scaledSize:NSZeroSize];
+            NSMutableAttributedString* retVal=[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n%@\n%@",iTunes.currentTrack.name,iTunes.currentTrack.album,iTunes.currentTrack.artist]];
+            [retVal addAttribute:NSForegroundColorAttributeName value:self->SLCA.primaryColor range:NSMakeRange(0, retVal.length)];
+            return retVal;
+        }
     }
 }
 -(void)handleSongTitle{
@@ -182,7 +235,7 @@
 -(NSString*)description{
     return @"WKiTunesLyrics";
 }
-+(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(RenderConvertOperation)op{
++(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(WKSerializeOption)op{
     if(op==TOJSON){
         return [NSMutableDictionary dictionaryWithDictionary:@{@"Render":@"WKiTunesLyrics"}];
     }

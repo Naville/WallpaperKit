@@ -29,7 +29,7 @@
     return self;
 }
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-+(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(RenderConvertOperation)op{
++(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(WKSerializeOption)op{
     NSMutableDictionary* returnValue=[super convertArgument:args Operation:op];
     if(op==TOJSON){
         [returnValue setObject:@"WKMarkdownPlugin" forKey:@"Render"];

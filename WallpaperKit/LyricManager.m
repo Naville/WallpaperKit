@@ -8,6 +8,7 @@
 
 #import "LyricManager.h"
 #import "AbstractLyricSearchEngine.h"
+#import "WKUtils.h"
 static NSMutableArray<Class>* LyricSearchEngine=nil;
 @implementation LyricManager
 +(instancetype)sharedManager{

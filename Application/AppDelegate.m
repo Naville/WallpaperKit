@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "WallpaperKit.h"
 @interface AppDelegate ()
 
 @property (weak) IBOutlet NSWindow *window;
@@ -19,7 +20,7 @@
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
+    [[WKConfigurationManager sharedInstance] Serialize:[[WKUtils BaseURL] URLByAppendingPathComponent:@"PluginConfig.json"] Operation:TOJSON];
 }
 
 

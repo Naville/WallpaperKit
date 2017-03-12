@@ -46,7 +46,7 @@
     [self->VMP stop];
 }
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-+(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(RenderConvertOperation)op{
++(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(WKSerializeOption)op{
     NSMutableDictionary* returnValue=[NSMutableDictionary dictionaryWithDictionary:args];
     if(op==TOJSON){
         returnValue[@"Render"]=@"WKVLCVideoPlugin";

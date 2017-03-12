@@ -11,6 +11,16 @@
 #import "iTunes.h"
 #import "LyricManager.h"
 #import "Lyric.h"
+/**
+For HTML Based Rendering. Following Strings in HTML will replaced at runtime
+ 
+ - %LYRIC%
+ - %SONGNAME%
+ - %ARTISTNAME%
+ - %ALBUMNAME%
+ - %PRONOUNCE%
+ - %TRANSLATED%
+ */
 @interface WKiTunesLyrics : NSView<WKRenderProtocal>
 /**
  Init Plugin

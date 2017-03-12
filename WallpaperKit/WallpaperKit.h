@@ -7,7 +7,6 @@
 //
 
 //Renders
-#import "WKRenderProtocal.h"
 #import "WKVideoPlugin.h"
 #import "WKImagePlugin.h"
 #import "WKMarkdownPlugin.h"
@@ -20,6 +19,8 @@
 //Managers
 #import "WKDesktopManager.h"
 #import "WKRenderManager.h"
+#import "WKConfigurationManager.h"
+//
 #import "WKDesktop.h"
 #import "WKUtils.h"
 #import "WKOcclusionStateWindow.h"

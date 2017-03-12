@@ -8,6 +8,7 @@
 #import <AppKit/AppKit.h>
 #import "WKRenderProtocal.h"
 #import "WKUtils.h"
+#import "WKConfigurationManager.h"
 NS_ASSUME_NONNULL_BEGIN
 @interface WKDesktop : NSWindow<NSWindowDelegate>
 /**

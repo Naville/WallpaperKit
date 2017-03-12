@@ -29,7 +29,7 @@
     }
     return [self.renderList objectAtIndex: arc4random()%[_renderList count]];
 }
-+(NSArray*)CovertRenders:(NSMutableArray<NSDictionary*>*)renderList operation:(RenderConvertOperation)op{
++(NSArray*)CovertRenders:(NSMutableArray<NSDictionary*>*)renderList operation:(WKSerializeOption)op{
     NSMutableArray* retArray=[NSMutableArray array];
     for (NSDictionary* dict in renderList){
         Class<WKRenderProtocal> cls;
@@ -45,15 +45,13 @@
     return retArray;
     
 }
-+(void)collectFromWallpaperEnginePath:(NSString*)RootPath{
+-(void)collectFromWallpaperEnginePath:(NSString*)RootPath{
     @autoreleasepool {
-        if([[NSFileManager defaultManager] fileExistsAtPath:RootPath]==NO){
-            return ;
-        }
+        NSError* err;
         for(NSURL* path in  [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:RootPath]
                                                           includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey]
                                                                              options:NSDirectoryEnumerationSkipsHiddenFiles
-                                                                               error:nil]){
+                                                                               error:&err]){
             NSData* projectData=[NSData dataWithContentsOfURL:[path URLByAppendingPathComponent:@"project.json"]];
             if(projectData==nil){
                 continue;
@@ -67,13 +65,13 @@
                                 
             if([projectType isEqualToString:@"video"]){
                 NSDictionary* ConvertedProjectInfo=[[WKVideoPlugin class] convertArgument:ProjectInfo Operation:FROMJSON];
-                [[WKRenderManager sharedInstance].renderList addObject:ConvertedProjectInfo];
+                [self.renderList addObject:ConvertedProjectInfo];
                 
             }
             else if([projectType isEqualToString:@"web"]){
                 NSMutableDictionary* ConvertedProjectInfo=[[WKWebpagePlugin class] convertArgument:ProjectInfo Operation:FROMJSON];
                 [ConvertedProjectInfo setObject:path forKey:@"BaseURL"];
-                [[WKRenderManager sharedInstance].renderList addObject:ConvertedProjectInfo];
+                [self.renderList addObject:ConvertedProjectInfo];
             }
             else{
                 NSLog(@"WallpaperEngine Project Type:%@ Unsupported",[ProjectInfo objectForKey:@"type"]);
@@ -81,6 +79,9 @@
             }
             
             
+        }
+        if(err!=nil){
+            NSLog(@"%@",err.localizedDescription);
         }
     }
     

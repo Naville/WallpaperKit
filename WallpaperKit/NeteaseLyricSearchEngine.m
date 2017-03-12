@@ -7,8 +7,8 @@
 //  Reimplementation of http://www.jianshu.com/p/3269321e0df5
 
 #import "NeteaseLyricSearchEngine.h"
-#import "Utils.h"
 #import <CommonCrypto/CommonCrypto.h>
+#import "WKConfigurationManager.h"
 @implementation NeteaseLyricSearchEngine
 +(void)load{
     [LyricManager addSearchEngine:self];
@@ -36,7 +36,7 @@
 }
 -(nullable NSDictionary*)searchLyricForSongInfo:(nonnull NSDictionary*)Info{
     NSMutableArray* allSongs=[NSMutableArray array];
-    for (NSString* Rule in [[Utils sharedManager] SongMatchQueriesFromInfo:Info]){
+    for (NSString* Rule in [[WKConfigurationManager sharedInstance] GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"SongMatchRules" andConfiguration:[NSArray arrayWithObjects:@"%SONG% %ALBUM%",@"%SONG% %ARTIST%",@"%SONG% %ALBUMARTIST%", nil] type:READWRITE]){
         NSDictionary* MatchList=[self searchSongInfo:Rule];
         NSArray* Songs=MatchList[@"result"][@"songs"];
         [allSongs addObjectsFromArray:Songs];

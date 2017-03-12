@@ -30,9 +30,7 @@
     self.RenderListView.dataSource=self;
     self.RenderListView.delegate=self;
     [self.view.window setLevel:NSStatusWindowLevel];
-    [self->wkrm.renderList addObject:@{@"Render":[WKWebpagePlugin class],@"Path":[NSURL URLWithString:@"https://www.google.com"]}];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self->wkrm.renderList addObject:@{@"Render":[WKiTunesLyrics class]}];
         [self.RenderListView reloadData];
     });
 }
@@ -68,7 +66,7 @@
 -(void)CollectPref{
     @autoreleasepool {
         NSMutableDictionary* Pref=[NSMutableDictionary dictionaryWithContentsOfFile:[NSString stringWithFormat:@"%@/WallpaperKit/WallpaperKitPref.plist",NSHomeDirectory()]];
-        [WKRenderManager collectFromWallpaperEnginePath:Pref[@"WEWorkshopPath"]];
+        [self->wkrm collectFromWallpaperEnginePath:Pref[@"WEWorkshopPath"]];
         [Pref removeObjectForKey:@"WEWorkshopPath"];
         for(NSString* Key in Pref){
             if(objc_getClass(Key.UTF8String)!=NULL){
@@ -85,22 +83,34 @@
     }
 }
 - (IBAction)LoadCurrentRender:(id)sender {
-    NSString* SavePath=[NSString stringWithFormat:@"%@/WallpaperKit/WallpaperKit.plist",NSHomeDirectory()];
-    NSMutableArray* JSONCompatibleArray=[NSMutableArray arrayWithContentsOfFile:SavePath];
-    if(JSONCompatibleArray!=nil){
+    NSString* SavePath=[NSString stringWithFormat:@"%@/WallpaperKit/WallpaperKit.json",NSHomeDirectory()];
+    NSError* err;
+    NSMutableArray* JSONCompatibleArray=[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:SavePath] options:NSJSONReadingMutableLeaves|NSJSONReadingMutableContainers error:&err];
+    if(JSONCompatibleArray!=nil && err==nil){
         NSArray* converted=[WKRenderManager CovertRenders:JSONCompatibleArray operation:FROMJSON];
         [self->wkrm.renderList addObjectsFromArray:converted];
         [self->_RenderListView reloadData];
     }
+    else{
+        [self.view.window setTitle:err.localizedDescription];
+    }
+    
     
 }
 
 - (IBAction)SaveCurrentRender:(id)sender {
     
-    NSString* SavePath=[NSString stringWithFormat:@"%@/WallpaperKit/WallpaperKit.plist",NSHomeDirectory()];
+    NSString* SavePath=[NSString stringWithFormat:@"%@/WallpaperKit/WallpaperKit.json",NSHomeDirectory()];
     
     NSArray* converted=[WKRenderManager CovertRenders:self->wkrm.renderList operation:TOJSON];
-    [converted writeToFile:SavePath atomically:YES];
+    NSError* err;
+    NSData* convertedData=[NSJSONSerialization dataWithJSONObject:converted options:NSJSONWritingPrettyPrinted error:&err];
+    if(err!=nil){
+        [self.view.window setTitle:err.localizedDescription];
+    }
+    else{
+        [convertedData writeToFile:SavePath atomically:YES];
+    }
     
 }
 
