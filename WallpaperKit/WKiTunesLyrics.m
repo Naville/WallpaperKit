@@ -29,6 +29,7 @@
     NSString* TranslatedTemplate;
     NSString* PronounceTemplate;
     SLColorArt* SLCA;
+    CGFloat coverBlurNumber;
     BOOL UseHTMLTemplate;
 
 }
@@ -45,6 +46,13 @@
         [tv setBackgroundColor:[NSColor clearColor]];
         [self addSubview:tv];
     }
+    
+    self->coverView=[[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, [NSScreen mainScreen].frame.size.width, [NSScreen mainScreen].frame.size.height)];
+    [self->coverView setFrameOrigin:NSMakePoint((NSWidth([self bounds]) - NSWidth([self->coverView frame])) / 2,
+                                                (NSHeight([self bounds]) - NSHeight([self->coverView frame])) / 2
+                                                )];
+    self->coverView.imageScaling=NSImageScaleProportionallyDown;
+    [self addSubview:self->coverView positioned:NSWindowBelow relativeTo:self->titleView];
     self.requiresConsistentAccess=NO;
     self->LM=[LyricManager sharedManager];
     self->WKCM=[WKConfigurationManager sharedInstance];
@@ -62,7 +70,7 @@
     
     self->PronounceTemplate=[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"PronounceTemplate" andConfiguration:[[NSString alloc] initWithData:[[NSData alloc] initWithBase64EncodedString:@"PCFET0NUWVBFIGh0bWw+DQo8aHRtbCBsYW5nPSJlbiIgY2xhc3M9Im5vLWpzIj4NCgk8aGVhZD4NCgkJPG1ldGEgY2hhcnNldD0iVVRGLTgiIC8+DQogICAgPHN0eWxlPg0KICAgICAgICAjQ29udGV4dCB7DQogICAgICAgICAgICBjb2xvcjogYmx1ZTsNCiAgICAgICAgfQ0KICAgIDwvc3R5bGU+DQoJPC9oZWFkPg0KCTxib2R5Pg0KICA8ZGl2IGlkPSJDb250ZXh0Ij4NCiAgICA8c3Ryb25nPiVQUk9OT1VOQ0UlPC9zdHJvbmc+DQogIDwvZGl2Pg0KDQoJPC9ib2R5Pg0KPC9odG1sPg0K" options:NSDataBase64DecodingIgnoreUnknownCharacters] encoding:NSUTF8StringEncoding] type:READWRITE];
     self->TitleTemplate=[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"TitleTemplate" andConfiguration:[[NSString alloc] initWithData:[[NSData alloc] initWithBase64EncodedString:@"PCFET0NUWVBFIGh0bWw+DQo8aHRtbCBsYW5nPSJlbiIgY2xhc3M9Im5vLWpzIj4NCgk8aGVhZD4NCgkJPG1ldGEgY2hhcnNldD0iVVRGLTgiIC8+DQogICAgPHN0eWxlPg0KICAgICAgICAjQ29udGV4dCB7DQogICAgICAgICAgICBjb2xvcjogYmx1ZTsNCiAgICAgICAgfQ0KICAgIDwvc3R5bGU+DQoJPC9oZWFkPg0KCTxib2R5Pg0KICA8ZGl2IGlkPSJDb250ZXh0Ij4NCiAgICA8cCBzdHlsZT0iY29sb3I6cmVkIj48c3Ryb25nPiVTT05HTkFNRSU8L3N0cm9uZz48L3A+DQogICAgPHAgc3R5bGU9ImNvbG9yOnJlZCI+PHN0cm9uZz4lQVJUSVNUTkFNRSU8L3N0cm9uZz48L3A+DQogICAgPHAgc3R5bGU9ImNvbG9yOnJlZCI+PHN0cm9uZz4lQUxCVU1OQU1FJTwvc3Ryb25nPjwvcD4NCiAgPC9kaXY+DQoNCgk8L2JvZHk+DQo8L2h0bWw+DQo=" options:NSDataBase64DecodingIgnoreUnknownCharacters] encoding:NSUTF8StringEncoding] type:READWRITE];
-    
+    self->coverBlurNumber=[[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"CoverBlurNumber" andConfiguration:[NSNumber numberWithFloat:4] type:READWRITE] floatValue];
     
     return self;
 }
@@ -138,17 +146,8 @@
     @autoreleasepool {
         
         NSData* coverImage=[(iTunesArtwork *)[[iTunes.currentTrack artworks] objectAtIndex:0] rawData];
-        NSImage* blurredImage=[self coreBlurImage:coverImage withBlurNumber:0 andSize:CGSizeMake(1200, 1200)];
-        [self->coverView removeFromSuperview];
-        self->coverView=nil;
-        self->coverView=[NSImageView imageViewWithImage:blurredImage];
-        self->coverView.imageScaling=NSImageScaleProportionallyDown;
-       // [self->coverView setFrame:NSMakeRect(0, 0, blurredImage.size.width, blurredImage.size.height)];
-         [self->coverView setFrame:NSMakeRect(0, 0, [NSScreen mainScreen].frame.size.width, [NSScreen mainScreen].frame.size.height)];
-        [self->coverView setFrameOrigin:NSMakePoint((NSWidth([self bounds]) - NSWidth([self->coverView frame])) / 2,
-                                                    (NSHeight([self bounds]) - NSHeight([self->coverView frame])) / 2
-                                                    )];
-        [self addSubview:self->coverView positioned:NSWindowBelow relativeTo:self->titleView];
+        NSImage* blurredImage=[self coreBlurImage:coverImage withBlurNumber:self->coverBlurNumber];
+        [self->coverView setImage:blurredImage];
         [self needsLayout];
     }
 }
@@ -164,7 +163,7 @@
     }
 }
 
--(NSImage *)coreBlurImage:(NSData *)imagedata withBlurNumber:(CGFloat)blur andSize:(CGSize)size
+-(NSImage *)coreBlurImage:(NSData *)imagedata withBlurNumber:(CGFloat)blur
 {
     if(blur<=0){
         
