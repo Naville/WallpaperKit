@@ -54,6 +54,7 @@
     WKDesktop* wk=[self->wkdm createDesktopWithSpaceID:[self->wkdm currentSpaceID] andRender:[self->wkrm.renderList objectAtIndex:index]];
     [self->wkdm DisplayDesktop:wk];
     [self.view.window setTitle:[wk description]];
+    [[WKConfigurationManager sharedInstance] Serialize:[[WKUtils BaseURL] URLByAppendingPathComponent:@"Config.json"] Operation:TOJSON];
     
     
 }

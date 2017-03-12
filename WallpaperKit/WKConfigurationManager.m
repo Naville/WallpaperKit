@@ -23,6 +23,7 @@
 -(instancetype)init{
     self=[super init];
     self->PersistentConfigDictionary=[NSMutableDictionary dictionary];
+
     return self;
 }
 -(id)GetOrSetPersistentConfigurationForRender:(NSString*)PluginName Key:(NSString*)Key andConfiguration:(id)Config type:(WKConfigurationOption)type{

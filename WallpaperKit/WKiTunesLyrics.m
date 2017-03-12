@@ -61,7 +61,7 @@
     self->TranslatedTemplate=[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"TranslatedTemplate" andConfiguration:[[NSString alloc] initWithData:[[NSData alloc] initWithBase64EncodedString:@"PCFET0NUWVBFIGh0bWw+DQo8aHRtbCBsYW5nPSJlbiIgY2xhc3M9Im5vLWpzIj4NCgk8aGVhZD4NCgkJPG1ldGEgY2hhcnNldD0iVVRGLTgiIC8+DQogICAgPHN0eWxlPg0KICAgICAgICAjQ29udGV4dCB7DQogICAgICAgICAgICBjb2xvcjogYmx1ZTsNCiAgICAgICAgfQ0KICAgIDwvc3R5bGU+DQoJPC9oZWFkPg0KCTxib2R5Pg0KICA8ZGl2IGlkPSJDb250ZXh0Ij4NCiAgICA8c3Ryb25nPiVUUkFOU0xBVEVEJTwvc3Ryb25nPg0KICA8L2Rpdj4NCg0KCTwvYm9keT4NCjwvaHRtbD4NCg==" options:NSDataBase64DecodingIgnoreUnknownCharacters] encoding:NSUTF8StringEncoding] type:READWRITE];
     
     self->PronounceTemplate=[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"PronounceTemplate" andConfiguration:[[NSString alloc] initWithData:[[NSData alloc] initWithBase64EncodedString:@"PCFET0NUWVBFIGh0bWw+DQo8aHRtbCBsYW5nPSJlbiIgY2xhc3M9Im5vLWpzIj4NCgk8aGVhZD4NCgkJPG1ldGEgY2hhcnNldD0iVVRGLTgiIC8+DQogICAgPHN0eWxlPg0KICAgICAgICAjQ29udGV4dCB7DQogICAgICAgICAgICBjb2xvcjogYmx1ZTsNCiAgICAgICAgfQ0KICAgIDwvc3R5bGU+DQoJPC9oZWFkPg0KCTxib2R5Pg0KICA8ZGl2IGlkPSJDb250ZXh0Ij4NCiAgICA8c3Ryb25nPiVQUk9OT1VOQ0UlPC9zdHJvbmc+DQogIDwvZGl2Pg0KDQoJPC9ib2R5Pg0KPC9odG1sPg0K" options:NSDataBase64DecodingIgnoreUnknownCharacters] encoding:NSUTF8StringEncoding] type:READWRITE];
-    self->TitleTemplate=[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"Title" andConfiguration:[[NSString alloc] initWithData:[[NSData alloc] initWithBase64EncodedString:@"PCFET0NUWVBFIGh0bWw+DQo8aHRtbCBsYW5nPSJlbiIgY2xhc3M9Im5vLWpzIj4NCgk8aGVhZD4NCgkJPG1ldGEgY2hhcnNldD0iVVRGLTgiIC8+DQogICAgPHN0eWxlPg0KICAgICAgICAjQ29udGV4dCB7DQogICAgICAgICAgICBjb2xvcjogYmx1ZTsNCiAgICAgICAgfQ0KICAgIDwvc3R5bGU+DQoJPC9oZWFkPg0KCTxib2R5Pg0KICA8ZGl2IGlkPSJDb250ZXh0Ij4NCiAgICA8cCBzdHlsZT0iY29sb3I6cmVkIj48c3Ryb25nPiVTT05HTkFNRSU8L3N0cm9uZz48L3A+DQogICAgPHAgc3R5bGU9ImNvbG9yOnJlZCI+PHN0cm9uZz4lQVJUSVNUTkFNRSU8L3N0cm9uZz48L3A+DQogICAgPHAgc3R5bGU9ImNvbG9yOnJlZCI+PHN0cm9uZz4lQUxCVU1OQU1FJTwvc3Ryb25nPjwvcD4NCiAgPC9kaXY+DQoNCgk8L2JvZHk+DQo8L2h0bWw+DQo=" options:NSDataBase64DecodingIgnoreUnknownCharacters] encoding:NSUTF8StringEncoding] type:READWRITE];
+    self->TitleTemplate=[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"TitleTemplate" andConfiguration:[[NSString alloc] initWithData:[[NSData alloc] initWithBase64EncodedString:@"PCFET0NUWVBFIGh0bWw+DQo8aHRtbCBsYW5nPSJlbiIgY2xhc3M9Im5vLWpzIj4NCgk8aGVhZD4NCgkJPG1ldGEgY2hhcnNldD0iVVRGLTgiIC8+DQogICAgPHN0eWxlPg0KICAgICAgICAjQ29udGV4dCB7DQogICAgICAgICAgICBjb2xvcjogYmx1ZTsNCiAgICAgICAgfQ0KICAgIDwvc3R5bGU+DQoJPC9oZWFkPg0KCTxib2R5Pg0KICA8ZGl2IGlkPSJDb250ZXh0Ij4NCiAgICA8cCBzdHlsZT0iY29sb3I6cmVkIj48c3Ryb25nPiVTT05HTkFNRSU8L3N0cm9uZz48L3A+DQogICAgPHAgc3R5bGU9ImNvbG9yOnJlZCI+PHN0cm9uZz4lQVJUSVNUTkFNRSU8L3N0cm9uZz48L3A+DQogICAgPHAgc3R5bGU9ImNvbG9yOnJlZCI+PHN0cm9uZz4lQUxCVU1OQU1FJTwvc3Ryb25nPjwvcD4NCiAgPC9kaXY+DQoNCgk8L2JvZHk+DQo8L2h0bWw+DQo=" options:NSDataBase64DecodingIgnoreUnknownCharacters] encoding:NSUTF8StringEncoding] type:READWRITE];
     
     
     return self;
@@ -109,7 +109,7 @@
         NSMutableAttributedString* ProString=[[NSMutableAttributedString alloc] initWithString:[proADT nextLinewithTime:iTunes.playerPosition]];
         NSMutableAttributedString* ID3String=[[NSMutableAttributedString alloc] initWithString:[lrcADT nextLinewithTime:iTunes.playerPosition]];
         [ID3String addAttribute:NSForegroundColorAttributeName value:self->SLCA.secondaryColor range:NSMakeRange(0, ID3String.length)];
-        [TranslatedString addAttribute:NSForegroundColorAttributeName value:self->SLCA.detailColor range:NSMakeRange(0, TranslatedString.length)];
+        [TranslatedString addAttribute:NSForegroundColorAttributeName value:self->SLCA.secondaryColor range:NSMakeRange(0, TranslatedString.length)];
         [ProString addAttribute:NSForegroundColorAttributeName value:self->SLCA.secondaryColor range:NSMakeRange(0, ProString.length)];
      
         [self->pronounceView.textStorage setAttributedString:ProString];
@@ -219,7 +219,8 @@
         @synchronized (synchroToken2) {
             [self performSelectorOnMainThread:@selector(updateLyricADT) withObject:nil waitUntilDone:NO];
             [self performSelectorOnMainThread:@selector(handleCoverChange) withObject:nil waitUntilDone:NO];
-            [self performSelectorOnMainThread:@selector(handleSongTitle) withObject:nil waitUntilDone:NO];
+            [self performSelectorOnMainThread:@selector(handleSongTitle) withObject:nil waitUntilDone:YES];
+            [self.window setBackgroundColor:self->SLCA.backgroundColor];
         }
     }
     @catch(NSException* exp){

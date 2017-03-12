@@ -15,6 +15,9 @@ typedef NS_ENUM(NSUInteger, WKConfigurationOption) {
     WRITEONLY
 };
 
+/**
+ Global Persistent Configuration Manager.
+ */
 @interface WKConfigurationManager : NSObject
 +(instancetype)sharedInstance;
 /**
@@ -24,5 +27,11 @@ typedef NS_ENUM(NSUInteger, WKConfigurationOption) {
  @param Config JSON-Compatible Object.Shared for one type of plugin.
  */
 -(id)GetOrSetPersistentConfigurationForRender:(NSString*)PluginName Key:(NSString*)Key andConfiguration:(id)Config type:(WKConfigurationOption)type;
+/**
+ Serialize Current Configurations And Write To File
+
+ @param Path Write Location
+ @param op Operation To Perform
+ */
 -(void)Serialize:(NSURL*)Path Operation:(WKSerializeOption)op;
 @end

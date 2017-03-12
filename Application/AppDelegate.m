@@ -14,13 +14,11 @@
 @end
 
 @implementation AppDelegate
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 }
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    [[WKConfigurationManager sharedInstance] Serialize:[[WKUtils BaseURL] URLByAppendingPathComponent:@"PluginConfig.json"] Operation:TOJSON];
 }
 
 
