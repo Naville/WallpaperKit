@@ -101,10 +101,6 @@
 }
 -(void)refreshLyricsWithSCLA{
     @autoreleasepool {
-        if(self->SLCA==nil){
-            NSImage* img=[[NSImage alloc] initWithData:[(iTunesArtwork *)[[iTunes.currentTrack artworks] objectAtIndex:0] rawData]];
-            self->SLCA=[SLColorArt colorArtWithImage:img scaledSize:NSZeroSize];
-        }
         NSMutableAttributedString* TranslatedString=[[NSMutableAttributedString alloc] initWithString:[translatedADT nextLinewithTime:iTunes.playerPosition]];
         NSMutableAttributedString* ProString=[[NSMutableAttributedString alloc] initWithString:[proADT nextLinewithTime:iTunes.playerPosition]];
         NSMutableAttributedString* ID3String=[[NSMutableAttributedString alloc] initWithString:[lrcADT nextLinewithTime:iTunes.playerPosition]];
@@ -146,7 +142,9 @@
         [self->coverView removeFromSuperview];
         self->coverView=nil;
         self->coverView=[NSImageView imageViewWithImage:blurredImage];
-        [self->coverView setFrame:NSMakeRect(0, 0, blurredImage.size.width, blurredImage.size.height)];
+        self->coverView.imageScaling=NSImageScaleProportionallyDown;
+       // [self->coverView setFrame:NSMakeRect(0, 0, blurredImage.size.width, blurredImage.size.height)];
+         [self->coverView setFrame:NSMakeRect(0, 0, [NSScreen mainScreen].frame.size.width, [NSScreen mainScreen].frame.size.height)];
         [self->coverView setFrameOrigin:NSMakePoint((NSWidth([self bounds]) - NSWidth([self->coverView frame])) / 2,
                                                     (NSHeight([self bounds]) - NSHeight([self->coverView frame])) / 2
                                                     )];
@@ -221,15 +219,15 @@
     @autoreleasepool {
         NSMutableAttributedString* title=[self generateSongTitle];
         [self->titleView.textStorage setAttributedString:title];
+        [self.window setBackgroundColor:self->SLCA.backgroundColor];
     }
 }
 -(void)updateInfo{
     @try{
         @synchronized (synchroToken2) {
-            [self performSelectorOnMainThread:@selector(updateLyricADT) withObject:nil waitUntilDone:NO];
+            [self updateLyricADT];
             [self performSelectorOnMainThread:@selector(handleCoverChange) withObject:nil waitUntilDone:NO];
-            [self performSelectorOnMainThread:@selector(handleSongTitle) withObject:nil waitUntilDone:YES];
-            [self.window setBackgroundColor:self->SLCA.backgroundColor];
+            [self performSelectorOnMainThread:@selector(handleSongTitle) withObject:nil waitUntilDone:NO];
         }
     }
     @catch(NSException* exp){
