@@ -15,7 +15,7 @@ static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         CGRect rawSize=[NSScreen mainScreen].visibleFrame;
         CGPoint center=NSMakePoint((rawSize.origin.x+rawSize.size.width)/2, (rawSize.origin.y+rawSize.size.height)/2);
-        CGFloat diagonalLength=500;
+        CGFloat diagonalLength=400;
         sI = [[WKOcclusionStateWindow alloc] initWithContentRect:NSMakeRect(center.x-diagonalLength,center.y-diagonalLength,2*diagonalLength,2*diagonalLength) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:YES];
     });
     return sI;

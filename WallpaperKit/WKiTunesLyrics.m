@@ -57,6 +57,7 @@
     self->iTunes=[SBApplication applicationWithBundleIdentifier:@"com.apple.itunes"];
     [window setBackgroundColor:[NSColor clearColor]];
     [self.layer setBackgroundColor:[NSColor clearColor].CGColor];
+    [window setAcceptsMouseMovedEvents:NO];
     //Init Sync Tokens
     self->synchroToken2=[NSObject new];
     self->refreshLyricsToken=[NSObject new];
@@ -76,7 +77,6 @@
 -(void)play{
     [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(watchiTunes:) name:@"com.apple.iTunes.playerInfo" object:@"com.apple.iTunes.player"];
     [self updateInfo];
-    //[self refreshLyrics];
     self->refreshLRCTimer=[NSTimer scheduledTimerWithTimeInterval:[[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"iTunesPollingInterval" andConfiguration:[NSNumber numberWithFloat:0.5] type:READWRITE] floatValue] target:self selector:@selector(refreshLyrics) userInfo:nil repeats:YES];
 
 }
@@ -144,20 +144,26 @@
 -(void)handleCoverChange{
     @autoreleasepool {
         
-        NSData* coverImage=[(iTunesArtwork *)[[iTunes.currentTrack artworks] objectAtIndex:0] rawData];
-        NSImage* blurredImage=[self coreBlurImage:coverImage withBlurNumber:self->coverBlurNumber];
-        [self->coverView setImage:blurredImage];
-        NSRect currentRect=self->coverView.frame;
-        if(self->FitCoverImageToScreen){
-            currentRect=self.window.frame;
-        }else{
-            currentRect.size=blurredImage.size;//Stretch to full screen
-        }
-        [self->coverView setFrame:currentRect];
-        [self->coverView setFrameOrigin:NSMakePoint((NSWidth([self bounds]) - NSWidth([self->coverView frame])) / 2,
-                                                    (NSHeight([self bounds]) - NSHeight([self->coverView frame])) / 2
-                                                    )];
-        [self needsLayout];
+        
+        dispatch_async( dispatch_get_global_queue(0, 0), ^{
+            
+            NSData* coverImage=[(iTunesArtwork *)[[iTunes.currentTrack artworks] objectAtIndex:0] rawData];
+            NSImage* blurredImage=[self coreBlurImage:coverImage withBlurNumber:self->coverBlurNumber];
+            [self->coverView setImage:blurredImage];
+            NSRect currentRect=self->coverView.frame;
+            if(self->FitCoverImageToScreen){
+                currentRect=self.window.frame;
+            }else{
+                currentRect.size=blurredImage.size;//Stretch to full screen
+            }
+            [self->coverView setFrame:currentRect];
+            [self->coverView setFrameOrigin:NSMakePoint((NSWidth([self bounds]) - NSWidth([self->coverView frame])) / 2,
+                                                        (NSHeight([self bounds]) - NSHeight([self->coverView frame])) / 2
+                                                        )];
+            dispatch_async( dispatch_get_main_queue(), ^{
+                 [self needsLayout];
+            });
+        });
     }
 }
 -(void)updateLyricADT{
@@ -226,21 +232,25 @@
 -(void)handleSongTitle{
     @autoreleasepool {
         NSMutableAttributedString* title=[self generateSongTitle];
-        [self->titleView.textStorage setAttributedString:title];
-        [self.window setBackgroundColor:self->SLCA.backgroundColor];
+        dispatch_async( dispatch_get_main_queue(), ^{
+            [self->titleView.textStorage setAttributedString:title];
+            [self.window setBackgroundColor:self->SLCA.backgroundColor];
+        });
     }
 }
 -(void)updateInfo{
-    @try{
-        @synchronized (synchroToken2) {
-            [self updateLyricADT];
-            [self performSelectorOnMainThread:@selector(handleCoverChange) withObject:nil waitUntilDone:NO];
-            [self performSelectorOnMainThread:@selector(handleSongTitle) withObject:nil waitUntilDone:NO];
+    [NSThread detachNewThreadWithBlock:^(){
+        @try{
+            @synchronized (synchroToken2) {
+                [self updateLyricADT];
+                [self handleCoverChange];
+                [self handleSongTitle];
+            }
         }
-    }
-    @catch(NSException* exp){
-        return ;
-    }
+        @catch(NSException* exp){
+            return ;
+        }
+    }];
 
 }
 -(void)watchiTunes:(NSNotification*)notif{

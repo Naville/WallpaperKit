@@ -33,6 +33,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.RenderListView reloadData];
     });
+    [[WKConfigurationManager sharedInstance] Serialize:[[WKUtils BaseURL] URLByAppendingPathComponent:@"Config.json"] Operation:FROMJSON];
 }
 - (IBAction)discardExistingWindows:(id)sender {
     [[WKDesktopManager sharedInstance] stop];
@@ -50,7 +51,6 @@
 }
 - (IBAction)chooseRenderForCurrentDesktop:(id)sender {
     NSUInteger index=[self.RenderListView selectedRow];
-    [self->wkdm discardSpaceID:[self->wkdm currentSpaceID]];
     WKDesktop* wk=[self->wkdm createDesktopWithSpaceID:[self->wkdm currentSpaceID] andRender:[self->wkrm.renderList objectAtIndex:index]];
     [self->wkdm DisplayDesktop:wk];
     [self.view.window setTitle:[wk description]];
