@@ -69,9 +69,7 @@
     return [self.contentView description];
 }
 -(void)dealloc{
-    [self.currentView pause];
-    self.contentView=nil;
-    self.err=nil;
+    [self pause];
 }
 @end
 

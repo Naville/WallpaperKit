@@ -129,7 +129,7 @@
         NSMutableArray* ColorArray=[NSMutableArray arrayWithCapacity:3];
         NSArray* NameStringArray=@[TranslatedString,ProString,ID3String];
         for(NSColor* col in @[self->SLCA.primaryColor,self->SLCA.secondaryColor,self->SLCA.detailColor]){
-            if(col!=nil){
+            if(![col isEqualTo:[NSColor blackColor]]){
                 [ColorArray addObject:col];
             }
         }
@@ -254,7 +254,7 @@
             NSMutableArray* ColorArray=[NSMutableArray arrayWithCapacity:3];
             NSArray* NameStringArray=@[SongName,AlbumName,ArtistName];
             for(NSColor* col in @[self->SLCA.primaryColor,self->SLCA.secondaryColor,self->SLCA.detailColor]){
-                if(col!=nil){
+                if(![col isEqualTo:[NSColor blackColor]]){
                     [ColorArray addObject:col];
                 }
             }

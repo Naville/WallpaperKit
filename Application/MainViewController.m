@@ -33,6 +33,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.RenderListView reloadData];
     });
+    
     [[WKConfigurationManager sharedInstance] Serialize:[[WKUtils BaseURL] URLByAppendingPathComponent:@"Config.json"] Operation:FROMJSON];
 }
 - (IBAction)discardExistingWindows:(id)sender {
@@ -123,7 +124,7 @@
     NSDictionary* arg=[self->wkrm.renderList objectAtIndex:row];
     Class cls=[arg objectForKey:@"Render"];
     NSDictionary* convertedJSON= [cls convertArgument:arg Operation:TOJSON];
-    return [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:convertedJSON options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
+    return [[[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:convertedJSON options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding] stringByRemovingPercentEncoding];
 }
 - (void)tableView:(NSTableView *)tableView setObjectValue:(nullable id)object forTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row{
     NSDictionary* dict=[NSJSONSerialization JSONObjectWithData:[object dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableLeaves error:nil];

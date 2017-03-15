@@ -31,7 +31,7 @@
 -(void)DisplayDesktop:(nonnull WKDesktop*)wk;
 /**
  Obtain Desktops for a give SpaceID. Return nil if there is no Desktop for the SpaceID
-
+ 
  @param spaceID SpaceID for the query
  @return NSMutableArray containing a list of WKDesktop Object
  */

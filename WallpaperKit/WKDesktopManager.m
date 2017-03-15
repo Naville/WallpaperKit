@@ -65,7 +65,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
         }
     }
     [self.windows removeAllObjects];
-
+    
     self->lastActiveSpaceID=INT_MAX;
 }
 -(NSMutableArray<WKDesktop*>*)desktopsForSpaceID:(NSUInteger)spaceID{
@@ -82,24 +82,18 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     [self->DummyWindow orderFront:nil];
     //Keep Current Video Playing if next Window is not playing video,etc
     for(id key in self.windows.allKeys){
-            for( WKDesktop* currentDesktop in [self.windows objectForKey:key])
-            {
-                if(![currentDesktop isEqualTo:wk] && wk.currentView.requiresExclusiveBackground==YES&&currentDesktop.currentView.requiresExclusiveBackground==YES){
-                    //Pause Old "Main" view;
-                    [currentDesktop close];
-                    [[self.windows objectForKey:key] removeObject:wk];
-                }
-                
-                if([currentDesktop isEqualTo:wk]){//Ignore next space's WKDesktop
-                    continue;
-                }
-                if(currentDesktop.currentView.requiresConsistentAccess==YES && wk.currentView.requiresConsistentAccess==NO){
-                    //Old view needs consistent access while the new one doesn't. Leave it running
-                }
-                else{
-                    [currentDesktop pause];
-                }
+        for( WKDesktop* currentDesktop in [self.windows objectForKey:key])
+        {
+            if([currentDesktop isEqualTo:wk]){//Ignore next space's WKDesktop
+                continue;
             }
+            if(currentDesktop.currentView.requiresConsistentAccess==YES && wk.currentView.requiresConsistentAccess==NO){
+                //Old view needs consistent access while the new one doesn't. Leave it running
+            }
+            else{
+                [currentDesktop pause];
+            }
+        }
     }
     
 }
@@ -118,7 +112,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     }
     CFRelease(spaces);
     return WRONG_WINDOW_ID;
-
+    
 }
 -(void)discardSpaceID:(NSUInteger)spaceID{
     if([self.windows.allKeys containsObject:[NSNumber numberWithInteger:spaceID]]){
@@ -152,17 +146,17 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     }
 }
 -(WKDesktop*)createDesktopWithSpaceID:(NSUInteger)SpaceID andRender:(NSDictionary*)render{
-      WKDesktop*  wk=[[WKDesktop alloc] initWithContentRect:CGDisplayBounds(CGMainDisplayID()) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
-        if(render==nil|| ![render.allKeys containsObject:@"Render"]){
-            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Render Invalid" userInfo:render];
-        }
-        [wk renderWithEngine:[render objectForKey:@"Render"] withArguments:render];
-        self.activeWallpaperView=wk.currentView;
-        if(self.windows[[NSNumber numberWithInteger:SpaceID]]==nil){
-            self.windows[[NSNumber numberWithInteger:SpaceID]]=[NSMutableArray array];
-        }
+    WKDesktop*  wk=[[WKDesktop alloc] initWithContentRect:CGDisplayBounds(CGMainDisplayID()) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
+    if(render==nil|| ![render.allKeys containsObject:@"Render"]){
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Render Invalid" userInfo:render];
+    }
+    [wk renderWithEngine:[render objectForKey:@"Render"] withArguments:render];
+    self.activeWallpaperView=wk.currentView;
+    if(self.windows[[NSNumber numberWithInteger:SpaceID]]==nil){
+        self.windows[[NSNumber numberWithInteger:SpaceID]]=[NSMutableArray array];
+    }
     
-        [self.windows[[NSNumber numberWithInteger:SpaceID]] addObject:wk];
+    [self.windows[[NSNumber numberWithInteger:SpaceID]] addObject:wk];
     return wk;
 }
 @end
