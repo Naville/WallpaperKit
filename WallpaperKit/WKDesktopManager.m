@@ -87,7 +87,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
             if([currentDesktop isEqualTo:wk]){//Ignore next space's WKDesktop
                 continue;
             }
-            if(currentDesktop.currentView.requiresConsistentAccess==YES && wk.currentView.requiresConsistentAccess==NO){
+            if(currentDesktop.mainView.requiresConsistentAccess==YES && wk.mainView.requiresConsistentAccess==NO){
                 //Old view needs consistent access while the new one doesn't. Leave it running
             }
             else{
@@ -151,7 +151,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Render Invalid" userInfo:render];
     }
     [wk renderWithEngine:[render objectForKey:@"Render"] withArguments:render];
-    self.activeWallpaperView=wk.currentView;
+    self.activeWallpaperView=wk.mainView;
     if(self.windows[[NSNumber numberWithInteger:SpaceID]]==nil){
         self.windows[[NSNumber numberWithInteger:SpaceID]]=[NSMutableArray array];
     }

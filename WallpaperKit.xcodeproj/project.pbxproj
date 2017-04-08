@@ -15,6 +15,7 @@
 		FA3D1F451E2534BC005A57CF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3D1F441E2534BC005A57CF /* main.m */; };
 		FA3D1F471E2534BC005A57CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA3D1F461E2534BC005A57CF /* Assets.xcassets */; };
 		FA3D1F4A1E2534BC005A57CF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA3D1F481E2534BC005A57CF /* MainMenu.xib */; };
+		FA4E624F1E9908CD0043E1BE /* WallpaperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA696B891E4EB02400541B0A /* WallpaperKit.framework */; };
 		FA5361E11E59A8D20072B0DB /* Lyric.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5361D61E59A8D20072B0DB /* Lyric.m */; };
 		FA5361E31E59A8D20072B0DB /* NeteaseLyricSearchEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5361D81E59A8D20072B0DB /* NeteaseLyricSearchEngine.m */; };
 		FA5361E71E59A8D20072B0DB /* DLLRCParser.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5361DC1E59A8D20072B0DB /* DLLRCParser.m */; };
@@ -72,6 +73,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = BED761561B374D6700687B36;
 			remoteInfo = "MMMarkdown (OS X)";
+		};
+		FA4E62501E9908CD0043E1BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA4C45961E2307AE00B35322 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA696B881E4EB02400541B0A;
+			remoteInfo = WallpaperKit;
 		};
 		FA696B781E4EAF5200541B0A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -158,6 +166,7 @@
 		FA4C45A11E2307AE00B35322 /* WKDesktop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WKDesktop.h; sourceTree = "<group>"; };
 		FA4C45A31E2307AE00B35322 /* WKDesktop.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WKDesktop.m; sourceTree = "<group>"; };
 		FA4C45AB1E23086E00B35322 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		FA4E624A1E9908CD0043E1BE /* WallpaperKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WallpaperKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA4FFEEA1E240FA400E4AF31 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		FA4FFEEC1E240FB600E4AF31 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		FA4FFEEE1E2413BE00E4AF31 /* WKOpenGLPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKOpenGLPlugin.h; sourceTree = "<group>"; };
@@ -208,6 +217,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA696B901E4EB02400541B0A /* WallpaperKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA4E62471E9908CD0043E1BE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA4E624F1E9908CD0043E1BE /* WallpaperKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +326,7 @@
 			children = (
 				FA3D1F3E1E2534BC005A57CF /* WallpaperKit.app */,
 				FA696B891E4EB02400541B0A /* WallpaperKit.framework */,
+				FA4E624A1E9908CD0043E1BE /* WallpaperKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -430,6 +448,24 @@
 			productReference = FA3D1F3E1E2534BC005A57CF /* WallpaperKit.app */;
 			productType = "com.apple.product-type.application";
 		};
+		FA4E62491E9908CD0043E1BE /* WallpaperKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA4E62521E9908CD0043E1BE /* Build configuration list for PBXNativeTarget "WallpaperKitTests" */;
+			buildPhases = (
+				FA4E62461E9908CD0043E1BE /* Sources */,
+				FA4E62471E9908CD0043E1BE /* Frameworks */,
+				FA4E62481E9908CD0043E1BE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FA4E62511E9908CD0043E1BE /* PBXTargetDependency */,
+			);
+			name = WallpaperKitTests;
+			productName = WallpaperKitTests;
+			productReference = FA4E624A1E9908CD0043E1BE /* WallpaperKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		FA696B881E4EB02400541B0A /* WallpaperKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FA696B921E4EB02400541B0A /* Build configuration list for PBXNativeTarget "WallpaperKit" */;
@@ -463,6 +499,10 @@
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 					};
+					FA4E62491E9908CD0043E1BE = {
+						CreatedOnToolsVersion = 8.3;
+						ProvisioningStyle = Automatic;
+					};
 					FA696B881E4EB02400541B0A = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
@@ -490,6 +530,7 @@
 			targets = (
 				FA3D1F3D1E2534BC005A57CF /* Application */,
 				FA696B881E4EB02400541B0A /* WallpaperKit */,
+				FA4E62491E9908CD0043E1BE /* WallpaperKitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -542,6 +583,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FA4E62481E9908CD0043E1BE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FA696B871E4EB02400541B0A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -575,6 +623,13 @@
 				FA3D1F451E2534BC005A57CF /* main.m in Sources */,
 				FA53CCEC1E254BB400B23AC8 /* MainViewController.m in Sources */,
 				FA3D1F421E2534BC005A57CF /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA4E62461E9908CD0043E1BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,6 +667,11 @@
 			isa = PBXTargetDependency;
 			name = "MMMarkdown (OS X)";
 			targetProxy = FA357C9D1E5568A90083D95A /* PBXContainerItemProxy */;
+		};
+		FA4E62511E9908CD0043E1BE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA696B881E4EB02400541B0A /* WallpaperKit */;
+			targetProxy = FA4E62501E9908CD0043E1BE /* PBXContainerItemProxy */;
 		};
 		FA73B57C1E54CC2E005F5835 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -757,6 +817,32 @@
 			};
 			name = Release;
 		};
+		FA4E62531E9908CD0043E1BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = WallpaperKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = naville.WallpaperKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		FA4E62541E9908CD0043E1BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = WallpaperKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = naville.WallpaperKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		FA696B931E4EB02400541B0A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -830,6 +916,15 @@
 			buildConfigurations = (
 				FA4C45A51E2307AE00B35322 /* Debug */,
 				FA4C45A61E2307AE00B35322 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FA4E62521E9908CD0043E1BE /* Build configuration list for PBXNativeTarget "WallpaperKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA4E62531E9908CD0043E1BE /* Debug */,
+				FA4E62541E9908CD0043E1BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

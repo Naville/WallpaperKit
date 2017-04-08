@@ -18,7 +18,7 @@
 #import "SLColorArt.h"
 
 #define kColorThresholdMinimumPercentage 0.01
-
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @interface NSColor (SLDarkAddition)
 
 - (BOOL)sl_isDarkColor;

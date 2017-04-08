@@ -33,7 +33,6 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.RenderListView reloadData];
     });
-    
     [[WKConfigurationManager sharedInstance] Serialize:[[WKUtils BaseURL] URLByAppendingPathComponent:@"Config.json"] Operation:FROMJSON];
 }
 - (IBAction)discardExistingWindows:(id)sender {
@@ -65,33 +64,15 @@
     NSString* value=[tableView.dataSource tableView:tableView objectValueForTableColumn:nil row:row];
     return ([value componentsSeparatedByString:@"\n"].count+1)*tableView.rowHeight;
 }
--(void)CollectPref{
-    @autoreleasepool {
-        NSMutableDictionary* Pref=[NSMutableDictionary dictionaryWithContentsOfFile:[NSString stringWithFormat:@"%@/WallpaperKit/WallpaperKitPref.plist",NSHomeDirectory()]];
-        [self->wkrm collectFromWallpaperEnginePath:Pref[@"WEWorkshopPath"]];
-        [Pref removeObjectForKey:@"WEWorkshopPath"];
-        for(NSString* Key in Pref){
-            if(objc_getClass(Key.UTF8String)!=NULL){
-                NSArray* List=Pref[Key];
-                for(NSDictionary* Arg in  List){
-                    NSDictionary* RenderArg=[NSClassFromString(Key) convertArgument:Arg Operation:FROMJSON];
-                    [[WKRenderManager sharedInstance].renderList addObject:RenderArg];
-                }
-            }
-            else{
-                @throw [NSException exceptionWithName:NSGenericException reason:[NSString stringWithFormat:@"Invalid Preferences Key:%@",Key] userInfo:nil];
-            }
-        }
-    }
-}
 - (IBAction)LoadCurrentRender:(id)sender {
     NSString* SavePath=[NSString stringWithFormat:@"%@/WallpaperKit/WallpaperKit.json",NSHomeDirectory()];
     NSError* err;
     NSMutableArray* JSONCompatibleArray=[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:SavePath] options:NSJSONReadingMutableLeaves|NSJSONReadingMutableContainers error:&err];
     if(JSONCompatibleArray!=nil && err==nil){
-        NSArray* converted=[WKRenderManager CovertRenders:JSONCompatibleArray operation:FROMJSON];
-        [self->wkrm.renderList addObjectsFromArray:converted];
-        [self->_RenderListView reloadData];
+        for(NSDictionary* dic in JSONCompatibleArray){
+            [self->wkrm addRender:dic];
+            [self->_RenderListView reloadData];
+        }
     }
     else{
         [self.view.window setTitle:err.localizedDescription];

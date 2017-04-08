@@ -8,6 +8,7 @@
 
 #import "WKRenderManager.h"
 #import <objc/runtime.h>
+#import <dlfcn.h>
 @implementation WKRenderManager
 + (instancetype)sharedInstance{
     static WKRenderManager *sharedInstance = nil;
@@ -30,19 +31,26 @@
     return [self.renderList objectAtIndex: arc4random()%[_renderList count]];
 }
 +(NSArray*)CovertRenders:(NSMutableArray<NSDictionary*>*)renderList operation:(WKSerializeOption)op{
-    NSMutableArray* retArray=[NSMutableArray array];
-    for (NSDictionary* dict in renderList){
-        Class<WKRenderProtocal> cls;
-        id render=dict[@"Render"];
-        if ([render respondsToSelector:@selector(isEqualToString:)]){
-            cls=NSClassFromString(render);
+    @autoreleasepool {
+        NSMutableArray* retArray=[NSMutableArray array];
+        for (NSDictionary* dict in renderList){
+            Class<WKRenderProtocal> cls;
+            id render=dict[@"Render"];
+            NSString* libPath=[dict objectForKey:@"LibraryPath"];//Load External Libraries if exists
+            if(libPath!=nil && [libPath respondsToSelector:@selector(isEqualToString:)]){
+                dlopen(libPath.UTF8String, RTLD_NOW|RTLD_GLOBAL);
+                [[NSBundle bundleWithPath:libPath] load];
+            }
+            if ([render respondsToSelector:@selector(isEqualToString:)]){
+                cls=NSClassFromString(render);
+            }
+            else{
+                cls=render;
+            }
+            [retArray addObject:[cls convertArgument:dict Operation:op]];
         }
-        else{
-            cls=render;
-        }
-        [retArray addObject:[cls convertArgument:dict Operation:op]];
+        return retArray;
     }
-    return retArray;
     
 }
 -(void)collectFromWallpaperEnginePath:(NSString*)RootPath{
@@ -85,6 +93,35 @@
         }
     }
     
+}
+-(void)addRender:(NSDictionary*)dict{
+    @autoreleasepool {
+        id render=dict[@"Render"];
+        
+        NSString* libPath=[dict objectForKey:@"LibraryPath"];//Load External Libraries if exists
+        if(libPath!=nil && [libPath respondsToSelector:@selector(isEqualToString:)]){
+            dlopen(libPath.UTF8String, RTLD_NOW|RTLD_GLOBAL);
+            [[NSBundle bundleWithPath:libPath] load];
+        }
+        if ([render respondsToSelector:@selector(isEqualToString:)]){
+            Class<WKRenderProtocal> cls=NSClassFromString(render);
+            if(class_conformsToProtocol(cls,@protocol(WKRenderProtocal))){
+                NSDictionary* foo=[cls convertArgument:dict Operation:FROMJSON];
+                [self.renderList addObject:foo];
+            }
+            else{
+                @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"%@ is not a valid WKRenderProtocal class",render] userInfo:nil];
+            }
+        }
+        else{
+            
+            [self.renderList addObject:dict];
+            
+        }
+        
+        
+        
+    }
 }
 
 @end

@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  Call this instead of rdirectly interacting with render
  */
 -(void)play;
-@property (readwrite,retain,nonatomic,nonnull) NSView<WKRenderProtocal>* currentView;
+@property (readwrite,retain,nonatomic,nonnull) NSView<WKRenderProtocal>* mainView;
 /**
  NSError used by Render
  */

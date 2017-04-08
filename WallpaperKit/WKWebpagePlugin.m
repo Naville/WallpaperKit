@@ -55,7 +55,7 @@
     [self evaluateJavaScript:@"document.querySelector('body').innerHTML" completionHandler:^(id result, NSError *error) {
         if (!result || ([result isKindOfClass:[NSString class]] && [((NSString *)result) length] == 0)) {
             if(webURL!=nil){
-                [self loadRequest:[NSURLRequest requestWithURL:self->webURL]];
+                [self loadHTMLString:[NSString stringWithContentsOfURL:self->webURL encoding:NSUTF8StringEncoding error:nil] baseURL:self->baseURL];
             }
             else{
                 [self loadHTMLString:HTMLString baseURL:self->baseURL];

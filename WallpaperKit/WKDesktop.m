@@ -20,6 +20,8 @@
     self.releasedWhenClosed=NO;//Fix Memory Issue
     self.delegate=self;
     [self setLevel:kCGDesktopIconWindowLevel-1];
+    self.opaque=NO;
+    self.contentView=[[NSView alloc] initWithFrame:contentRect];
     [self setAcceptsMouseMovedEvents:YES];
     [self setMovableByWindowBackground:NO];
     self->isPlaying=NO;
@@ -33,11 +35,13 @@
     if(![renderEngine conformsToProtocol:@protocol(WKRenderProtocal)]||![renderEngine isSubclassOfClass:[NSView class]]){
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"%@ is not a valid WKRenderProtocal class",NSStringFromClass(renderEngine)] userInfo:nil];
     }
-    self.currentView=[[renderEngine alloc] initWithWindow:self andArguments:args];
+    self.mainView=[[renderEngine alloc] initWithWindow:self andArguments:args];
     if(self.err!=nil){
         @throw [NSException exceptionWithName:NSGenericException reason:self.err.localizedDescription userInfo:args];
     }
-    [self setContentView:_currentView];
+    
+    [self.contentView addSubview:self.mainView];
+    [self.mainView display];
     
     
 }
@@ -45,13 +49,19 @@
     if(self->isPlaying==NO){
         return ;
     }
-    [_currentView pause];
+    for(NSView<WKRenderProtocal>* view in self.contentView.subviews){
+        if([view respondsToSelector:@selector(pause)]){
+            [view pause];
+        }
+    }
     self->isPlaying=NO;
 }
 -(void)close{
     [self pause];
-    if([self.currentView respondsToSelector:@selector(stop)]){
-        [self.currentView performSelector:@selector(stop)];
+    for(NSView<WKRenderProtocal>* view in self.contentView.subviews){
+        if([view respondsToSelector:@selector(stop)]){
+            [view stop];
+        }
     }
     [super close];
 }
@@ -59,14 +69,18 @@
     if(self->isPlaying==YES){
         return ;
     }
-    [_currentView play];
+    for(NSView<WKRenderProtocal>* view in self.contentView.subviews){
+        if([view respondsToSelector:@selector(play)]){
+            [view play];
+        }
+    }
     self->isPlaying=YES;
 }
 -(BOOL)canBeVisibleOnAllSpaces{
     return NO;
 }
 -(NSString*)description{
-    return [self.contentView description];
+    return [self.mainView description];
 }
 -(void)dealloc{
     [self pause];

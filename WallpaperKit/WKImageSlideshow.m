@@ -28,14 +28,17 @@
     
     if(self->ImageURLList==nil){
         self->descript=[@"ImagePath: " stringByAppendingString:[(NSURL*)[args objectForKey:@"ImagePath"]  path]];
-        self->ImageURLList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[args objectForKey:@"ImagePath"] includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:&error];
+        self->ImageURLList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[args objectForKey:@"ImagePath"] includingPropertiesForKeys:@[NSURLNameKey,NSURLContentModificationDateKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:&error];
+        [self sortFileList];
         
         self->FolderFD=open([[[args objectForKey:@"ImagePath"] path] fileSystemRepresentation],O_EVTONLY);
         self->src = dispatch_source_create(DISPATCH_SOURCE_TYPE_VNODE, FolderFD, DISPATCH_VNODE_WRITE, dispatch_queue_create([[@"WKImageSlideShowFolderQueue " stringByAppendingString:[(NSURL*)[args objectForKey:@"ImagePath"]  path]] UTF8String], 0));
         
         // call the passed block if the source is modified
         dispatch_source_set_event_handler(self->src,^(){
-            self->ImageURLList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[args objectForKey:@"ImagePath"] includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+            self->ImageURLList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[args objectForKey:@"ImagePath"] includingPropertiesForKeys:@[NSURLNameKey,NSURLContentModificationDateKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+            
+            [self sortFileList];
         });
         
         // close the file descriptor when the dispatch source is cancelled
@@ -75,6 +78,19 @@
 }
 -(void)pause{
     [self->tim invalidate];
+}
+-(void)sortFileList{
+    self->ImageURLList=[self->ImageURLList sortedArrayUsingComparator:
+                        ^(NSURL *file1, NSURL *file2)
+                        {
+                            // compare
+                            NSDate *file1Date;
+                            [file1 getResourceValue:&file1Date forKey:NSURLContentModificationDateKey error:nil];
+                            
+                            NSDate *file2Date;
+                            [file2 getResourceValue:&file2Date forKey:NSURLContentModificationDateKey error:nil];
+                            return [file2Date compare: file1Date];
+                        }];
 }
 -(void)ImageUpdateSlave{
     @synchronized (self->syncToken) {

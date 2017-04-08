@@ -33,6 +33,17 @@
  @return Converted NSArray
  */
 +(NSArray*)CovertRenders:(NSMutableArray<NSDictionary*>*)renderList operation:(WKSerializeOption)op;
+
+
+
+/**
+ Add render from a NSDictionary
+
+ @param arg Argument
+ 
+    Note that arg can contains a key called @"LibraryPath". If exists,this path will be loaded using dlopen and [NSBundle load] before resolving other args. Useful for loading external plugins
+ */
+-(void)addRender:(NSDictionary*)arg;
 /**
  An NSMutableArray of NSDictionary. Each NSDictionary has the same structure as described in randomRender's documentation
  */
