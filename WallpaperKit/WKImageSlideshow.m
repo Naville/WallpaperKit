@@ -78,11 +78,21 @@
         return;
     }
     self->isPlaying=YES;
-    [self performSelector:@selector(ImageUpdateWorker) withObject:nil afterDelay:self->interval];
+    self->tim=[NSTimer scheduledTimerWithTimeInterval:self->interval repeats:YES block:^(NSTimer* tim){
+        if(tim.isValid==NO){
+            return ;
+        }
+        [self performSelectorOnMainThread:@selector(setImage:) withObject:[[NSImage alloc] initWithContentsOfURL:ImageURLList[index]] waitUntilDone:YES];
+        [self setNeedsDisplay];
+        index=(index+1)%ImageURLList.count;
+    }];
 }
 -(void)pause{
+    if(self->isPlaying==NO){
+        return ;
+    }
     self->isPlaying=NO;
-
+    [self->tim invalidate];
 }
 
 -(void)sortFileList{
@@ -97,16 +107,6 @@
                             [file2 getResourceValue:&file2Date forKey:NSURLCreationDateKey error:nil];
                             return [file2Date compare: file1Date];
                         }];
-}
--(void)ImageUpdateWorker{
-    if(self->isPlaying==NO){
-        return;
-    }
-    [self performSelectorOnMainThread:@selector(setImage:) withObject:[[NSImage alloc] initWithContentsOfURL:ImageURLList[index]] waitUntilDone:YES];
-    [self setNeedsDisplay];
-    index=(index+1)%ImageURLList.count;
-     [self performSelector:@selector(ImageUpdateWorker) withObject:nil afterDelay:self->interval];
-    
 }
 -(NSString*)description{
     if(self->descript==nil){
