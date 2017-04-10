@@ -10,12 +10,6 @@
 #import <math.h>
 
 @implementation WKUtils
-+(nullable id)registerGlobalEventMonitorForMask:(NSEventMask)mask withCallback:(void (^)(NSEvent*))block{
-    return [NSEvent addGlobalMonitorForEventsMatchingMask:mask    handler:block];
-}
-+(void)InvalidateEventMonitor:(id)mon{
-    [NSEvent removeMonitor:mon];
-}
 +(BOOL)isTrustedByAccessibility{
     NSDictionary *options = @{(__bridge NSString*)kAXTrustedCheckOptionPrompt: @YES};
     return AXIsProcessTrustedWithOptions((CFDictionaryRef)options);

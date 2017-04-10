@@ -15,7 +15,6 @@
 #import "WKImageSlideshow.h"
 #import "WKiTunesLyrics.h"
 #import "WKVLCVideoPlugin.h"
-#import "WKDraggableImage.h"
 //Managers
 #import "WKDesktopManager.h"
 #import "WKRenderManager.h"

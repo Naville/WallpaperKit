@@ -59,8 +59,6 @@
 		FA7F1A1D1E5B3CC700619E4D /* WKDesktopManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FA25DC0F1E23842200EB029C /* WKDesktopManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA7F1A1E1E5B3CC700619E4D /* WKRenderManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FA25DC181E23BCB800EB029C /* WKRenderManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA7F1A3E1E5B3F7800619E4D /* WallpaperKit.h in Headers */ = {isa = PBXBuildFile; fileRef = FA73B5711E54CB10005F5835 /* WallpaperKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FA87042D1E61B20A00DD2993 /* WKDraggableImage.h in Headers */ = {isa = PBXBuildFile; fileRef = FA87042B1E61B20A00DD2993 /* WKDraggableImage.h */; };
-		FA87042E1E61B20A00DD2993 /* WKDraggableImage.m in Sources */ = {isa = PBXBuildFile; fileRef = FA87042C1E61B20A00DD2993 /* WKDraggableImage.m */; };
 		FA958E421E5BA5CA007E1847 /* WKVLCVideoPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FA958E401E5BA5CA007E1847 /* WKVLCVideoPlugin.h */; };
 		FA958E451E5BAE7E007E1847 /* WKVLCVideoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = FA958E411E5BA5CA007E1847 /* WKVLCVideoPlugin.m */; };
 		FA958E481E5BB19B007E1847 /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA958E471E5BB19B007E1847 /* VLCKit.framework */; };
@@ -198,8 +196,6 @@
 		FA73B5711E54CB10005F5835 /* WallpaperKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WallpaperKit.h; sourceTree = "<group>"; };
 		FA73B5901E54D738005F5835 /* WKImageSlideshow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKImageSlideshow.h; sourceTree = "<group>"; };
 		FA73B5911E54D738005F5835 /* WKImageSlideshow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKImageSlideshow.m; sourceTree = "<group>"; };
-		FA87042B1E61B20A00DD2993 /* WKDraggableImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKDraggableImage.h; sourceTree = "<group>"; };
-		FA87042C1E61B20A00DD2993 /* WKDraggableImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKDraggableImage.m; sourceTree = "<group>"; };
 		FA958E401E5BA5CA007E1847 /* WKVLCVideoPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKVLCVideoPlugin.h; sourceTree = "<group>"; };
 		FA958E411E5BA5CA007E1847 /* WKVLCVideoPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKVLCVideoPlugin.m; sourceTree = "<group>"; };
 		FA958E471E5BB19B007E1847 /* VLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VLCKit.framework; path = ../../../../Library/Frameworks/VLCKit.framework; sourceTree = "<group>"; };
@@ -267,8 +263,6 @@
 				FA3433E51E594028009A67DA /* WKiTunesLyrics.m */,
 				FA958E401E5BA5CA007E1847 /* WKVLCVideoPlugin.h */,
 				FA958E411E5BA5CA007E1847 /* WKVLCVideoPlugin.m */,
-				FA87042B1E61B20A00DD2993 /* WKDraggableImage.h */,
-				FA87042C1E61B20A00DD2993 /* WKDraggableImage.m */,
 				FA5361EE1E59A8D80072B0DB /* iTunesLyrics */,
 			);
 			name = Plugin;
@@ -411,7 +405,6 @@
 				FA7F1A141E5B3CC700619E4D /* WKDesktop.h in Headers */,
 				FA958E421E5BA5CA007E1847 /* WKVLCVideoPlugin.h in Headers */,
 				FA7F1A151E5B3CC700619E4D /* WKUtils.h in Headers */,
-				FA87042D1E61B20A00DD2993 /* WKDraggableImage.h in Headers */,
 				FA7F1A161E5B3CC700619E4D /* WKVideoPlugin.h in Headers */,
 				FA7F1A171E5B3CC700619E4D /* WKImagePlugin.h in Headers */,
 				FA686DAB1E74F64400F9F363 /* WKConfigurationManager.h in Headers */,
@@ -641,7 +634,6 @@
 				FA73B5931E54D738005F5835 /* WKImageSlideshow.m in Sources */,
 				FA5361E91E59A8D20072B0DB /* LyricManager.m in Sources */,
 				FA696BA61E4EB18300541B0A /* WKMarkdownPlugin.m in Sources */,
-				FA87042E1E61B20A00DD2993 /* WKDraggableImage.m in Sources */,
 				FA5361E11E59A8D20072B0DB /* Lyric.m in Sources */,
 				FA696B9B1E4EB07800541B0A /* WKDesktop.m in Sources */,
 				FA3433E71E594028009A67DA /* WKiTunesLyrics.m in Sources */,

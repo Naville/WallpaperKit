@@ -14,9 +14,9 @@ static dispatch_once_t onceToken;
 + (instancetype)sharedInstance{
     dispatch_once(&onceToken, ^{
         CGRect rawSize=[NSScreen mainScreen].visibleFrame;
-        CGPoint center=NSMakePoint((rawSize.origin.x+rawSize.size.width)/2, (rawSize.origin.y+rawSize.size.height)/2);
-        CGFloat diagonalLength=400;
-        sI = [[WKOcclusionStateWindow alloc] initWithContentRect:NSMakeRect(center.x-diagonalLength,center.y-diagonalLength,2*diagonalLength,2*diagonalLength) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:YES];
+        NSRect windowRect=NSMakeRect(rawSize.size.width/20, rawSize.size.height/20,11*rawSize.size.width/12, 11*rawSize.size.height/12);
+        //CGRect windowRect=[NSScreen mainScreen].visibleFrame;
+        sI = [[WKOcclusionStateWindow alloc] initWithContentRect:windowRect styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:YES];
     });
     return sI;
 }
@@ -25,14 +25,16 @@ static dispatch_once_t onceToken;
         return sI;
     }
     self=[super initWithContentRect:contentRect styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:YES];
-    [self setIgnoresMouseEvents:YES];
     self.delegate=self;
-    [self setLevel:kCGDesktopIconWindowLevel];
+    [self setLevel:kCGDesktopIconWindowLevel+1];
     [self setBackgroundColor:[NSColor clearColor]];
+    //[self setBackgroundColor:[NSColor redColor]];
     [self setOpaque:YES];
     self.collectionBehavior=(NSWindowCollectionBehaviorCanJoinAllSpaces |
                              NSWindowCollectionBehaviorStationary |
                              NSWindowCollectionBehaviorIgnoresCycle);
+    NSTrackingArea* foo=[[NSTrackingArea alloc] initWithRect:self.contentView.frame options:NSTrackingActiveAlways|NSTrackingMouseEnteredAndExited owner:self userInfo:nil];
+    [self.contentView addTrackingArea:foo];
     sI=self;
     return self;
 }
@@ -45,10 +47,17 @@ static dispatch_once_t onceToken;
 -(BOOL)canBeVisibleOnAllSpaces{
     return YES;
 }
--(void)refreshOSState{
-    [self windowDidChangeOcclusionState:nil];
+-(void)mouseEntered:(NSEvent *)event{
+    NSUInteger currentID=[[WKDesktopManager sharedInstance] currentSpaceID];
+    WKDesktop* wk=[[WKDesktopManager sharedInstance] desktopForSpaceID:currentID];
+    [wk.firstResponder mouseEntered:event];
 }
-- (void)windowDidChangeOcclusionState:(NSNotification *)notification{
+-(void)mouseExited:(NSEvent *)event{
+    NSUInteger currentID=[[WKDesktopManager sharedInstance] currentSpaceID];
+    WKDesktop* wk=[[WKDesktopManager sharedInstance] desktopForSpaceID:currentID];
+    [wk.firstResponder mouseExited:event];
+}
+-(void)refreshOSState{
     BOOL isVisible;
     if(self.occlusionState & NSWindowOcclusionStateVisible){
         isVisible=YES;
@@ -58,5 +67,8 @@ static dispatch_once_t onceToken;
     }
     NSDictionary* UserInfo=@{@"CurrentSpaceID":[NSNumber numberWithInteger:[[WKDesktopManager sharedInstance] currentSpaceID]],@"Visibility":[NSNumber numberWithBool:isVisible]};
     [[NSNotificationCenter defaultCenter] postNotificationName:OStateChangeNotificationName object:nil  userInfo:UserInfo];
+}
+- (void)windowDidChangeOcclusionState:(NSNotification *)notification{
+    [self refreshOSState];
 }
 @end

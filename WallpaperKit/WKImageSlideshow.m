@@ -16,13 +16,16 @@
     NSObject* syncToken;
     dispatch_source_t src;
     int FolderFD;
+    BOOL isPlaying;
 }
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
     NSError* error;
     NSRect frameRect=window.frame;
     self=[super initWithFrame:frameRect];
     [window setBackgroundColor:[NSColor blackColor]];
-    [self setImageScaling:NSImageScaleProportionallyUpOrDown];
+    
+    NSUInteger ImageScaling=[[[WKConfigurationManager sharedInstance] GetOrSetPersistentConfigurationForRender:@"WKImageSlideshow" Key:@"ImageScaling" andConfiguration:[NSNumber numberWithUnsignedInteger:NSImageScaleProportionallyUpOrDown] type:READWRITE] unsignedIntegerValue];
+    [self setImageScaling:ImageScaling];
     self->ImageURLList=[args objectForKey:@"Images"];
     
     
@@ -65,20 +68,21 @@
     if(error!=nil){
         [window setErr:error];
     }
+    self->isPlaying=NO;
     self.requiresConsistentAccess=NO;
-    self.requiresExclusiveBackground=NO;
-    self->syncToken=[NSObject new];
+    self.requiresExclusiveBackground=YES;
     return self;
 }
-- (void)ImageUpdate{
-    self->tim=[NSTimer timerWithTimeInterval:self->interval target:self selector:@selector(ImageUpdateSlave) userInfo:nil repeats:YES];
-    [[NSRunLoop mainRunLoop] addTimer:self->tim forMode:NSDefaultRunLoopMode];
-}
 -(void)play{
-    [self ImageUpdate];
+    if(self->isPlaying==YES){
+        return;
+    }
+    self->isPlaying=YES;
+    [self performSelector:@selector(ImageUpdateWorker) withObject:nil afterDelay:self->interval];
 }
 -(void)pause{
-    [self->tim invalidate];
+    self->isPlaying=NO;
+
 }
 
 -(void)sortFileList{
@@ -94,25 +98,21 @@
                             return [file2Date compare: file1Date];
                         }];
 }
--(void)ImageUpdateSlave{
-    @synchronized (self->syncToken) {
-        [self performSelectorOnMainThread:@selector(setImage:) withObject:[[NSImage alloc] initWithContentsOfURL:ImageURLList[index]] waitUntilDone:NO];
-        [self setNeedsDisplay];
-        index=(index+1)%ImageURLList.count;
+-(void)ImageUpdateWorker{
+    if(self->isPlaying==NO){
+        return;
     }
-
+    [self performSelectorOnMainThread:@selector(setImage:) withObject:[[NSImage alloc] initWithContentsOfURL:ImageURLList[index]] waitUntilDone:YES];
+    [self setNeedsDisplay];
+    index=(index+1)%ImageURLList.count;
+     [self performSelector:@selector(ImageUpdateWorker) withObject:nil afterDelay:self->interval];
+    
 }
 -(NSString*)description{
     if(self->descript==nil){
         self->descript=self->ImageURLList[0].path;
     }
     return [@"WKImageSlideshow " stringByAppendingString:self->descript];
-}
--(void)mouseDragged:(NSEvent *)event{
-    NSPoint newLocation=[NSEvent mouseLocation];
-    newLocation.x-=self.frame.size.width/2;
-    newLocation.y-=self.frame.size.height/2;
-    [self setFrameOrigin:newLocation];
 }
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 +(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(WKSerializeOption)op{

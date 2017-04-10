@@ -11,7 +11,11 @@
 #import <objc/runtime.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import "WKOcclusionStateWindow.h"
-
+#define ALLKEYBOARDMOUSEEVENTS  NSEventMaskKeyDown|NSEventMaskKeyUp|NSEventMaskLeftMouseDown|NSEventMaskRightMouseDown|\
+NSEventMaskLeftMouseUp|NSEventMaskRightMouseUp|NSEventMaskMouseMoved|NSEventMaskLeftMouseDragged|\
+NSEventMaskRightMouseDragged|NSEventMaskMouseEntered|NSEventMaskMouseExited|\
+NSEventMaskCursorUpdate|NSEventMaskScrollWheel|NSEventMaskOtherMouseDown|NSEventMaskOtherMouseUp|\
+NSEventMaskOtherMouseDragged
 @implementation WKDesktop{
     BOOL isPlaying;
     NSMutableArray* WKViews;//Register WKRenderProtocal Views into this array for operations
@@ -26,13 +30,11 @@
     self.contentView=[[NSView alloc] initWithFrame:contentRect];
     [self setAcceptsMouseMovedEvents:YES];
     [self setMovableByWindowBackground:NO];
+    [self setBackgroundColor:[NSColor clearColor]];
     self->isPlaying=NO;
     self->WKViews=[NSMutableArray array];
     self.collectionBehavior=(NSWindowCollectionBehaviorStationary|NSWindowCollectionBehaviorParticipatesInCycle);
-    [WKUtils registerGlobalEventMonitorForMask:ALLKEYBOARDMOUSEEVENTS withCallback:^(NSEvent* event){
-        [self sendEvent:event];
-    }];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOSChange:) name:OStateChangeNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOSChange:) name:OStateChangeNotificationName object:nil];    
     return self;
 }
 -(void)renderWithEngine:(nonnull Class)renderEngine withArguments:(NSDictionary *)args{
@@ -68,18 +70,17 @@
             [self.mainView pause];
         }
         [self.mainView removeFromSuperview];
-        self.mainView=nil;
     }
 }
 -(void)pause{
     if(self->isPlaying==NO){
         return ;
     }
-    [WKUtils InvalidateEventMonitor:self->eventMonitor];
-    self->eventMonitor=nil;
     for(NSView<WKRenderProtocal>* view in self->WKViews){
         [view pause];
     }
+    [NSEvent removeMonitor:self->eventMonitor];
+    self->eventMonitor=nil;
     self->isPlaying=NO;
 }
 -(void)close{
@@ -95,12 +96,13 @@
     if(self->isPlaying==YES){
         return ;
     }
-    self->eventMonitor=[WKUtils registerGlobalEventMonitorForMask:ALLKEYBOARDMOUSEEVENTS withCallback:^(NSEvent* eve){
-        [self sendEvent:eve];
-    }];
     for(NSView<WKRenderProtocal>* view in self->WKViews){
             [view play];
     }
+    self->eventMonitor=
+    [NSEvent addGlobalMonitorForEventsMatchingMask:ALLKEYBOARDMOUSEEVENTS handler:^(NSEvent* event){
+        [self sendEvent:event];
+    }];
     self->isPlaying=YES;
 }
 -(BOOL)canBeVisibleOnAllSpaces{
@@ -115,7 +117,6 @@
         }
         if(self.mainView==nil){
             self.mainView=foo;
-            
         }
         [foo play];
         
@@ -124,7 +125,6 @@
     [view display];
     
 }
-
 -(NSString*)description{
     return [self.mainView description];
 }

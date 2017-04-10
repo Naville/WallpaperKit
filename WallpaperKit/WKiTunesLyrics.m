@@ -33,13 +33,15 @@
     CGFloat coverBlurNumber;
     BOOL UseHTMLTemplate;
     BOOL FitCoverImageToScreen;
+    NSTrackingArea* trackingArea;
 
 }
 -(instancetype)initWithWindow:(WKDesktop *)window andArguments:(NSDictionary *)args{
-    self=[super initWithFrame:window.frame];
-    CGFloat width=window.frame.size.width/3;
-    CGFloat height=window.frame.size.height/8;
-    CGFloat originX=window.frame.size.width/3;
+    NSRect frame=window.contentView.frame;
+    self=[super initWithFrame:frame];
+    CGFloat width=frame.size.width/3;
+    CGFloat height=frame.size.height/8;
+    CGFloat originX=frame.size.width/3;
     self->pronounceView=[[NSTextView alloc] initWithFrame:NSMakeRect(originX, height, width, height)];
     self->translatedView=[[NSTextView alloc] initWithFrame:NSMakeRect(originX, 2.5*height, width, height)];
     self->ID3View=[[NSTextView alloc] initWithFrame:NSMakeRect(originX, 4*height, width, height)];
@@ -48,7 +50,6 @@
         [tv setBackgroundColor:[NSColor clearColor]];
         [self addSubview:tv];
     }
-    
     self->coverView=[[NSImageView alloc] initWithFrame:window.frame];
     self->coverView.imageScaling=NSImageScaleProportionallyDown;
     [self addSubview:self->coverView positioned:NSWindowBelow relativeTo:self->titleView];
@@ -56,9 +57,6 @@
     self->LM=[LyricManager sharedManager];
     self->WKCM=[WKConfigurationManager sharedInstance];
     self->iTunes=[SBApplication applicationWithBundleIdentifier:@"com.apple.itunes"];
-    [window setBackgroundColor:[NSColor clearColor]];
-    [window setAcceptsMouseMovedEvents:NO];
-    [window setOpaque:YES];
     
     //Init Sync Tokens
     self->synchroToken2=[NSObject new];
@@ -76,6 +74,7 @@
     self.requiresConsistentAccess=NO;
     return self;
 }
+
 -(void)play{
     [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(watchiTunes:) name:@"com.apple.iTunes.playerInfo" object:@"com.apple.iTunes.player"];
     [self updateInfo];
@@ -88,15 +87,6 @@
 }
 -(void)dealloc{
     [self->refreshLRCTimer invalidate];
-}
--(void)adjustLRCViews{
-    CGFloat width=self->coverView.frame.size.width/3;
-    CGFloat height=self->coverView.frame.size.height/8;
-    CGFloat originX=self->coverView.frame.size.width/3;
-    self->pronounceView.frame=NSMakeRect(originX, height, width, height);
-    self->translatedView.frame=NSMakeRect(originX, 2.5*height, width, height);
-    self->ID3View.frame=NSMakeRect(originX, 4*height, width, height);
-    self->titleView.frame=NSMakeRect(originX, 5.5*height, width, height);
 }
 -(void)refreshLyrics{
         @try {
@@ -163,12 +153,6 @@
     [self->ID3View.textStorage setAttributedString:LRCAString];
     [self->translatedView.textStorage setAttributedString:TransAString];
 }
--(void)mouseDragged:(NSEvent *)event{
-    NSPoint newLocation=[NSEvent mouseLocation];
-    newLocation.x-=self.frame.size.width/2;
-    newLocation.y-=self.frame.size.height/2;
-    [self setFrameOrigin:newLocation];
-}
 -(void)handleCoverChange{
     @autoreleasepool {
         
@@ -196,9 +180,12 @@
             [self->coverView setFrameOrigin:NSMakePoint((NSWidth([self bounds]) - NSWidth([self->coverView frame])) / 2,
                                                         (NSHeight([self bounds]) - NSHeight([self->coverView frame])) / 2
                                                         )];
+            
+            [self removeTrackingArea:self->trackingArea];
+            self->trackingArea= [[NSTrackingArea alloc] initWithRect:self->coverView.bounds options: (NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways) owner:self userInfo:nil];
+            [self addTrackingArea:self->trackingArea];
             dispatch_async( dispatch_get_main_queue(), ^{
                  [self needsLayout];
-                [self adjustLRCViews];
             });
         });
     }
@@ -302,6 +289,9 @@
     
     [self performSelectorOnMainThread:@selector(updateInfo) withObject:nil waitUntilDone:NO];
     
+}
+-(BOOL)acceptsFirstResponder{
+    return YES;
 }
 -(NSString*)description{
     return @"WKiTunesLyrics";

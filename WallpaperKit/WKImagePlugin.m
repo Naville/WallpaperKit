@@ -29,12 +29,6 @@
 -(void)pause{
     
 }
--(void)mouseDragged:(NSEvent *)event{
-    NSPoint newLocation=[NSEvent mouseLocation];
-    newLocation.x-=self.frame.size.width/2;
-    newLocation.y-=self.frame.size.height/2;
-    [self setFrameOrigin:newLocation];
-}
 -(NSString*)description{
     return [@"WKImagePlugin " stringByAppendingString:[self->ImagePath.absoluteString stringByRemovingPercentEncoding]];
 }

@@ -75,17 +75,6 @@
 }
 -(void)pause{
 }
--(void)dispatchEvent:(NSString*)name Args:(NSDictionary*)Event andConstructor:(NSString*)constructor{
-    @autoreleasepool {
-        NSString* EventString=[[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:Event options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
-        NSString* js=[NSString stringWithFormat:@"document.dispatchEvent(new %@(\"%@\",%@))",constructor,name,EventString];
-        [self evaluateJavaScript:js completionHandler:nil];
-    }
-}
--(void)dealloc{
-
-    
-}
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 +(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(WKSerializeOption)op{
     NSMutableDictionary* returnValue=[NSMutableDictionary dictionaryWithDictionary:args];
