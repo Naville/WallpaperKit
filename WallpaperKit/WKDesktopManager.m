@@ -53,28 +53,23 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     self=[super init];
     self.windows=[NSMutableDictionary dictionary];
     self->lastActiveSpaceID=INT_MAX;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOSChange:) name:OSNotificationCenterName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOSChange:) name:OStateChangeNotificationName object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(handleWorkspaceChange:) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
     self->DummyWindow=[WKOcclusionStateWindow new];
     return self;
 }
 -(void)stop{
     for(NSNumber* key in self.windows.allKeys){
-        for(WKDesktop* currentDesktop in [self.windows objectForKey:key]){
-            [currentDesktop close];
-            [[self.windows objectForKey:key] removeObject:currentDesktop];
-        }
+        [[self->_windows objectForKey:key] close];
     }
+    
     [self.windows removeAllObjects];
     
     self->lastActiveSpaceID=INT_MAX;
 }
--(NSMutableArray<WKDesktop*>*)desktopsForSpaceID:(NSUInteger)spaceID{
-    if([self.windows.allKeys containsObject:[NSNumber numberWithInteger:spaceID]]){
-        return [self.windows objectForKey:[NSNumber numberWithInteger:spaceID]];
-    }
-    else{
-        return nil;
-    }
+-(WKDesktop*)desktopForSpaceID:(NSUInteger)spaceID{
+    return [self.windows objectForKey:[NSNumber numberWithInteger:spaceID]];
+
 }
 -(void)DisplayDesktop:(WKDesktop*)wk{
     [wk orderFront:nil];
@@ -82,8 +77,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     [self->DummyWindow orderFront:nil];
     //Keep Current Video Playing if next Window is not playing video,etc
     for(id key in self.windows.allKeys){
-        for( WKDesktop* currentDesktop in [self.windows objectForKey:key])
-        {
+        WKDesktop* currentDesktop=[self->_windows objectForKey:key];
             if([currentDesktop isEqualTo:wk]){//Ignore next space's WKDesktop
                 continue;
             }
@@ -93,7 +87,6 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
             else{
                 [currentDesktop pause];
             }
-        }
     }
     
 }
@@ -116,11 +109,28 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
 }
 -(void)discardSpaceID:(NSUInteger)spaceID{
     if([self.windows.allKeys containsObject:[NSNumber numberWithInteger:spaceID]]){
-        for(WKDesktop* win in  [self.windows objectForKey:[NSNumber numberWithInteger:spaceID]]){
-            [win close];
+        
+            [[self.windows objectForKey:[NSNumber numberWithInteger:spaceID]] close];
             [self->_windows removeObjectForKey:[NSNumber numberWithInteger:spaceID]];
-        }
     }
+    
+}
+-(void)handleWorkspaceChange:(NSNotification*)notification{
+    //Do nothing when the system is in fullscreen
+    if([NSApp currentSystemPresentationOptions]==NSApplicationPresentationFullScreen){
+        return;
+    }
+    NSUInteger currentSpaceID=[self currentSpaceID];
+    if(currentSpaceID==WRONG_WINDOW_ID){
+        return;
+    }
+    lastActiveSpaceID=currentSpaceID;
+    NSNumber* SID=[NSNumber numberWithUnsignedInteger:currentSpaceID];
+    WKDesktop* wk=[self->_windows objectForKey:SID];
+    if(wk!=nil){
+        [self DisplayDesktop:wk];
+    }
+    
     
 }
 -(void)handleOSChange:(NSNotification*)notification{
@@ -128,20 +138,14 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     NSNumber* newSpaceID=[notification.userInfo objectForKey:@"CurrentSpaceID"];
     for(id key in self.windows.allKeys){
         if(isVisible==NO){
-            for(WKDesktop* wk in [self.windows objectForKey:key]){
-                [wk pause];
-            }
+                [[self.windows objectForKey:key] pause];
             continue;
         }
         if([key isEqualTo:newSpaceID]){
-            for(WKDesktop* wk in [self.windows objectForKey:key]){
-                [wk play];
-            }
+             [[self.windows objectForKey:key] play];
         }
         else{
-            for(WKDesktop* wk in [self.windows objectForKey:key]){
-                [wk pause];
-            }
+            [[self.windows objectForKey:key] pause];
         }
     }
 }
@@ -151,12 +155,8 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Render Invalid" userInfo:render];
     }
     [wk renderWithEngine:[render objectForKey:@"Render"] withArguments:render];
-    self.activeWallpaperView=wk.mainView;
-    if(self.windows[[NSNumber numberWithInteger:SpaceID]]==nil){
-        self.windows[[NSNumber numberWithInteger:SpaceID]]=[NSMutableArray array];
-    }
-    
-    [self.windows[[NSNumber numberWithInteger:SpaceID]] addObject:wk];
+    [self->_windows setObject:wk forKey:[NSNumber numberWithInteger:SpaceID]];
+
     return wk;
 }
 @end

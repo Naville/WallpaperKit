@@ -54,6 +54,6 @@ static dispatch_once_t onceToken;
         isVisible=NO;
     }
     NSDictionary* UserInfo=@{@"CurrentSpaceID":[NSNumber numberWithInteger:[[WKDesktopManager sharedInstance] currentSpaceID]],@"Visibility":[NSNumber numberWithBool:isVisible]};
-    [[NSNotificationCenter defaultCenter] postNotificationName:OSNotificationCenterName object:nil  userInfo:UserInfo];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OStateChangeNotificationName object:nil  userInfo:UserInfo];
 }
 @end

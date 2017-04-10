@@ -10,7 +10,9 @@
 #import "AbstractLyricSearchEngine.h"
 #import "WKUtils.h"
 static NSMutableArray<Class>* LyricSearchEngine=nil;
-@implementation LyricManager
+@implementation LyricManager{
+    NSLock* lock;
+}
 +(instancetype)sharedManager{
     static id sharedInstance = nil;
     static dispatch_once_t onceToken;
@@ -21,7 +23,7 @@ static NSMutableArray<Class>* LyricSearchEngine=nil;
     return sharedInstance;
 }
 -(instancetype)init{
-    self=[super init];    
+    self=[super init];
     sqlite3_open([[WKUtils BaseURL] URLByAppendingPathComponent:@"naville.lyricskit.db"].absoluteString.UTF8String,&self->db);
    
     sqlite3_exec(self->db, "CREATE TABLE IF NOT EXISTS LYRICS(ARTIST STRING ,SONG STRING,LYRIC STRING,TRANSLATED STRING,PRONOUNCE STRING)", NULL, NULL, NULL);

@@ -13,7 +13,7 @@
 +(instancetype)sharedInstance;
 /**
  Register EmptyRenderListNotification for Notification when the renderer list is empty
- @return NSDictionary* with @"Render" being the Render Engine. The whole dictionary is argument for the renderer
+ @return NSDictionary* with @"Render" being the Render Engine. The whole dictionary is argument for the renderer.
  */
 -(NSDictionary*)randomRender;
 /**
@@ -45,7 +45,8 @@
  */
 -(void)addRender:(NSDictionary*)arg;
 /**
- An NSMutableArray of NSDictionary. Each NSDictionary has the same structure as described in randomRender's documentation
+ An NSMutableArray of NSDictionary. Each NSDictionary has the same structure as described in randomRender's documentation.
+ Note that this contains ready-to-use renders instead of JSON-Compatible ones
  */
 @property (readwrite,retain,atomic) NSMutableArray<NSDictionary*>* renderList;
 @end

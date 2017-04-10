@@ -23,7 +23,6 @@
     Lyric *proADT;
     NSImageView *coverView;
     NSTimer* refreshLRCTimer;
-    NSObject* refreshLyricsToken;
     NSObject* synchroToken2;
     WKConfigurationManager* WKCM;
     NSString* TitleTemplate;
@@ -63,7 +62,6 @@
     
     //Init Sync Tokens
     self->synchroToken2=[NSObject new];
-    self->refreshLyricsToken=[NSObject new];
     //Load From Configuration
     [self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"SongMatchRules" andConfiguration:[NSArray arrayWithObjects:@"%SONG% %ALBUM%",@"%SONG% %ARTIST%",@"%SONG% %ALBUMARTIST%", nil] type:READWRITE];//Set rules up for Search Plugins
     self->UseHTMLTemplate=[[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"UseHTMLTemplate" andConfiguration:[NSNumber numberWithBool:NO] type:READWRITE] boolValue];
@@ -200,14 +198,12 @@
     }
 }
 -(void)updateLyricADT{
-    @synchronized (refreshLyricsToken) {
     @autoreleasepool {
         iTunesTrack* track=iTunes.currentTrack;
         NSDictionary* queryDict=[[LyricManager sharedManager] exportLyric:@{@"Artist":track.artist,@"Song":track.name,@"Album":track.album,@"AlbumArtist":track.albumArtist}];
         lrcADT=[[Lyric alloc] initWithLRC:[queryDict objectForKey:@"Lyric"]];
         translatedADT=[[Lyric alloc] initWithLRC:[queryDict objectForKey:@"Translated"]];
         proADT=[[Lyric alloc] initWithLRC:[queryDict objectForKey:@"Pronounce"]];
-    }
     }
 }
 

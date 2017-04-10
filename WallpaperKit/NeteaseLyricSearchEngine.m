@@ -38,34 +38,75 @@
     return [NSJSONSerialization JSONObjectWithData:POSTData options:NSJSONReadingMutableLeaves error:nil];
 }
 -(nullable NSDictionary*)searchLyricForSongInfo:(nonnull NSDictionary*)Info{
-    NSMutableArray* allSongs=[NSMutableArray array];
-    for (NSString* Rule in [[WKConfigurationManager sharedInstance] GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"SongMatchRules" andConfiguration:[NSArray arrayWithObjects:@"%SONG% %ALBUM%",@"%SONG% %ARTIST%",@"%SONG% %ALBUMARTIST%", nil] type:READWRITE]){
-        NSString* S=[Rule stringByReplacingOccurrencesOfString:@"%SONG%" withString:[Info objectForKey:@"Song"]];
-        S=[S stringByReplacingOccurrencesOfString:@"%ALBUM%" withString:[Info objectForKey:@"Album"]];
-        S=[S stringByReplacingOccurrencesOfString:@"%ARTIST%" withString:[Info objectForKey:@"Artist"]];
-        S=[S stringByReplacingOccurrencesOfString:@"%ALBUMARTIST%" withString:[Info objectForKey:@"AlbumArtist"]];
-        NSDictionary* MatchList=[self searchSongInfo:S];
-        NSArray* Songs=MatchList[@"result"][@"songs"];
-        [allSongs addObjectsFromArray:Songs];
-        
+    @autoreleasepool {
+        NSMutableArray* allSongs=[NSMutableArray array];
+        for (NSString* Rule in [[WKConfigurationManager sharedInstance] GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"SongMatchRules" andConfiguration:[NSArray arrayWithObjects:@"%SONG% %ALBUM%",@"%SONG% %ARTIST%",@"%SONG% %ALBUMARTIST%", nil] type:READWRITE]){
+            NSString* S=[Rule stringByReplacingOccurrencesOfString:@"%SONG%" withString:[Info objectForKey:@"Song"]];
+            S=[S stringByReplacingOccurrencesOfString:@"%ALBUM%" withString:[Info objectForKey:@"Album"]];
+            S=[S stringByReplacingOccurrencesOfString:@"%ARTIST%" withString:[Info objectForKey:@"Artist"]];
+            S=[S stringByReplacingOccurrencesOfString:@"%ALBUMARTIST%" withString:[Info objectForKey:@"AlbumArtist"]];
+            NSDictionary* MatchList=[self searchSongInfo:S];
+            NSArray* Songs=MatchList[@"result"][@"songs"];
+            [allSongs addObjectsFromArray:Songs];
+            
+        }
+        //For Each Item
+        /*
+         
+         "id": 412654822,
+         "name": "Milky Rally",
+         "artists": [{
+         "id": 12007416,
+         "name": "livetune+",
+         "picUrl": null,
+         "alias": [],
+         "albumSize": 0,
+         "picId": 0,
+         "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+         "img1v1": 0,
+         "trans": null
+         }
+         */
+
+        NSMutableArray* validSongs=[self validSongs:allSongs Info:Info];
+        NSNumber* SongID=validSongs[0][@"id"];
+        NSString* LRCURL=[NSString stringWithFormat:@"http://music.163.com/api/song/lyric?os=osx&id=%@&lv=-1&kv=-1&tv=-1",SongID];
+        NSDictionary* LRCInfo=[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:LRCURL]] options:NSJSONReadingMutableLeaves error:nil];
+        NSMutableDictionary* retVal=[NSMutableDictionary dictionary];
+        NSString* LRC=LRCInfo[@"lrc"][@"lyric"];
+        if(![LRC isEqual:[NSNull null]] && LRC.length>0){
+            [retVal setObject:LRC forKey:@"Lyric"];
+        }
+        NSString* Translated=LRCInfo[@"tlyric"][@"lyric"];
+        if(![Translated isEqual:[NSNull null]] && Translated.length>0){
+            [retVal setObject:Translated forKey:@"Translated"];
+        }
+        return retVal;
     }
-    
-    if(allSongs==nil||allSongs.count==0){
-        return nil;
+}
+-(NSMutableArray*)validSongs:(NSArray*)allSongs Info:(NSDictionary*)Info{
+    @autoreleasepool {
+        NSMutableArray* validSongs=[NSMutableArray array];
+        id firstObj=[allSongs firstObject];
+        for (NSDictionary* item in allSongs){
+            BOOL ValidArtist=NO;
+            for(NSDictionary* ArtistInfo in item[@"artists"]){
+                if([(NSString*)ArtistInfo[@"name"] containsString:Info[@"Artist"]] || [(NSString*)ArtistInfo[@"name"] containsString:Info[@"AlbumArtist"]] || [Info[@"Artist"] containsString:(NSString*)ArtistInfo[@"name"]] || [Info[@"AlbumArtist"] containsString:(NSString*)ArtistInfo[@"name"]] ){
+                    ValidArtist=YES;
+                    break;
+                }
+            }
+            
+            if(([(NSString*)item[@"name"] containsString:[Info objectForKey:@"Song"]] || [(NSString*)[Info objectForKey:@"Song"] containsString:(NSString*)item[@"name"]]) && ValidArtist){
+                [validSongs addObject:item];
+            }
+            
+        }
+        if(validSongs.count==0){
+            [validSongs addObject:firstObj];
+        }
+        return validSongs;
     }
-    NSNumber* SongID=allSongs[0][@"id"];
-    NSString* LRCURL=[NSString stringWithFormat:@"http://music.163.com/api/song/lyric?os=osx&id=%@&lv=-1&kv=-1&tv=-1",SongID];
-    NSDictionary* LRCInfo=[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:LRCURL]] options:NSJSONReadingMutableLeaves error:nil];
-    NSMutableDictionary* retVal=[NSMutableDictionary dictionary];
-    NSString* LRC=LRCInfo[@"lrc"][@"lyric"];
-    if(![LRC isEqual:[NSNull null]] && LRC.length>0){
-        [retVal setObject:LRC forKey:@"Lyric"];
-    }
-    NSString* Translated=LRCInfo[@"tlyric"][@"lyric"];
-    if(![Translated isEqual:[NSNull null]] && Translated.length>0){
-        [retVal setObject:Translated forKey:@"Translated"];
-    }
-    return retVal;
 }
 
 #ifdef NETEASE_USE_NEW_API

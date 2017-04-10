@@ -36,7 +36,8 @@
         
         // call the passed block if the source is modified
         dispatch_source_set_event_handler(self->src,^(){
-            self->ImageURLList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[args objectForKey:@"ImagePath"] includingPropertiesForKeys:@[NSURLNameKey,NSURLContentModificationDateKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+            self->ImageURLList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[args objectForKey:@"ImagePath"] includingPropertiesForKeys:@[NSURLNameKey,NSURLContentModificationDateKey,NSURLCreationDateKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+            self->index=0;
             
             [self sortFileList];
         });
@@ -85,10 +86,10 @@
                         {
                             // compare
                             NSDate *file1Date;
-                            [file1 getResourceValue:&file1Date forKey:NSURLContentModificationDateKey error:nil];
+                            [file1 getResourceValue:&file1Date forKey:NSURLCreationDateKey error:nil];
                             
                             NSDate *file2Date;
-                            [file2 getResourceValue:&file2Date forKey:NSURLContentModificationDateKey error:nil];
+                            [file2 getResourceValue:&file2Date forKey:NSURLCreationDateKey error:nil];
                             return [file2Date compare: file1Date];
                         }];
 }

@@ -13,7 +13,7 @@ typedef NS_ENUM(NSUInteger, WKSerializeOption) {
 
 @class WKDesktop;
 
-@protocol WKRenderProtocal
+@protocol WKRenderProtocal<NSTableViewDataSource>
 
 @required
 /**

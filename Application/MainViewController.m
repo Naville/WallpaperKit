@@ -34,6 +34,7 @@
         [self.RenderListView reloadData];
     });
     [[WKConfigurationManager sharedInstance] Serialize:[[WKUtils BaseURL] URLByAppendingPathComponent:@"Config.json"] Operation:FROMJSON];
+    [self LoadCurrentRender:nil];
 }
 - (IBAction)discardExistingWindows:(id)sender {
     [[WKDesktopManager sharedInstance] stop];
@@ -51,7 +52,15 @@
 }
 - (IBAction)chooseRenderForCurrentDesktop:(id)sender {
     NSUInteger index=[self.RenderListView selectedRow];
-    WKDesktop* wk=[self->wkdm createDesktopWithSpaceID:[self->wkdm currentSpaceID] andRender:[self->wkrm.renderList objectAtIndex:index]];
+    id Render=[self->wkrm.renderList objectAtIndex:index];
+    
+    WKDesktop* wk=[self->wkdm desktopForSpaceID:[self->wkdm currentSpaceID]];
+    if(wk==nil){
+        wk=[self->wkdm createDesktopWithSpaceID:[self->wkdm currentSpaceID] andRender:[self->wkrm.renderList objectAtIndex:index]];
+    }
+    else{
+        [wk renderWithEngine:[Render objectForKey:@"Render"] withArguments:Render];
+    }
     [self->wkdm DisplayDesktop:wk];
     [self.view.window setTitle:[wk description]];
     [[WKConfigurationManager sharedInstance] Serialize:[[WKUtils BaseURL] URLByAppendingPathComponent:@"Config.json"] Operation:TOJSON];

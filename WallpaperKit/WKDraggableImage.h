@@ -13,7 +13,7 @@
  Double click to bring it back to desktop
  Double click again to bring it to top-most again
  */
-@interface WKDraggableImage : WKImagePlugin
+@interface WKDraggableImage : WKImagePlugin<WKRenderProtocal>
 /**
  Init Plugin
  

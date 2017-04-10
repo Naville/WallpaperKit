@@ -26,10 +26,20 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)pause;
 /**
  Play wrapped render with internal state manipulation.
- Call this instead of rdirectly interacting with render
+ Call this instead of directly interacting with render
  */
 -(void)play;
-@property (readwrite,retain,nonatomic,nonnull) NSView<WKRenderProtocal>* mainView;
+
+/**
+ Add view to contentView. Call this instead of directly using contentView as this contains internal state manipulation. If this view is "mainRender",old main view will be discarded;
+
+ @param view View To Add
+ */
+-(void)addView:(NSView*)view;
+/**
+ “Main” Render of current desktop. There can be at most one main Render for each Desktop
+ */
+@property (readwrite,retain,nonatomic) NSView<WKRenderProtocal>* mainView;
 /**
  NSError used by Render
  */

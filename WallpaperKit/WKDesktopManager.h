@@ -30,12 +30,12 @@
  */
 -(void)DisplayDesktop:(nonnull WKDesktop*)wk;
 /**
- Obtain Desktops for a give SpaceID. Return nil if there is no Desktop for the SpaceID
+ Obtain Desktop for a give SpaceID. Return nil if there is no Desktop for the SpaceID
  
  @param spaceID SpaceID for the query
- @return NSMutableArray containing a list of WKDesktop Object
+ @return a WKDesktop Object
  */
--(nullable NSMutableArray<WKDesktop*>*)desktopsForSpaceID:(NSUInteger)spaceID;
-@property (readwrite,retain,atomic)  NSMutableDictionary<NSNumber*,NSMutableArray<WKDesktop *>*>* _Nonnull  windows;
+-(nullable WKDesktop*)desktopForSpaceID:(NSUInteger)spaceID;
+@property (readwrite,retain,atomic)  NSMutableDictionary<NSNumber*,WKDesktop *>* _Nonnull  windows;
 @property (readwrite,retain,atomic)  NSView* _Nullable  activeWallpaperView;
 @end
