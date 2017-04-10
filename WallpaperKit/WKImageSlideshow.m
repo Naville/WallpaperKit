@@ -66,7 +66,7 @@
         [window setErr:error];
     }
     self.requiresConsistentAccess=NO;
-    self.requiresExclusiveBackground=YES;
+    self.requiresExclusiveBackground=NO;
     self->syncToken=[NSObject new];
     return self;
 }
@@ -80,6 +80,7 @@
 -(void)pause{
     [self->tim invalidate];
 }
+
 -(void)sortFileList{
     self->ImageURLList=[self->ImageURLList sortedArrayUsingComparator:
                         ^(NSURL *file1, NSURL *file2)
@@ -106,6 +107,12 @@
         self->descript=self->ImageURLList[0].path;
     }
     return [@"WKImageSlideshow " stringByAppendingString:self->descript];
+}
+-(void)mouseDragged:(NSEvent *)event{
+    NSPoint newLocation=[NSEvent mouseLocation];
+    newLocation.x-=self.frame.size.width/2;
+    newLocation.y-=self.frame.size.height/2;
+    [self setFrameOrigin:newLocation];
 }
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 +(NSMutableDictionary*)convertArgument:(NSDictionary *)args Operation:(WKSerializeOption)op{

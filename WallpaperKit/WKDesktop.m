@@ -10,11 +10,12 @@
 #import <WebKit/WebKit.h>
 #import <objc/runtime.h>
 #import <CoreGraphics/CoreGraphics.h>
-
+#import "WKOcclusionStateWindow.h"
 
 @implementation WKDesktop{
     BOOL isPlaying;
     NSMutableArray* WKViews;//Register WKRenderProtocal Views into this array for operations
+    id eventMonitor;
 }
 - (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)style backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag{
     self= [super initWithContentRect:contentRect styleMask:style backing:bufferingType defer:flag];
@@ -28,6 +29,10 @@
     self->isPlaying=NO;
     self->WKViews=[NSMutableArray array];
     self.collectionBehavior=(NSWindowCollectionBehaviorStationary|NSWindowCollectionBehaviorParticipatesInCycle);
+    [WKUtils registerGlobalEventMonitorForMask:ALLKEYBOARDMOUSEEVENTS withCallback:^(NSEvent* event){
+        [self sendEvent:event];
+    }];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOSChange:) name:OStateChangeNotificationName object:nil];
     return self;
 }
 -(void)renderWithEngine:(nonnull Class)renderEngine withArguments:(NSDictionary *)args{
@@ -42,6 +47,16 @@
     [self addView:foo];
     
     
+}
+-(void)handleOSChange:(NSNotification*)notification{
+    BOOL isVisible=[[notification.userInfo objectForKey:@"Visibility"] boolValue];
+    NSNumber* newSpaceID=[notification.userInfo objectForKey:@"CurrentSpaceID"];
+        if(isVisible==YES && [newSpaceID isEqualToNumber:newSpaceID]){
+            [self play];
+        }
+        else{
+            [self pause];
+        }
 }
 -(void)discardMainView{
     if(self.mainView!=nil){
@@ -60,6 +75,8 @@
     if(self->isPlaying==NO){
         return ;
     }
+    [WKUtils InvalidateEventMonitor:self->eventMonitor];
+    self->eventMonitor=nil;
     for(NSView<WKRenderProtocal>* view in self->WKViews){
         [view pause];
     }
@@ -78,6 +95,9 @@
     if(self->isPlaying==YES){
         return ;
     }
+    self->eventMonitor=[WKUtils registerGlobalEventMonitorForMask:ALLKEYBOARDMOUSEEVENTS withCallback:^(NSEvent* eve){
+        [self sendEvent:eve];
+    }];
     for(NSView<WKRenderProtocal>* view in self->WKViews){
             [view play];
     }

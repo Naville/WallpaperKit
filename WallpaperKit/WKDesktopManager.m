@@ -53,9 +53,8 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     self=[super init];
     self.windows=[NSMutableDictionary dictionary];
     self->lastActiveSpaceID=INT_MAX;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOSChange:) name:OStateChangeNotificationName object:nil];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(handleWorkspaceChange:) name:NSWorkspaceActiveSpaceDidChangeNotification object:nil];
-    self->DummyWindow=[WKOcclusionStateWindow new];
+    self->DummyWindow=[WKOcclusionStateWindow sharedInstance];
     return self;
 }
 -(void)stop{
@@ -73,7 +72,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
 }
 -(void)DisplayDesktop:(WKDesktop*)wk{
     [wk orderFront:nil];
-    [wk play];
+    [[WKOcclusionStateWindow sharedInstance] refreshOSState];
     [self->DummyWindow orderFront:nil];
     //Keep Current Video Playing if next Window is not playing video,etc
     for(id key in self.windows.allKeys){
@@ -133,28 +132,13 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     
     
 }
--(void)handleOSChange:(NSNotification*)notification{
-    BOOL isVisible=[[notification.userInfo objectForKey:@"Visibility"] boolValue];
-    NSNumber* newSpaceID=[notification.userInfo objectForKey:@"CurrentSpaceID"];
-    for(id key in self.windows.allKeys){
-        if(isVisible==NO){
-                [[self.windows objectForKey:key] pause];
-            continue;
-        }
-        if([key isEqualTo:newSpaceID]){
-             [[self.windows objectForKey:key] play];
-        }
-        else{
-            [[self.windows objectForKey:key] pause];
-        }
-    }
-}
 -(WKDesktop*)createDesktopWithSpaceID:(NSUInteger)SpaceID andRender:(NSDictionary*)render{
     WKDesktop*  wk=[[WKDesktop alloc] initWithContentRect:CGDisplayBounds(CGMainDisplayID()) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
     if(render==nil|| ![render.allKeys containsObject:@"Render"]){
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Render Invalid" userInfo:render];
     }
     [wk renderWithEngine:[render objectForKey:@"Render"] withArguments:render];
+    wk.spaceID=[NSNumber numberWithInteger:SpaceID];
     [self->_windows setObject:wk forKey:[NSNumber numberWithInteger:SpaceID]];
 
     return wk;

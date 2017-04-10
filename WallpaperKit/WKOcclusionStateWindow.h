@@ -8,7 +8,6 @@
 
 #import <AppKit/AppKit.h>
 #define OStateChangeNotificationName @"com.naville.wallpaperkit.occulastionstate"
-#define OSStateFrameNotification
 /**
  Dummy Invisible Singleton Window For Handling OcclusionState Changes
  As the default NSWindowDelegate one doesn't work well for kCGDesktopIconWindowLevel-1
@@ -23,4 +22,8 @@ Notification UserInfo Contains:
  @return Invisible NSWindow
  */
 + (instancetype)sharedInstance;
+/**
+ Post New Notification With Current OcculastionState
+ */
+-(void)refreshOSState;
 @end

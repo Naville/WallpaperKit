@@ -43,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  NSError used by Render
  */
+@property (readwrite,retain,nonatomic) NSNumber* spaceID;
 @property (readwrite,strong,nonatomic,nullable) NSError* err;
 @end
 NS_ASSUME_NONNULL_END

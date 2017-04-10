@@ -12,9 +12,8 @@
     self=[super initWithWindow:window andArguments:args];
     [self setImageScaling:NSImageScaleNone];
     [window setBackgroundColor:[NSColor clearColor]];
-    [window setLevel:NSStatusWindowLevel-1];
     [window setAcceptsMouseMovedEvents:NO];
-    self.requiresExclusiveBackground=NO;
+    self.requiresExclusiveBackground=YES;
     return self;
 }
 -(void)mouseDragged:(NSEvent *)event{
@@ -22,6 +21,20 @@
     newLocation.x-=self.frame.size.width/2;
     newLocation.y-=self.frame.size.height/2;
     [self setFrameOrigin:newLocation];
+}
+- (void)mouseUp:(NSEvent *)event
+{
+    if([event clickCount]==2){
+        if(self.window.level==(kCGNormalWindowLevel+1)){
+            [self.window setLevel:kCGDesktopWindowLevel-1];
+        }
+        else{
+            [self.window setLevel:kCGNormalWindowLevel+1];
+        }
+    }
+    else{
+        [super mouseUp:event];
+    }
 }
 +( NSMutableDictionary* _Nonnull )convertArgument:( NSDictionary* _Nonnull )args Operation:(WKSerializeOption)op{
     NSMutableDictionary* orig=[super convertArgument:args Operation:op];
@@ -32,20 +45,6 @@
         [orig setObject:NSClassFromString(@"WKDraggableImage") forKey:@"Render"];
     }
     return orig;
-}
-- (void)mouseUp:(NSEvent *)event
-{
-    if([event clickCount]==2){
-        if(self.window.level==(kCGDesktopIconWindowLevel+1)){
-             [self.window setLevel:NSStatusWindowLevel-1];
-        }
-        else{
-            [self.window setLevel:kCGDesktopIconWindowLevel+1];
-        }
-    }
-    else{
-        [super mouseUp:event];
-    }
 }
 
 @end

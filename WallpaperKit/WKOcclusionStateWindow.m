@@ -45,6 +45,9 @@ static dispatch_once_t onceToken;
 -(BOOL)canBeVisibleOnAllSpaces{
     return YES;
 }
+-(void)refreshOSState{
+    [self windowDidChangeOcclusionState:nil];
+}
 - (void)windowDidChangeOcclusionState:(NSNotification *)notification{
     BOOL isVisible;
     if(self.occlusionState & NSWindowOcclusionStateVisible){

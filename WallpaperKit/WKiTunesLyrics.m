@@ -72,7 +72,7 @@
     self->TitleTemplate=[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"TitleTemplate" andConfiguration:[[NSString alloc] initWithData:[[NSData alloc] initWithBase64EncodedString:@"PCFET0NUWVBFIGh0bWw+DQo8aHRtbCBsYW5nPSJlbiIgY2xhc3M9Im5vLWpzIj4NCgk8aGVhZD4NCgkJPG1ldGEgY2hhcnNldD0iVVRGLTgiIC8+DQogICAgPHN0eWxlPg0KICAgICAgICAjQ29udGV4dCB7DQogICAgICAgICAgICBjb2xvcjogYmx1ZTsNCiAgICAgICAgfQ0KICAgIDwvc3R5bGU+DQoJPC9oZWFkPg0KCTxib2R5Pg0KICA8ZGl2IGlkPSJDb250ZXh0Ij4NCiAgICA8cCBzdHlsZT0iY29sb3I6cmVkIj48c3Ryb25nPiVTT05HTkFNRSU8L3N0cm9uZz48L3A+DQogICAgPHAgc3R5bGU9ImNvbG9yOnJlZCI+PHN0cm9uZz4lQVJUSVNUTkFNRSU8L3N0cm9uZz48L3A+DQogICAgPHAgc3R5bGU9ImNvbG9yOnJlZCI+PHN0cm9uZz4lQUxCVU1OQU1FJTwvc3Ryb25nPjwvcD4NCiAgPC9kaXY+DQoNCgk8L2JvZHk+DQo8L2h0bWw+DQo=" options:NSDataBase64DecodingIgnoreUnknownCharacters] encoding:NSUTF8StringEncoding] type:READWRITE];
     self->coverBlurNumber=[[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"CoverBlurNumber" andConfiguration:[NSNumber numberWithFloat:4] type:READWRITE] floatValue];
     self->FitCoverImageToScreen=[[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"FitCoverImageToScreen" andConfiguration:[NSNumber numberWithBool:YES] type:READWRITE] boolValue];
-    self.requiresExclusiveBackground=YES;
+    self.requiresExclusiveBackground=NO;
     self.requiresConsistentAccess=NO;
     return self;
 }
@@ -162,6 +162,12 @@
     [self->pronounceView.textStorage setAttributedString:PROAString];
     [self->ID3View.textStorage setAttributedString:LRCAString];
     [self->translatedView.textStorage setAttributedString:TransAString];
+}
+-(void)mouseDragged:(NSEvent *)event{
+    NSPoint newLocation=[NSEvent mouseLocation];
+    newLocation.x-=self.frame.size.width/2;
+    newLocation.y-=self.frame.size.height/2;
+    [self setFrameOrigin:newLocation];
 }
 -(void)handleCoverChange{
     @autoreleasepool {
