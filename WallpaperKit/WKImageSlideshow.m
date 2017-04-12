@@ -79,7 +79,7 @@
     }
     self->isPlaying=YES;
     self->tim=[NSTimer scheduledTimerWithTimeInterval:self->interval repeats:YES block:^(NSTimer* tim){
-        if(tim.isValid==NO){
+        if(self->tim.isValid==NO){
             return ;
         }
         [self performSelectorOnMainThread:@selector(setImage:) withObject:[[NSImage alloc] initWithContentsOfURL:ImageURLList[index]] waitUntilDone:YES];

@@ -22,7 +22,7 @@
     Lyric *translatedADT;
     Lyric *proADT;
     NSImageView *coverView;
-    NSTimer* refreshLRCTimer;
+    NSThread* refreshLRCThread;
     NSObject* synchroToken2;
     WKConfigurationManager* WKCM;
     NSString* TitleTemplate;
@@ -33,8 +33,7 @@
     CGFloat coverBlurNumber;
     BOOL UseHTMLTemplate;
     BOOL FitCoverImageToScreen;
-    NSTrackingArea* trackingArea;
-
+    
 }
 -(instancetype)initWithWindow:(WKDesktop *)window andArguments:(NSDictionary *)args{
     NSRect frame=window.contentView.frame;
@@ -76,34 +75,38 @@
 }
 
 -(void)play{
-    [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(watchiTunes:) name:@"com.apple.iTunes.playerInfo" object:@"com.apple.iTunes.player"];
     [self updateInfo];
-    self->refreshLRCTimer=[NSTimer scheduledTimerWithTimeInterval:[[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"iTunesPollingInterval" andConfiguration:[NSNumber numberWithFloat:0.5] type:READWRITE] floatValue] target:self selector:@selector(refreshLyrics) userInfo:nil repeats:YES];
-
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(watchiTunes:) name:@"com.apple.iTunes.playerInfo" object:@"com.apple.iTunes.player"];
+    self->refreshLRCThread=[[NSThread alloc] initWithTarget:self selector:@selector(refreshLyrics) object:nil];
+    [self->refreshLRCThread start];
+    
 }
 -(void)pause{
-    [self->refreshLRCTimer invalidate];
+    [self->refreshLRCThread cancel];
     [[NSDistributedNotificationCenter defaultCenter] removeObserver:self name:@"com.apple.iTunes.playerInfo" object:@"com.apple.iTunes.player"];
 }
 -(void)dealloc{
-    [self->refreshLRCTimer invalidate];
+    [self pause];
 }
 -(void)refreshLyrics{
+    while([NSThread currentThread].isCancelled==NO){
+        [NSThread sleepForTimeInterval:[[self->WKCM GetOrSetPersistentConfigurationForRender:@"WKiTunesLyrics" Key:@"iTunesPollingInterval" andConfiguration:[NSNumber numberWithFloat:0.5] type:READWRITE] floatValue]];
         @try {
-            @autoreleasepool {
-                if(lrcADT==nil&&translatedADT==nil&&proADT==nil){
-                    [self updateLyricADT];
-                }
-                if(self->UseHTMLTemplate){
-                    [self refreshLyricsWithHTML];
-                }
-                else{
-                    [self refreshLyricsWithSCLA];
-                }
-            }
+            if(lrcADT==nil&&translatedADT==nil&&proADT==nil){
+             [self updateLyricADT];
+             }
+             if(self->UseHTMLTemplate){
+             [self refreshLyricsWithHTML];
+             }
+             else{
+             [self refreshLyricsWithSCLA];
+             }
+            
         } @catch (NSException *exception) {
-            return ;
+            continue ;
         }
+    }
+    NSLog(@"Cancel");
     
     
 }
@@ -126,10 +129,12 @@
             NSColor* col=ColorArray[i%ColorArray.count];
             [attriStr addAttribute:NSForegroundColorAttributeName value:col range:NSMakeRange(0, attriStr.length)];
         }
-     
-        [self->pronounceView.textStorage setAttributedString:ProString];
-        [self->translatedView.textStorage setAttributedString:TranslatedString];
-        [self->ID3View.textStorage setAttributedString:ID3String];
+        dispatch_async( dispatch_get_main_queue(), ^{
+            [self->pronounceView.textStorage setAttributedString:ProString];
+            [self->translatedView.textStorage setAttributedString:TranslatedString];
+            [self->ID3View.textStorage setAttributedString:ID3String];
+        });
+        
     }
     
     
@@ -149,9 +154,11 @@
         [AS setAlignment:NSTextAlignmentCenter range:NSMakeRange(0, AS.length)];
     }
     
-    [self->pronounceView.textStorage setAttributedString:PROAString];
-    [self->ID3View.textStorage setAttributedString:LRCAString];
-    [self->translatedView.textStorage setAttributedString:TransAString];
+    dispatch_async( dispatch_get_main_queue(), ^{
+        [self->pronounceView.textStorage setAttributedString:PROAString];
+        [self->ID3View.textStorage setAttributedString:LRCAString];
+        [self->translatedView.textStorage setAttributedString:TransAString];
+    });
 }
 -(void)handleCoverChange{
     @autoreleasepool {
@@ -168,24 +175,19 @@
             else{
                 [self.window setBackgroundColor:[NSColor clearColor]];
             }
-            [self->coverView setImage:blurredImage];
-            NSRect currentRect=self->coverView.frame;
-            if(self->FitCoverImageToScreen){
-                currentRect=self.window.frame;
-            }else{
-                currentRect.size=blurredImage.size;//Stretch to full screen
-            }
-            [self->coverView setFrame:currentRect];
-        
-            [self->coverView setFrameOrigin:NSMakePoint((NSWidth([self bounds]) - NSWidth([self->coverView frame])) / 2,
-                                                        (NSHeight([self bounds]) - NSHeight([self->coverView frame])) / 2
-                                                        )];
-            
-            [self removeTrackingArea:self->trackingArea];
-            self->trackingArea= [[NSTrackingArea alloc] initWithRect:self->coverView.bounds options: (NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways) owner:self userInfo:nil];
-            [self addTrackingArea:self->trackingArea];
             dispatch_async( dispatch_get_main_queue(), ^{
-                 [self needsLayout];
+                [self->coverView setImage:blurredImage];
+                NSRect currentRect=self->coverView.frame;
+                if(self->FitCoverImageToScreen){
+                    currentRect=self.window.frame;
+                }else{
+                    currentRect.size=blurredImage.size;//Stretch to full screen
+                }
+                [self->coverView setFrame:currentRect];
+                
+                [self->coverView setFrameOrigin:NSMakePoint((NSWidth([self bounds]) - NSWidth([self->coverView frame])) / 2,
+                                                            (NSHeight([self bounds]) - NSHeight([self->coverView frame])) / 2
+                                                            )];
             });
         });
     }
@@ -283,7 +285,7 @@
             return ;
         }
     }];
-
+    
 }
 -(void)watchiTunes:(NSNotification*)notif{
     
