@@ -17,6 +17,7 @@
     @"Interval" unsigned int seconds to sleep between image changes
     @"Images" NSArray* of image path NSURL
     or @"ImagePath" NSURL* Path to Image Folder
+    @"SortingKey" NSURLResourceKey's name as String, or @"Random"
  
  */
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args;

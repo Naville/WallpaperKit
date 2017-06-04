@@ -7,6 +7,7 @@
 //
 
 #import "WKImageSlideshow.h"
+#import <dlfcn.h>
 @implementation WKImageSlideshow{
     NSArray<NSURL*>* ImageURLList;
     unsigned int interval;
@@ -17,21 +18,24 @@
     dispatch_source_t src;
     int FolderFD;
     BOOL isPlaying;
+    NSURLResourceKey SortKey;
 }
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args{
+    srand(time(NULL));
     NSError* error;
     NSRect frameRect=window.frame;
     self=[super initWithFrame:frameRect];
     [window setBackgroundColor:[NSColor blackColor]];
     
     NSUInteger ImageScaling=[[[WKConfigurationManager sharedInstance] GetOrSetPersistentConfigurationForRender:@"WKImageSlideshow" Key:@"ImageScaling" andConfiguration:[NSNumber numberWithUnsignedInteger:NSImageScaleProportionallyUpOrDown] type:READWRITE] unsignedIntegerValue];
+    self->SortKey=[args objectForKey:@"SortingKey"];
     [self setImageScaling:ImageScaling];
     self->ImageURLList=[args objectForKey:@"Images"];
     
     
     if(self->ImageURLList==nil){
         self->descript=[@"ImagePath: " stringByAppendingString:[(NSURL*)[args objectForKey:@"ImagePath"]  path]];
-        self->ImageURLList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[args objectForKey:@"ImagePath"] includingPropertiesForKeys:@[NSURLNameKey,NSURLContentModificationDateKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:&error];
+        self->ImageURLList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[args objectForKey:@"ImagePath"] includingPropertiesForKeys:@[self->SortKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:&error];
         [self sortFileList];
         
         self->FolderFD=open([[[args objectForKey:@"ImagePath"] path] fileSystemRepresentation],O_EVTONLY);
@@ -39,7 +43,7 @@
         
         // call the passed block if the source is modified
         dispatch_source_set_event_handler(self->src,^(){
-            self->ImageURLList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[args objectForKey:@"ImagePath"] includingPropertiesForKeys:@[NSURLNameKey,NSURLContentModificationDateKey,NSURLCreationDateKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+            self->ImageURLList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[args objectForKey:@"ImagePath"] includingPropertiesForKeys:@[self->SortKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
             self->index=0;
             
             [self sortFileList];
@@ -96,17 +100,30 @@
 }
 
 -(void)sortFileList{
-    self->ImageURLList=[self->ImageURLList sortedArrayUsingComparator:
-                        ^(NSURL *file1, NSURL *file2)
-                        {
-                            // compare
-                            NSDate *file1Date;
-                            [file1 getResourceValue:&file1Date forKey:NSURLCreationDateKey error:nil];
-                            
-                            NSDate *file2Date;
-                            [file2 getResourceValue:&file2Date forKey:NSURLCreationDateKey error:nil];
-                            return [file2Date compare: file1Date];
-                        }];
+    @autoreleasepool {
+        if([self->SortKey isEqualToString:@"Random"]){
+            NSMutableArray* NSMA=[self->ImageURLList mutableCopy];
+            NSUInteger count = [NSMA count];
+            for (NSUInteger i = 0; i < count; ++i) {
+                // Select a random element between i and end of array to swap with.
+                NSInteger nElements = count - i;
+                NSInteger n = arc4random_uniform((u_int32_t)nElements) + i;
+                [NSMA exchangeObjectAtIndex:i withObjectAtIndex:n];
+            }
+            self->ImageURLList=NSMA;
+        }
+        else{
+            self->ImageURLList=[self->ImageURLList sortedArrayUsingComparator:
+                                ^(NSURL *file1, NSURL *file2)
+                                {
+                                    // compare
+                                    id val1,val2;
+                                    [file1 getResourceValue:&val1 forKey:self->SortKey error:nil];
+                                    [file2 getResourceValue:&val2 forKey:self->SortKey error:nil];
+                                    return [val1 compare: val2];
+                                }];
+        }
+    }
 }
 -(NSString*)description{
     if(self->descript==nil){
