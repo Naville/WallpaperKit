@@ -89,9 +89,14 @@
         if(self->tim.isValid==NO){
             return ;
         }
-        [self performSelectorOnMainThread:@selector(setImage:) withObject:[[NSImage alloc] initWithContentsOfURL:ImageURLList[index]] waitUntilDone:YES];
-        [self setNeedsDisplay];
-        index=(index+1)%ImageURLList.count;
+        if([self->SortKey isEqualToString:@"Random"]){
+            [self performSelectorOnMainThread:@selector(setImage:) withObject:[[NSImage alloc] initWithContentsOfURL:ImageURLList[arc4random() % [ImageURLList count]]] waitUntilDone:YES];
+            [self setNeedsDisplay];
+        }else{
+            [self performSelectorOnMainThread:@selector(setImage:) withObject:[[NSImage alloc] initWithContentsOfURL:ImageURLList[index]] waitUntilDone:YES];
+            [self setNeedsDisplay];
+            index=(index+1)%ImageURLList.count;
+        }
     }];
 }
 -(void)pause{
@@ -104,22 +109,12 @@
 
 -(void)sortFileList{
     @autoreleasepool {
-        if(self->SortKey==nil){
+        if(self->SortKey==nil||[self->SortKey isEqualToString:@"Random"]){
+            //Leave Randomize in Loading Subroutine for maximum performance
             return;
         }
-        if([self->SortKey isEqualToString:@"Random"]){
-            NSMutableArray* NSMA=[self->ImageURLList mutableCopy];
-            NSUInteger count = [NSMA count];
-            for (NSUInteger i = 0; i < count; ++i) {
-                // Select a random element between i and end of array to swap with.
-                NSInteger nElements = count - i;
-                NSInteger n = arc4random_uniform((u_int32_t)nElements) + i;
-                [NSMA exchangeObjectAtIndex:i withObjectAtIndex:n];
-            }
-            self->ImageURLList=NSMA;
-        }
-        else{
-            self->ImageURLList=[self->ImageURLList sortedArrayUsingComparator:
+
+        self->ImageURLList=[self->ImageURLList sortedArrayUsingComparator:
                                 ^(NSURL *file1, NSURL *file2)
                                 {
                                     // compare
@@ -128,7 +123,6 @@
                                     [file2 getResourceValue:&val2 forKey:self->SortKey error:nil];
                                     return [val1 compare: val2];
                                 }];
-        }
     }
 }
 -(NSString*)description{
