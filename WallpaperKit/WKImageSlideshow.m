@@ -26,10 +26,13 @@
     NSRect frameRect=window.frame;
     self=[super initWithFrame:frameRect];
     [window setBackgroundColor:[NSColor blackColor]];
-    
-    NSUInteger ImageScaling=[[[WKConfigurationManager sharedInstance] GetOrSetPersistentConfigurationForRender:@"WKImageSlideshow" Key:@"ImageScaling" andConfiguration:[NSNumber numberWithUnsignedInteger:NSImageScaleProportionallyUpOrDown] type:READWRITE] unsignedIntegerValue];
     self->SortKey=[args objectForKey:@"SortingKey"];
-    [self setImageScaling:ImageScaling];
+    if([args.allKeys containsObject:@"ImageScaling"]){
+        [self setImageScaling:[(NSNumber*)[args objectForKey:@"ImageScaling"] unsignedIntegerValue]];
+    }
+    else{
+        [self setImageScaling:NSImageScaleProportionallyUpOrDown];
+    }
     self->ImageURLList=[args objectForKey:@"Images"];
     
     
@@ -101,6 +104,9 @@
 
 -(void)sortFileList{
     @autoreleasepool {
+        if(self->SortKey==nil){
+            return;
+        }
         if([self->SortKey isEqualToString:@"Random"]){
             NSMutableArray* NSMA=[self->ImageURLList mutableCopy];
             NSUInteger count = [NSMA count];
