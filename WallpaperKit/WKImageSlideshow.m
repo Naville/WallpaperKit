@@ -47,7 +47,7 @@
         // call the passed block if the source is modified
         dispatch_source_set_event_handler(self->src,^(){
             self->ImageURLList=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[args objectForKey:@"ImagePath"] includingPropertiesForKeys:@[self->SortKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
-            self->index=0;
+            self->index=-1;//Will be adjusted to 0 by play
             
             [self sortFileList];
         });
@@ -78,35 +78,30 @@
     self->isPlaying=NO;
     self.requiresConsistentAccess=NO;
     self.requiresExclusiveBackground=YES;
-    return self;
-}
--(void)play{
-    if(self->isPlaying==YES){
-        return;
-    }
-    self->isPlaying=YES;
     self->tim=[NSTimer scheduledTimerWithTimeInterval:self->interval repeats:YES block:^(NSTimer* tim){
-        if(self->tim.isValid==NO){
+        if(self->isPlaying==NO){
             return ;
         }
         if([self->SortKey isEqualToString:@"Random"]){
-            [self performSelectorOnMainThread:@selector(setImage:) withObject:[[NSImage alloc] initWithContentsOfURL:ImageURLList[arc4random() % [ImageURLList count]]] waitUntilDone:YES];
-            [self setNeedsDisplay];
+            index=arc4random() % [ImageURLList count];
         }else{
-            [self performSelectorOnMainThread:@selector(setImage:) withObject:[[NSImage alloc] initWithContentsOfURL:ImageURLList[index]] waitUntilDone:YES];
-            [self setNeedsDisplay];
             index=(index+1)%ImageURLList.count;
         }
+        [self performSelectorOnMainThread:@selector(setImage:) withObject:[[NSImage alloc] initWithContentsOfURL:ImageURLList[index]] waitUntilDone:YES];
+        [self setNeedsDisplay];
     }];
+    self->index=-1;//Will be adjusted to 0 by play
+    return self;
+}
+-(void)play{
+    self->isPlaying=YES;
 }
 -(void)pause{
-    if(self->isPlaying==NO){
-        return ;
-    }
     self->isPlaying=NO;
+}
+-(void)dealloc{
     [self->tim invalidate];
 }
-
 -(void)sortFileList{
     @autoreleasepool {
         if(self->SortKey==nil||[self->SortKey isEqualToString:@"Random"]){

@@ -72,6 +72,7 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
 }
 -(void)DisplayDesktop:(WKDesktop*)wk{
     [wk orderFront:nil];
+    [wk makeMainWindow];
     [[WKOcclusionStateWindow sharedInstance] refreshOSState];
     [self->DummyWindow orderFront:nil];
     //Keep Current Video Playing if next Window is not playing video,etc
@@ -127,9 +128,10 @@ extern CGSSpaceType CGSSpaceGetType(const CGSConnectionID cid, CGSSpace space);
     NSNumber* SID=[NSNumber numberWithUnsignedInteger:currentSpaceID];
     WKDesktop* wk=[self->_windows objectForKey:SID];
     if(wk!=nil){
+        
         [self DisplayDesktop:wk];
+        [wk play];
     }
-    
     
 }
 -(WKDesktop*)createDesktopWithSpaceID:(NSUInteger)SpaceID andRender:(NSDictionary*)render{

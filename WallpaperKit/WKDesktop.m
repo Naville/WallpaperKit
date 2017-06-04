@@ -128,6 +128,9 @@ NSEventMaskOtherMouseDragged
 -(NSString*)description{
     return [self.mainView description];
 }
+-(BOOL)canBecomeMainWindow{
+    return YES;
+}
 -(void)dealloc{
     [self pause];
 }

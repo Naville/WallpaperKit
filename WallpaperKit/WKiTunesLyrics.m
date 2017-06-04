@@ -106,7 +106,6 @@
             continue ;
         }
     }
-    NSLog(@"Cancel");
     
     
 }
