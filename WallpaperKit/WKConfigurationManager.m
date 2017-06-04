@@ -8,54 +8,65 @@
 
 #import "WKConfigurationManager.h"
 
-@implementation WKConfigurationManager{
-    NSMutableDictionary* PersistentConfigDictionary;
+@implementation WKConfigurationManager {
+        NSMutableDictionary *PersistentConfigDictionary;
 }
-+ (instancetype)sharedInstance{
-    static WKConfigurationManager *sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[WKConfigurationManager alloc] init];
-        // Do any other initialisation stuff here
-    });
-    return sharedInstance;
++ (instancetype)sharedInstance {
+        static WKConfigurationManager *sharedInstance = nil;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+          sharedInstance = [[WKConfigurationManager alloc] init];
+          // Do any other initialisation stuff here
+        });
+        return sharedInstance;
 }
--(instancetype)init{
-    self=[super init];
-    self->PersistentConfigDictionary=[NSMutableDictionary dictionary];
+- (instancetype)init {
+        self = [super init];
+        self->PersistentConfigDictionary = [NSMutableDictionary dictionary];
 
-    return self;
+        return self;
 }
--(id)GetOrSetPersistentConfigurationForRender:(NSString*)PluginName Key:(NSString*)Key andConfiguration:(id)Config type:(WKConfigurationOption)type{
-    if(self->PersistentConfigDictionary[PluginName]==nil){
-        self->PersistentConfigDictionary[PluginName]=[NSMutableDictionary dictionary];
-    }
-    if(type==READONLY){
-        return self->PersistentConfigDictionary[PluginName][Key];
-    }
-    else if(type==WRITEONLY){
-        if(Config!=nil){
-            self->PersistentConfigDictionary[PluginName][Key]=Config;
+- (id)GetOrSetPersistentConfigurationForRender:(NSString *)PluginName
+                                           Key:(NSString *)Key
+                              andConfiguration:(id)Config
+                                          type:(WKConfigurationOption)type {
+        if (self->PersistentConfigDictionary[PluginName] == nil) {
+                self->PersistentConfigDictionary[PluginName] =
+                    [NSMutableDictionary dictionary];
         }
-    }
-    else if(type==READWRITE){
-        if(self->PersistentConfigDictionary[PluginName][Key]==nil){
-            if(Config!=nil){
-                self->PersistentConfigDictionary[PluginName][Key]=Config;
-            }
+        if (type == READONLY) {
+                return self->PersistentConfigDictionary[PluginName][Key];
+        } else if (type == WRITEONLY) {
+                if (Config != nil) {
+                        self->PersistentConfigDictionary[PluginName][Key] =
+                            Config;
+                }
+        } else if (type == READWRITE) {
+                if (self->PersistentConfigDictionary[PluginName][Key] == nil) {
+                        if (Config != nil) {
+                                self->PersistentConfigDictionary[PluginName]
+                                                                [Key] = Config;
+                        }
+                }
+                return self->PersistentConfigDictionary[PluginName][Key];
         }
-        return self->PersistentConfigDictionary[PluginName][Key];
-    }
-    return nil;
+        return nil;
 }
--(void)Serialize:(NSURL *)Path Operation:(WKSerializeOption)op{
-    if(op==TOJSON){
-        [[NSJSONSerialization dataWithJSONObject:self->PersistentConfigDictionary options:NSJSONWritingPrettyPrinted error:nil] writeToURL:Path atomically:YES];
-    }else{
-        NSData* JSONData=[NSData dataWithContentsOfURL:Path];
-        if(JSONData!=nil){
-            self->PersistentConfigDictionary=[NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableContainers error:nil];
+- (void)Serialize:(NSURL *)Path Operation:(WKSerializeOption)op {
+        if (op == TOJSON) {
+                [[NSJSONSerialization
+                    dataWithJSONObject:self->PersistentConfigDictionary
+                               options:NSJSONWritingPrettyPrinted
+                                 error:nil] writeToURL:Path
+                                            atomically:YES];
+        } else {
+                NSData *JSONData = [NSData dataWithContentsOfURL:Path];
+                if (JSONData != nil) {
+                        self->PersistentConfigDictionary = [NSJSONSerialization
+                            JSONObjectWithData:JSONData
+                                       options:NSJSONReadingMutableContainers
+                                         error:nil];
+                }
         }
-    }
 }
 @end
