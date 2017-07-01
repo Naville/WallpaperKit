@@ -291,18 +291,19 @@
 }
 - (void)refreshLyricsWithSCLA {
         @autoreleasepool {
+                double location=iTunes.playerPosition;
                 NSMutableAttributedString *TranslatedString = [
                     [NSMutableAttributedString alloc]
                     initWithString:[translatedADT
-                                       nextLinewithTime:iTunes.playerPosition]];
+                                       nextLinewithTime:location]];
                 NSMutableAttributedString *ProString = [
                     [NSMutableAttributedString alloc]
                     initWithString:[proADT
-                                       nextLinewithTime:iTunes.playerPosition]];
+                                       nextLinewithTime:location]];
                 NSMutableAttributedString *ID3String = [
                     [NSMutableAttributedString alloc]
                     initWithString:[lrcADT
-                                       nextLinewithTime:iTunes.playerPosition]];
+                                       nextLinewithTime:location]];
 
                 // Reuse Other Colors To Avoid Using Default Black Color
                 NSMutableArray *ColorArray =
@@ -335,24 +336,22 @@
         }
 }
 - (void)refreshLyricsWithHTML {
+        double location=iTunes.playerPosition;
         NSString *LRCHTML = [self->LRCTemplate
             stringByReplacingOccurrencesOfString:@"%LYRIC%"
                                       withString:[lrcADT
                                                      nextLinewithTime:
-                                                         iTunes
-                                                             .playerPosition]];
+                                                         location]];
         NSString *TranslatedHTML = [TranslatedTemplate
             stringByReplacingOccurrencesOfString:@"%TRANSLATED%"
                                       withString:[translatedADT
                                                      nextLinewithTime:
-                                                         iTunes
-                                                             .playerPosition]];
+                                                         location]];
         NSString *PronounceHTML = [PronounceTemplate
             stringByReplacingOccurrencesOfString:@"%PRONOUNCE%"
                                       withString:[proADT
                                                      nextLinewithTime:
-                                                         iTunes
-                                                             .playerPosition]];
+                                                         location]];
 
         NSMutableAttributedString *LRCAString = [
             [NSMutableAttributedString alloc]
@@ -388,8 +387,6 @@
 - (void)handleCoverChange {
         @autoreleasepool {
 
-                dispatch_async(dispatch_get_global_queue(0, 0), ^{
-
                   NSData *coverImage = [(iTunesArtwork *)[
                       [iTunes.currentTrack artworks] objectAtIndex:0] rawData];
                   NSImage *blurredImage =
@@ -423,7 +420,6 @@
                                             NSHeight([self->coverView frame])) /
                                                2)];
                   });
-                });
         }
 }
 - (void)updateLyricADT {
@@ -567,15 +563,13 @@
 }
 - (void)updateInfo {
         [NSThread detachNewThreadWithBlock:^() {
-          @try {
-                  @synchronized(synchroToken2) {
-                          [self updateLyricADT];
-                          [self handleCoverChange];
-                          [self handleSongTitle];
-                  }
-          } @catch (NSException *exp) {
-                  return;
-          }
+            if(self->iTunes.isRunning){
+                @synchronized(synchroToken2) {
+                    [self handleCoverChange];
+                    [self updateLyricADT];
+                    [self handleSongTitle];
+                }
+            }
         }];
 }
 - (void)watchiTunes:(NSNotification *)notif {

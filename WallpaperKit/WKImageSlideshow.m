@@ -13,12 +13,11 @@
         NSArray<NSURL *> *ImageURLList;
         unsigned int interval;
         NSString *descript;
-        NSTimer *tim;
+        BOOL isPlaying;
         NSUInteger index;
         NSObject *syncToken;
         dispatch_source_t src;
         int FolderFD;
-        BOOL isPlaying;
         NSURLResourceKey SortKey;
 }
 - (instancetype)initWithWindow:(WKDesktop *)window
@@ -102,45 +101,39 @@
         if (error != nil) {
                 [window setErr:error];
         }
-        self->isPlaying = NO;
         self.requiresConsistentAccess = NO;
         self.requiresExclusiveBackground = YES;
-        self->tim = [NSTimer
-            scheduledTimerWithTimeInterval:self->interval
-                                   repeats:YES
-                                     block:^(NSTimer *tim) {
-                                       if (self->isPlaying == NO) {
-                                               return;
-                                       }
-                                       if ([self->SortKey
-                                               isEqualToString:@"Random"]) {
-                                               index = arc4random() %
-                                                       [ImageURLList count];
-                                       } else {
-                                               index = (index + 1) %
-                                                       ImageURLList.count;
-                                       }
-                                       [self
-                                           performSelectorOnMainThread:@selector
-                                           (setImage:)
-                                                            withObject:
-                                                                [[NSImage alloc]
-                                                                    initWithContentsOfURL:
-                                                                        ImageURLList
-                                                                            [index]]
-                                                         waitUntilDone:YES];
-                                     }];
         self->index = -1; // Will be adjusted to 0 by play
+        [NSTimer scheduledTimerWithTimeInterval:self->interval target:self selector:@selector(ImageRefreshWorker) userInfo:nil repeats:YES];
         return self;
 }
 - (void)play {
-        self->isPlaying = YES;
+    self->isPlaying=YES;
 }
 - (void)pause {
-        self->isPlaying = NO;
+    self->isPlaying=NO;
 }
-- (void)dealloc {
-        [self->tim invalidate];
+-(void)ImageRefreshWorker{
+    if(self->isPlaying==NO){
+        return;
+    }
+    if ([self->SortKey
+         isEqualToString:@"Random"]) {
+        index = arc4random_uniform(ImageURLList.count);
+    } else {
+        index = (index + 1) %
+        ImageURLList.count;
+    }
+    [self
+     performSelectorOnMainThread:@selector
+     (setImage:)
+     withObject:
+     [[NSImage alloc]
+      initWithContentsOfURL:
+      ImageURLList
+      [index]]
+     waitUntilDone:YES];
+    
 }
 - (void)sortFileList {
         @autoreleasepool {

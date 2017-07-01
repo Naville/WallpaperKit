@@ -78,6 +78,7 @@
         }
         [self->wkdm DisplayDesktop:wk];
         [self.view.window setTitle:[wk description]];
+        
         [[WKConfigurationManager sharedInstance]
             Serialize:[[WKUtils BaseURL]
                           URLByAppendingPathComponent:@"Config.json"]
