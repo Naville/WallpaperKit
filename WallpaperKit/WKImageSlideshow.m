@@ -27,6 +27,9 @@
         self = [super initWithFrame:frameRect];
         [window setBackgroundColor:[NSColor blackColor]];
         self->SortKey = [args objectForKey:@"SortingKey"];
+        if(self->SortKey==nil){
+            self->SortKey=NSURLNameKey;
+        }
         if ([args.allKeys containsObject:@"ImageScaling"]) {
                 [self setImageScaling:[(NSNumber *)[args
                                           objectForKey:@"ImageScaling"]
@@ -137,8 +140,7 @@
 }
 - (void)sortFileList {
         @autoreleasepool {
-                if (self->SortKey == nil ||
-                    [self->SortKey isEqualToString:@"Random"]) {
+                if ([self->SortKey isEqualToString:@"Random"]) {
                         // Leave Randomize in Loading Subroutine for maximum
                         // performance
                         return;
