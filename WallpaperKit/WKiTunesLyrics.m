@@ -565,9 +565,14 @@
         [NSThread detachNewThreadWithBlock:^() {
             if(self->iTunes.isRunning){
                 @synchronized(synchroToken2) {
-                    [self handleCoverChange];
-                    [self updateLyricADT];
-                    [self handleSongTitle];
+                    @try{
+                        [self handleCoverChange];
+                        [self updateLyricADT];
+                        [self handleSongTitle];
+                    }
+                    @catch(NSException* exp){
+                        return;
+                    }
                 }
             }
         }];
