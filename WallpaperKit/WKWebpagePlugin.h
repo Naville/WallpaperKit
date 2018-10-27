@@ -21,9 +21,11 @@
  
     @"Javascript" is an optional NSString*,which will be evaluated after the page is loaded
     @"BaseURL" is an optional NSURL*,which will be used as BaseURL for the request
+    @"Cookie" is an optional Cookie string
  @discussion MouseEvents are supported by explicited overwrite NSEvent Handlers and execute JS
  */
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args;
 @property (nonatomic) BOOL requiresConsistentAccess;
 @property (nonatomic) BOOL requiresExclusiveBackground;
+@property (nonatomic,assign,readwrite) NSDictionary* arg;
 @end

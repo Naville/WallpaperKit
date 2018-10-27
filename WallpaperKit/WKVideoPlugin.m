@@ -29,6 +29,7 @@
                  object:[self.player currentItem]];
         self.requiresConsistentAccess = YES;
         self.requiresExclusiveBackground = YES;
+        self.arg=args;
         return self;
 }
 - (void)observer:(NSNotification *)notif {

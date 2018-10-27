@@ -24,6 +24,12 @@
         WKWebViewConfiguration *config = [WKWebViewConfiguration new];
         WKUserContentController *controller =
             [[WKUserContentController alloc] init];
+    if(args[@"Cookie"]!=nil){
+        NSString *cookieSource = [NSString stringWithFormat:@"document.cookie = '%@';", args[@"Cookie"]];
+        WKUserScript *cookieScript = [[WKUserScript alloc] initWithSource:cookieSource injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO];
+        [controller addUserScript:cookieScript];
+    }
+
         config.userContentController = controller;
 
         self = [super initWithFrame:frameRect configuration:config];
@@ -50,6 +56,7 @@
         self.acceptsTouchEvents = YES;
         self.requiresConsistentAccess = NO;
         self.requiresExclusiveBackground = YES;
+        self.arg=args;
         return self;
 }
 - (void)play {
@@ -59,8 +66,11 @@
                  if (!result || ([result isKindOfClass:[NSString class]] &&
                                  [((NSString *)result)length] == 0)) {
                          if (webURL != nil) {
-                                 NSURLRequest *req =
-                                     [NSURLRequest requestWithURL:self->webURL];
+                                 NSMutableURLRequest *req =
+                                     [NSMutableURLRequest requestWithURL:self->webURL];
+                             if(self.arg[@"Cookie"]!=nil){
+                                 [req addValue:self.arg[@"Cookie"] forHTTPHeaderField:@"Cookie"];
+                             }
                                  [self loadRequest:req];
 
                          } else {

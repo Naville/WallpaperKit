@@ -125,7 +125,6 @@
 - (void)addRender:(NSDictionary *)dict {
         @autoreleasepool {
                 id render = dict[@"Render"];
-
                 NSString *libPath =
                     [dict objectForKey:@"LibraryPath"]; // Load External
                                                         // Libraries if exists

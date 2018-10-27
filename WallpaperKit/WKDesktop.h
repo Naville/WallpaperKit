@@ -44,6 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  NSError used by Render
  */
 @property (readwrite,retain,nonatomic) NSNumber* spaceID;
+@property (readwrite,retain,nonatomic) NSMutableArray* WKViews;// Register WKRenderProtocal Views into this array for operations
 @property (readwrite,strong,nonatomic,nullable) NSError* err;
 @end
 NS_ASSUME_NONNULL_END

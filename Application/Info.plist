@@ -31,6 +31,8 @@
 	<string>Copyright © 2017年 NavilleZhang. All rights reserved.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>WallpaperKit needs your permission to access AppleEvents</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>

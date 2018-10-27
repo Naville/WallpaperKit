@@ -10,7 +10,6 @@
 #import "SLColorArt.h"
 #import "WKOcclusionStateWindow.h"
 #import <CoreImage/CoreImage.h>
-
 @implementation WKiTunesLyrics {
         NSTextView *titleView;
         NSTextView *translatedView;
@@ -232,6 +231,15 @@
                                                 type:READWRITE] boolValue];
         self.requiresExclusiveBackground = NO;
         self.requiresConsistentAccess = NO;
+        self.arg=args;
+    if (@available(macOS 10.14, *)) {
+            NSAppleEventDescriptor *targetAppEventDescriptor=[NSAppleEventDescriptor descriptorWithBundleIdentifier:@"com.apple.iTunes"];
+        OSStatus status=AEDeterminePermissionToAutomateTarget(targetAppEventDescriptor.aeDesc,typeWildCard, typeWildCard, true);
+        if(status!=0){
+            @throw [NSException exceptionWithName:@"PermissionDeniedException" reason:[NSString stringWithFormat:@"AppleEventStatusCode:%i",status] userInfo:nil];
+        }
+    } 
+    
         return self;
 }
 
@@ -273,7 +281,6 @@
                                                             numberWithFloat:0.5]
                                                                 type:READWRITE]
                             floatValue]];
-                @try {
                         if (lrcADT == nil && translatedADT == nil &&
                             proADT == nil) {
                                 [self updateLyricADT];
@@ -284,9 +291,6 @@
                                 [self refreshLyricsWithSCLA];
                         }
 
-                } @catch (NSException *exception) {
-                        continue;
-                }
         }
 }
 - (void)refreshLyricsWithSCLA {

@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		043803BEC4E0F30AD9045994 /* libPods-WallpaperKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B99E40F694A8A6A811352DE /* libPods-WallpaperKit.a */; };
+		9717272B4D8F51113C8A7BBB /* libPods-WallpaperKitTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C81A4F8DD277D008E6D8AB25 /* libPods-WallpaperKitTests.a */; };
+		E060230F7B8A17AE2195B6B0 /* libPods-Application.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E3415C3C69B8E92451A3EE /* libPods-Application.a */; };
 		FA00630A1E585D12007BCA29 /* WKUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0063081E585D12007BCA29 /* WKUtils.m */; };
-		FA1ECD331E55A779007BF0C2 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1ECD321E55A779007BF0C2 /* GLUT.framework */; };
 		FA3433E71E594028009A67DA /* WKiTunesLyrics.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3433E51E594028009A67DA /* WKiTunesLyrics.m */; };
 		FA357C9C1E55667B0083D95A /* MMMarkdown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FA696B7B1E4EAF5200541B0A /* MMMarkdown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FA3D1F421E2534BC005A57CF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3D1F411E2534BC005A57CF /* AppDelegate.m */; };
@@ -20,9 +22,7 @@
 		FA5361E31E59A8D20072B0DB /* NeteaseLyricSearchEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5361D81E59A8D20072B0DB /* NeteaseLyricSearchEngine.m */; };
 		FA5361E71E59A8D20072B0DB /* DLLRCParser.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5361DC1E59A8D20072B0DB /* DLLRCParser.m */; };
 		FA5361E91E59A8D20072B0DB /* LyricManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5361DE1E59A8D20072B0DB /* LyricManager.m */; };
-		FA5361F21E59AA4D0072B0DB /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA5361F11E59AA4D0072B0DB /* CoreImage.framework */; };
-		FA5361F41E59AA920072B0DB /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FA5361F31E59AA920072B0DB /* libsqlite3.0.tbd */; };
-		FA53CCEC1E254BB400B23AC8 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA53CCEB1E254BB400B23AC8 /* MainViewController.m */; };
+		FA53CCEC1E254BB400B23AC8 /* MainViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA53CCEB1E254BB400B23AC8 /* MainViewController.mm */; };
 		FA574A741E58DFD1002CEF64 /* WKOcclusionStateWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FA574A721E58DFD1002CEF64 /* WKOcclusionStateWindow.m */; };
 		FA686DA31E74F5C300F9F363 /* SLColorArt.h in Headers */ = {isa = PBXBuildFile; fileRef = FA686DA11E74F5C300F9F363 /* SLColorArt.h */; };
 		FA686DA41E74F5C300F9F363 /* SLColorArt.m in Sources */ = {isa = PBXBuildFile; fileRef = FA686DA21E74F5C300F9F363 /* SLColorArt.m */; };
@@ -30,11 +30,6 @@
 		FA686DAC1E74F64400F9F363 /* WKConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA686DAA1E74F64400F9F363 /* WKConfigurationManager.m */; };
 		FA696B901E4EB02400541B0A /* WallpaperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA696B891E4EB02400541B0A /* WallpaperKit.framework */; };
 		FA696B911E4EB02400541B0A /* WallpaperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FA696B891E4EB02400541B0A /* WallpaperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		FA696B961E4EB04300541B0A /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4FFEEA1E240FA400E4AF31 /* CoreServices.framework */; };
-		FA696B971E4EB04700541B0A /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE6CB691E24479600025494 /* OpenGL.framework */; };
-		FA696B981E4EB04E00541B0A /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA25DC0A1E231BF200EB029C /* AVKit.framework */; };
-		FA696B991E4EB05100541B0A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA25DC061E231A2800EB029C /* CoreGraphics.framework */; };
-		FA696B9A1E4EB05900541B0A /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4C45AB1E23086E00B35322 /* AppKit.framework */; };
 		FA696B9B1E4EB07800541B0A /* WKDesktop.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C45A31E2307AE00B35322 /* WKDesktop.m */; };
 		FA696B9C1E4EB07800541B0A /* WKVideoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = FA25DC141E23B6AB00EB029C /* WKVideoPlugin.m */; };
 		FA696B9D1E4EB07800541B0A /* WKImagePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = FACCBA761E23C1D10092E594 /* WKImagePlugin.m */; };
@@ -42,7 +37,6 @@
 		FA696B9F1E4EB07800541B0A /* WKOpenGLPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4FFEEF1E2413BE00E4AF31 /* WKOpenGLPlugin.m */; };
 		FA696BA01E4EB07800541B0A /* WKDesktopManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA25DC101E23842200EB029C /* WKDesktopManager.m */; };
 		FA696BA11E4EB07800541B0A /* WKRenderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA25DC191E23BCB800EB029C /* WKRenderManager.m */; };
-		FA696BA21E4EB0B100541B0A /* MMMarkdown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA696B7B1E4EAF5200541B0A /* MMMarkdown.framework */; };
 		FA696BA61E4EB18300541B0A /* WKMarkdownPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = FA696BA41E4EB0CD00541B0A /* WKMarkdownPlugin.m */; };
 		FA73B5931E54D738005F5835 /* WKImageSlideshow.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73B5911E54D738005F5835 /* WKImageSlideshow.m */; };
 		FA7F1A121E5B3CC700619E4D /* WKRenderProtocal.h in Headers */ = {isa = PBXBuildFile; fileRef = FA25DC0E1E237D4E00EB029C /* WKRenderProtocal.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -61,7 +55,13 @@
 		FA7F1A3E1E5B3F7800619E4D /* WallpaperKit.h in Headers */ = {isa = PBXBuildFile; fileRef = FA73B5711E54CB10005F5835 /* WallpaperKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA958E421E5BA5CA007E1847 /* WKVLCVideoPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = FA958E401E5BA5CA007E1847 /* WKVLCVideoPlugin.h */; };
 		FA958E451E5BAE7E007E1847 /* WKVLCVideoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = FA958E411E5BA5CA007E1847 /* WKVLCVideoPlugin.m */; };
-		FA958E481E5BB19B007E1847 /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA958E471E5BB19B007E1847 /* VLCKit.framework */; };
+		FAB55CAE205537E800F1B5F2 /* VLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FAB55CAB205537DA00F1B5F2 /* VLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FAB55CAF2055389C00F1B5F2 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE6CB691E24479600025494 /* OpenGL.framework */; };
+		FAB55CB0205538A000F1B5F2 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FA5361F31E59AA920072B0DB /* libsqlite3.0.tbd */; };
+		FAB55CB1205538A500F1B5F2 /* MMMarkdown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA696B7B1E4EAF5200541B0A /* MMMarkdown.framework */; };
+		FAB55CB3205538AA00F1B5F2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAB55CB2205538AA00F1B5F2 /* Foundation.framework */; };
+		FAB55CB4205538B000F1B5F2 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4C45AB1E23086E00B35322 /* AppKit.framework */; };
+		FAB55CB6205538BA00F1B5F2 /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAB55CB5205538BA00F1B5F2 /* ScriptingBridge.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +130,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				FAB55CAE205537E800F1B5F2 /* VLCKit.framework in Embed Frameworks */,
 				FA357C9C1E55667B0083D95A /* MMMarkdown.framework in Embed Frameworks */,
 				FA696B911E4EB02400541B0A /* WallpaperKit.framework in Embed Frameworks */,
 			);
@@ -139,6 +140,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4B99E40F694A8A6A811352DE /* libPods-WallpaperKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WallpaperKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		79B460BDB4692F57DA6A00D3 /* Pods-Application.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Application.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Application/Pods-Application.debug.xcconfig"; sourceTree = "<group>"; };
+		8BC56BE6A2050040831377DB /* Pods-WallpaperKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WallpaperKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-WallpaperKit/Pods-WallpaperKit.release.xcconfig"; sourceTree = "<group>"; };
+		B2FACC407EF7823C5FF0F51B /* Pods-WallpaperKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WallpaperKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WallpaperKitTests/Pods-WallpaperKitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C81A4F8DD277D008E6D8AB25 /* libPods-WallpaperKitTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WallpaperKitTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C91C2C7E0E5AB180B17F8A2E /* Pods-WallpaperKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WallpaperKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WallpaperKitTests/Pods-WallpaperKitTests.release.xcconfig"; sourceTree = "<group>"; };
+		C9DFDFF6A8391DDFFA288CE4 /* Pods-Application.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Application.release.xcconfig"; path = "Pods/Target Support Files/Pods-Application/Pods-Application.release.xcconfig"; sourceTree = "<group>"; };
+		C9E3415C3C69B8E92451A3EE /* libPods-Application.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Application.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA0063071E585D12007BCA29 /* WKUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKUtils.h; sourceTree = "<group>"; };
 		FA0063081E585D12007BCA29 /* WKUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKUtils.m; sourceTree = "<group>"; };
 		FA1ECD321E55A779007BF0C2 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
@@ -182,7 +191,7 @@
 		FA5361F11E59AA4D0072B0DB /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		FA5361F31E59AA920072B0DB /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		FA53CCEA1E254BB400B23AC8 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		FA53CCEB1E254BB400B23AC8 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		FA53CCEB1E254BB400B23AC8 /* MainViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MainViewController.mm; sourceTree = "<group>"; };
 		FA574A711E58DFD1002CEF64 /* WKOcclusionStateWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKOcclusionStateWindow.h; sourceTree = "<group>"; };
 		FA574A721E58DFD1002CEF64 /* WKOcclusionStateWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKOcclusionStateWindow.m; sourceTree = "<group>"; };
 		FA686DA11E74F5C300F9F363 /* SLColorArt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLColorArt.h; sourceTree = "<group>"; };
@@ -198,13 +207,16 @@
 		FA73B5911E54D738005F5835 /* WKImageSlideshow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKImageSlideshow.m; sourceTree = "<group>"; };
 		FA958E401E5BA5CA007E1847 /* WKVLCVideoPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKVLCVideoPlugin.h; sourceTree = "<group>"; };
 		FA958E411E5BA5CA007E1847 /* WKVLCVideoPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKVLCVideoPlugin.m; sourceTree = "<group>"; };
-		FA958E471E5BB19B007E1847 /* VLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VLCKit.framework; path = ../../../../Library/Frameworks/VLCKit.framework; sourceTree = "<group>"; };
 		FAA5D32C1E253DEE0086D179 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FAB55CAB205537DA00F1B5F2 /* VLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VLCKit.framework; sourceTree = "<group>"; };
+		FAB55CB2205538AA00F1B5F2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FAB55CB5205538BA00F1B5F2 /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		FACCBA751E23C1D10092E594 /* WKImagePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKImagePlugin.h; sourceTree = "<group>"; };
 		FACCBA761E23C1D10092E594 /* WKImagePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKImagePlugin.m; sourceTree = "<group>"; };
 		FACCBA791E23C3A40092E594 /* WKWebpagePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKWebpagePlugin.h; sourceTree = "<group>"; };
 		FACCBA7A1E23C3A40092E594 /* WKWebpagePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebpagePlugin.m; sourceTree = "<group>"; wrapsLines = 0; };
 		FAE6CB691E24479600025494 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		FB91F5281910B04CEE2A2EAC /* Pods-WallpaperKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WallpaperKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WallpaperKit/Pods-WallpaperKit.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA696B901E4EB02400541B0A /* WallpaperKit.framework in Frameworks */,
+				E060230F7B8A17AE2195B6B0 /* libPods-Application.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,6 +234,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA4E624F1E9908CD0043E1BE /* WallpaperKit.framework in Frameworks */,
+				9717272B4D8F51113C8A7BBB /* libPods-WallpaperKitTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,22 +242,32 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA958E481E5BB19B007E1847 /* VLCKit.framework in Frameworks */,
-				FA5361F41E59AA920072B0DB /* libsqlite3.0.tbd in Frameworks */,
-				FA5361F21E59AA4D0072B0DB /* CoreImage.framework in Frameworks */,
-				FA1ECD331E55A779007BF0C2 /* GLUT.framework in Frameworks */,
-				FA696BA21E4EB0B100541B0A /* MMMarkdown.framework in Frameworks */,
-				FA696B9A1E4EB05900541B0A /* AppKit.framework in Frameworks */,
-				FA696B991E4EB05100541B0A /* CoreGraphics.framework in Frameworks */,
-				FA696B981E4EB04E00541B0A /* AVKit.framework in Frameworks */,
-				FA696B971E4EB04700541B0A /* OpenGL.framework in Frameworks */,
-				FA696B961E4EB04300541B0A /* CoreServices.framework in Frameworks */,
+				FAB55CB6205538BA00F1B5F2 /* ScriptingBridge.framework in Frameworks */,
+				FAB55CB4205538B000F1B5F2 /* AppKit.framework in Frameworks */,
+				FAB55CB3205538AA00F1B5F2 /* Foundation.framework in Frameworks */,
+				FAB55CB1205538A500F1B5F2 /* MMMarkdown.framework in Frameworks */,
+				FAB55CB0205538A000F1B5F2 /* libsqlite3.0.tbd in Frameworks */,
+				FAB55CAF2055389C00F1B5F2 /* OpenGL.framework in Frameworks */,
+				043803BEC4E0F30AD9045994 /* libPods-WallpaperKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8E9F1CB88F1893F34772FD2C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				79B460BDB4692F57DA6A00D3 /* Pods-Application.debug.xcconfig */,
+				C9DFDFF6A8391DDFFA288CE4 /* Pods-Application.release.xcconfig */,
+				FB91F5281910B04CEE2A2EAC /* Pods-WallpaperKit.debug.xcconfig */,
+				8BC56BE6A2050040831377DB /* Pods-WallpaperKit.release.xcconfig */,
+				B2FACC407EF7823C5FF0F51B /* Pods-WallpaperKitTests.debug.xcconfig */,
+				C91C2C7E0E5AB180B17F8A2E /* Pods-WallpaperKitTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		FA25DC171E23B6B400EB029C /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
@@ -287,7 +311,7 @@
 				FA3D1F401E2534BC005A57CF /* AppDelegate.h */,
 				FA3D1F411E2534BC005A57CF /* AppDelegate.m */,
 				FA53CCEA1E254BB400B23AC8 /* MainViewController.h */,
-				FA53CCEB1E254BB400B23AC8 /* MainViewController.m */,
+				FA53CCEB1E254BB400B23AC8 /* MainViewController.mm */,
 				FA3D1F461E2534BC005A57CF /* Assets.xcassets */,
 				FA3D1F481E2534BC005A57CF /* MainMenu.xib */,
 				FA3D1F4B1E2534BC005A57CF /* Info.plist */,
@@ -312,6 +336,7 @@
 				FAA5D32B1E253DEE0086D179 /* WallpaperKit */,
 				FA4C459F1E2307AE00B35322 /* Products */,
 				FA4C45AA1E23086E00B35322 /* Frameworks */,
+				8E9F1CB88F1893F34772FD2C /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -328,7 +353,9 @@
 		FA4C45AA1E23086E00B35322 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FA958E471E5BB19B007E1847 /* VLCKit.framework */,
+				FAB55CB5205538BA00F1B5F2 /* ScriptingBridge.framework */,
+				FAB55CB2205538AA00F1B5F2 /* Foundation.framework */,
+				FAB55CAB205537DA00F1B5F2 /* VLCKit.framework */,
 				FA5361F31E59AA920072B0DB /* libsqlite3.0.tbd */,
 				FA5361F11E59AA4D0072B0DB /* CoreImage.framework */,
 				FA1ECD321E55A779007BF0C2 /* GLUT.framework */,
@@ -339,6 +366,9 @@
 				FA25DC081E231B9000EB029C /* AVFoundation.framework */,
 				FA25DC061E231A2800EB029C /* CoreGraphics.framework */,
 				FA4C45AB1E23086E00B35322 /* AppKit.framework */,
+				C9E3415C3C69B8E92451A3EE /* libPods-Application.a */,
+				4B99E40F694A8A6A811352DE /* libPods-WallpaperKit.a */,
+				C81A4F8DD277D008E6D8AB25 /* libPods-WallpaperKitTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -426,10 +456,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FA3D1F4E1E2534BC005A57CF /* Build configuration list for PBXNativeTarget "Application" */;
 			buildPhases = (
+				568A00A759D10FCAC5474500 /* [CP] Check Pods Manifest.lock */,
 				FA3D1F3A1E2534BC005A57CF /* Sources */,
 				FA3D1F3B1E2534BC005A57CF /* Frameworks */,
 				FA3D1F3C1E2534BC005A57CF /* Resources */,
 				FA696B951E4EB02400541B0A /* Embed Frameworks */,
+				FA6BEDE12054C0C200648DB4 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -445,6 +477,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FA4E62521E9908CD0043E1BE /* Build configuration list for PBXNativeTarget "WallpaperKitTests" */;
 			buildPhases = (
+				3341ECC689DCFCBE445335C4 /* [CP] Check Pods Manifest.lock */,
 				FA4E62461E9908CD0043E1BE /* Sources */,
 				FA4E62471E9908CD0043E1BE /* Frameworks */,
 				FA4E62481E9908CD0043E1BE /* Resources */,
@@ -463,6 +496,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FA696B921E4EB02400541B0A /* Build configuration list for PBXNativeTarget "WallpaperKit" */;
 			buildPhases = (
+				3288D9808235452A6B81A3B9 /* [CP] Check Pods Manifest.lock */,
 				FA696B841E4EB02400541B0A /* Sources */,
 				FA696B851E4EB02400541B0A /* Frameworks */,
 				FA696B861E4EB02400541B0A /* Headers */,
@@ -485,7 +519,7 @@
 		FA4C45961E2307AE00B35322 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = NavilleZhang;
 				TargetAttributes = {
 					FA3D1F3D1E2534BC005A57CF = {
@@ -593,6 +627,74 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3288D9808235452A6B81A3B9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WallpaperKit-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3341ECC689DCFCBE445335C4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WallpaperKitTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		568A00A759D10FCAC5474500 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Application-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FA6BEDE12054C0C200648DB4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "
+";
+		};
 		FA9FB4861E58D38200165C89 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -604,7 +706,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "appledoc --project-name WallpaperKit --project-company Naville $SRCROOT/WallpaperKit||true";
+			shellScript = "";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -614,7 +716,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA3D1F451E2534BC005A57CF /* main.m in Sources */,
-				FA53CCEC1E254BB400B23AC8 /* MainViewController.m in Sources */,
+				FA53CCEC1E254BB400B23AC8 /* MainViewController.mm in Sources */,
 				FA3D1F421E2534BC005A57CF /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -686,35 +788,58 @@
 /* Begin XCBuildConfiguration section */
 		FA3D1F4C1E2534BC005A57CF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 79B460BDB4692F57DA6A00D3 /* Pods-Application.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					/Library/Frameworks,
-					"$(PROJECT_DIR)",
-				);
+				COMPILER_INDEX_STORE_ENABLE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEPLOYMENT_POSTPROCESSING = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
 				INFOPLIST_FILE = Application/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks/ @executable_path/../Frameworks/VLCKit.framework/Versions/A/lib/";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"sqlite3\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = naville.wallpaperkit.application;
 				PRODUCT_NAME = WallpaperKit;
+				STRIP_INSTALLED_PRODUCT = NO;
+				STRIP_STYLE = all;
 			};
 			name = Debug;
 		};
 		FA3D1F4D1E2534BC005A57CF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C9DFDFF6A8391DDFFA288CE4 /* Pods-Application.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					/Library/Frameworks,
-					"$(PROJECT_DIR)",
-				);
+				COMPILER_INDEX_STORE_ENABLE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEPLOYMENT_POSTPROCESSING = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
+				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = Application/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks/ @executable_path/../Frameworks/VLCKit.framework/Versions/A/lib/";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"sqlite3\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = naville.wallpaperkit.application;
 				PRODUCT_NAME = WallpaperKit;
+				STRIP_INSTALLED_PRODUCT = NO;
+				STRIP_STYLE = all;
 			};
 			name = Release;
 		};
@@ -728,19 +853,27 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -777,19 +910,27 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -811,9 +952,11 @@
 		};
 		FA4E62531E9908CD0043E1BE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B2FACC407EF7823C5FF0F51B /* Pods-WallpaperKitTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = WallpaperKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
@@ -824,9 +967,11 @@
 		};
 		FA4E62541E9908CD0043E1BE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C91C2C7E0E5AB180B17F8A2E /* Pods-WallpaperKitTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = WallpaperKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
@@ -837,27 +982,37 @@
 		};
 		FA696B931E4EB02400541B0A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FB91F5281910B04CEE2A2EAC /* Pods-WallpaperKit.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				COMPILER_INDEX_STORE_ENABLE = YES;
+				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@loader_path/../Frameworks";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-				);
+				DYLIB_INSTALL_NAME_BASE = "@rpath/";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
 				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/WallpaperKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(EXECUTABLE_PATH)";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = naville.wallpaperkit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
+				STRIP_STYLE = debugging;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -865,27 +1020,36 @@
 		};
 		FA696B941E4EB02400541B0A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BC56BE6A2050040831377DB /* Pods-WallpaperKit.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				COMPILER_INDEX_STORE_ENABLE = YES;
+				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@loader_path/../Frameworks";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-				);
+				DYLIB_INSTALL_NAME_BASE = "@rpath/";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
 				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/WallpaperKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(EXECUTABLE_PATH)";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = naville.wallpaperkit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
+				STRIP_STYLE = debugging;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};

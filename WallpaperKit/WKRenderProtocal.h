@@ -20,6 +20,7 @@ typedef NS_ENUM(NSUInteger, WKSerializeOption) {
  Used to determine whether the render should be paused during Workspace changes
  */
 @property (nonatomic) BOOL requiresConsistentAccess;
+@property (nonatomic,assign,readwrite) NSDictionary* arg;
 /**
  Marks the render as "main" render. There will be only one "main" render in each workspace
  */

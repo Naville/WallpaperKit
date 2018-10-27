@@ -44,6 +44,62 @@
                           URLByAppendingPathComponent:@"Config.json"]
             Operation:FROMJSON];
         [self LoadCurrentRender:nil];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SaveState:) name:NSApplicationWillTerminateNotification object:nil];
+    [self RestoreState:nil];
+    
+}
+-(void)dealloc{
+    [super dealloc];
+    [self SaveState:nil];
+}
+-(void)RestoreState:(id)sender{
+    WKDesktopManager* wkdm=[WKDesktopManager sharedInstance];
+    NSString* SavedStatePath=[NSHomeDirectory() stringByAppendingString:@"/WallpaperKit/State.plist"];
+    BOOL tmp=false;
+    if([[NSFileManager defaultManager] fileExistsAtPath:SavedStatePath isDirectory:&tmp] && tmp){
+        NSString *SavePath =
+        [NSString stringWithFormat:@"%@/WallpaperKit/WallpaperKit.json",
+         NSHomeDirectory()];
+        NSDictionary* SavedState=[NSDictionary dictionaryWithContentsOfFile:SavedStatePath];
+        NSError *err=nil;
+        NSMutableArray *JSONCompatibleArray = [NSJSONSerialization
+                                               JSONObjectWithData:[NSData dataWithContentsOfFile:SavePath]
+                                               options:NSJSONReadingMutableLeaves |
+                                               NSJSONReadingMutableContainers
+                                               error:&err];
+        if (JSONCompatibleArray != nil && err == nil) {
+            for (NSDictionary *dic in JSONCompatibleArray) {
+                [[WKRenderManager sharedInstance] addRender:dic];
+            }
+        }
+        for(NSString* Key in SavedState.allKeys){
+            NSDictionary* MainRender=SavedState[Key][@"MainRender"];
+            MainRender=[(Class<WKRenderProtocal>)NSClassFromString(MainRender[@"Render"]) convertArgument:MainRender Operation:FROMJSON];
+            WKDesktop* WKD=[wkdm createDesktopWithSpaceID:[Key integerValue] andRender:MainRender];
+            for(NSDictionary* Render in SavedState[Key][@"ExtraRenders"]){
+                NSDictionary* converted=[(Class<WKRenderProtocal>)NSClassFromString(Render[@"Render"]) convertArgument:Render Operation:FROMJSON];
+                [WKD addView:[[(Class<WKRenderProtocal>)NSClassFromString(Render[@"Render"]) alloc] initWithWindow:WKD andArguments:converted]];
+            }
+        }
+        [wkdm DisplayDesktop:wkdm.windows[[NSNumber numberWithInteger:[wkdm currentSpaceID]]]];
+    }
+}
+-(void)SaveState:(id) sender{
+    NSMutableDictionary* SavedState=[NSMutableDictionary dictionary];
+    NSString* SavedStatePath=[NSHomeDirectory() stringByAppendingString:@"/WallpaperKit/State.plist"];
+    for(NSNumber* num in [WKDesktopManager sharedInstance].windows.allKeys){
+        WKDesktop* wkd=[WKDesktopManager sharedInstance].windows[num];
+        SavedState[num]=[NSMutableDictionary dictionary];
+        SavedState[num][@"MainRender"]=[[wkd.mainView class] convertArgument:wkd.mainView.arg Operation:TOJSON];
+        SavedState[num][@"ExtraRenders"]=[NSMutableArray array];
+        for(NSObject<WKRenderProtocal>* desk in wkd.WKViews){
+            NSDictionary* Conv=[[desk class] convertArgument:desk.arg Operation:TOJSON];
+            [(NSMutableArray*)SavedState[num][@"ExtraRenders"] addObject:Conv];
+        }
+    }
+    [SavedState writeToFile:SavedStatePath atomically:NO];
 }
 - (IBAction)discardExistingWindows:(id)sender {
         [[WKDesktopManager sharedInstance] stop];
@@ -89,14 +145,15 @@
         NSString *value = [tableView.dataSource tableView:tableView
                                 objectValueForTableColumn:nil
                                                       row:row];
-        return ([value componentsSeparatedByString:@"\n"].count + 1) *
-               tableView.rowHeight;
+        //return ([value componentsSeparatedByString:@"\n"].count + 1) *
+               //tableView.rowHeight;
+    return 5 * tableView.rowHeight;
 }
 - (IBAction)LoadCurrentRender:(id)sender {
         NSString *SavePath =
             [NSString stringWithFormat:@"%@/WallpaperKit/WallpaperKit.json",
                                        NSHomeDirectory()];
-        NSError *err;
+        NSError *err=nil;
         NSMutableArray *JSONCompatibleArray = [NSJSONSerialization
             JSONObjectWithData:[NSData dataWithContentsOfFile:SavePath]
                        options:NSJSONReadingMutableLeaves |
@@ -107,8 +164,11 @@
                         [self->wkrm addRender:dic];
                         [self->_RenderListView reloadData];
                 }
-        } else {
+        } else if(err!=nil){
                 [self.view.window setTitle:err.localizedDescription];
+        }
+        else{
+            [self.view.window setTitle:@"Render Loading Failed with Unknown Error"];
         }
 }
 

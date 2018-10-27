@@ -39,6 +39,7 @@
 
         self.requiresConsistentAccess = NO;
         self.requiresExclusiveBackground = YES;
+        self.arg=args;
         return self;
 }
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"

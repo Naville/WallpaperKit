@@ -21,6 +21,7 @@
         [self->VMP setMedia:[VLCMedia mediaWithURL:self->URL]];
         self.requiresConsistentAccess = YES;
         self.requiresExclusiveBackground = YES;
+        self.arg=args;
         return self;
 }
 - (void)play {

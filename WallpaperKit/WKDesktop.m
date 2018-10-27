@@ -22,8 +22,6 @@
             NSEventMaskOtherMouseDragged
 @implementation WKDesktop {
         BOOL isPlaying;
-        NSMutableArray *WKViews; // Register WKRenderProtocal Views into this
-                                 // array for operations
         id eventMonitor;
 }
 - (instancetype)initWithContentRect:(NSRect)contentRect
@@ -43,7 +41,7 @@
         [self setMovableByWindowBackground:NO];
         [self setBackgroundColor:[NSColor clearColor]];
         self->isPlaying = NO;
-        self->WKViews = [NSMutableArray array];
+        self.WKViews = [NSMutableArray array];
         self.collectionBehavior =
             (NSWindowCollectionBehaviorStationary |
              NSWindowCollectionBehaviorParticipatesInCycle);
@@ -92,7 +90,7 @@
 }
 - (void)discardMainView {
         if (self.mainView != nil) {
-                [self->WKViews removeObject:self.mainView];
+                [self.WKViews removeObject:self.mainView];
                 if ([self.mainView respondsToSelector:@selector(stop)]) {
                         [self.mainView performSelector:@selector(stop)];
                 } else {
@@ -105,7 +103,7 @@
         if (self->isPlaying == NO) {
                 return;
         }
-        for (NSView<WKRenderProtocal> *view in self->WKViews) {
+        for (NSView<WKRenderProtocal> *view in self.WKViews) {
                 [view pause];
         }
         [NSEvent removeMonitor:self->eventMonitor];
@@ -114,7 +112,7 @@
 }
 - (void)close {
         [self pause];
-        for (NSView<WKRenderProtocal> *view in self->WKViews) {
+        for (NSView<WKRenderProtocal> *view in self.WKViews) {
                 if ([view respondsToSelector:@selector(stop)]) {
                         [view stop];
                 }
@@ -125,7 +123,7 @@
         if (self->isPlaying == YES) {
                 return;
         }
-        for (NSView<WKRenderProtocal> *view in self->WKViews) {
+        for (NSView<WKRenderProtocal> *view in self.WKViews) {
                 [view play];
         }
         self->eventMonitor = [NSEvent
@@ -142,7 +140,7 @@
         if ([[view class] conformsToProtocol:@protocol(WKRenderProtocal)]) {
                 NSView<WKRenderProtocal> *foo =
                     (NSView<WKRenderProtocal> *)view;
-                [self->WKViews addObject:foo];
+                [self.WKViews addObject:foo];
                 if (foo.requiresExclusiveBackground == YES) {
                         [self discardMainView];
                 }

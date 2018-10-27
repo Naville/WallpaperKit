@@ -31,4 +31,5 @@ For HTML Based Rendering. Following Strings in HTML will replaced at runtime
 - (instancetype)initWithWindow:(WKDesktop*)window andArguments:(NSDictionary*)args;
 @property (nonatomic) BOOL requiresConsistentAccess;
 @property (nonatomic) BOOL requiresExclusiveBackground;
+@property (nonatomic,assign,readwrite) NSDictionary* arg;
 @end

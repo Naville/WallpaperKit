@@ -10,10 +10,10 @@
 #import <dlfcn.h>
 
 @implementation WKImageSlideshow {
-        NSArray<NSURL *> *ImageURLList;
         unsigned int interval;
         NSString *descript;
         BOOL isPlaying;
+        BOOL isReverseSort;
         NSUInteger index;
         NSObject *syncToken;
         dispatch_source_t src;
@@ -37,14 +37,21 @@
         } else {
                 [self setImageScaling:NSImageScaleProportionallyUpOrDown];
         }
-        self->ImageURLList = [args objectForKey:@"Images"];
+        if ([args.allKeys containsObject:@"ReverseSort"]) {
+            self->isReverseSort=[(NSNumber *)[args
+                                objectForKey:@"ReverseSort"]
+                                 boolValue];
+        } else {
+            self->isReverseSort=false;
+        }
+        self.ImageURLList = [args objectForKey:@"Images"];
 
-        if (self->ImageURLList == nil) {
+        if (self.ImageURLList == nil) {
                 self->descript = [@"ImagePath: "
                     stringByAppendingString:[(NSURL *)[args
                                                 objectForKey:@"ImagePath"]
                                                 path]];
-                self->ImageURLList = [[NSFileManager defaultManager]
+                self.ImageURLList = [[NSFileManager defaultManager]
                       contentsOfDirectoryAtURL:[args objectForKey:@"ImagePath"]
                     includingPropertiesForKeys:@[ self->SortKey ]
                                        options:
@@ -66,7 +73,7 @@
 
                 // call the passed block if the source is modified
                 dispatch_source_set_event_handler(self->src, ^() {
-                  self->ImageURLList = [[NSFileManager defaultManager]
+                  self.ImageURLList = [[NSFileManager defaultManager]
                         contentsOfDirectoryAtURL:[args
                                                      objectForKey:@"ImagePath"]
                       includingPropertiesForKeys:@[ self->SortKey ]
@@ -89,7 +96,7 @@
                 // watching
                 dispatch_resume(self->src);
         }
-        if (self->ImageURLList == 0) {
+        if (self.ImageURLList == 0) {
                 @throw [NSException exceptionWithName:NSInvalidArgumentException
                                                reason:@"ImageList is empty"
                                              userInfo:args];
@@ -108,6 +115,7 @@
         self.requiresExclusiveBackground = YES;
         self->index = -1; // Will be adjusted to 0 by play
         [NSTimer scheduledTimerWithTimeInterval:self->interval target:self selector:@selector(ImageRefreshWorker) userInfo:nil repeats:YES];
+        self.arg=args;
         return self;
 }
 - (void)play {
@@ -122,18 +130,20 @@
     }
     if ([self->SortKey
          isEqualToString:@"Random"]) {
-        index = arc4random_uniform(ImageURLList.count);
+        index = arc4random_uniform(self.ImageURLList.count);
     } else {
         index = (index + 1) %
-        ImageURLList.count;
+        self.ImageURLList.count;
     }
+    NSLog(@"[WKImageSlideShow]Loading %@",self.ImageURLList
+          [index]);
     [self
      performSelectorOnMainThread:@selector
      (setImage:)
      withObject:
      [[NSImage alloc]
       initWithContentsOfURL:
-      ImageURLList
+      self.ImageURLList
       [index]]
      waitUntilDone:YES];
     
@@ -146,7 +156,7 @@
                         return;
                 }
 
-                self->ImageURLList = [self->ImageURLList
+                self.ImageURLList = [self.ImageURLList
                     sortedArrayUsingComparator:^(NSURL *file1, NSURL *file2) {
                       // compare
                       id val1, val2;
@@ -156,13 +166,13 @@
                       [file2 getResourceValue:&val2
                                        forKey:self->SortKey
                                         error:nil];
-                      return [val1 compare:val2];
+                        return (self->isReverseSort==NO)?[val1 compare:val2]:[val2 compare:val1];
                     }];
         }
 }
 - (NSString *)description {
         if (self->descript == nil) {
-                self->descript = self->ImageURLList[0].path;
+                self->descript = self.ImageURLList[0].path;
         }
         return [@"WKImageSlideshow " stringByAppendingString:self->descript];
 }

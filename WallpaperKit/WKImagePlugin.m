@@ -22,6 +22,7 @@
         [self setImageScaling:NSImageScaleProportionallyUpOrDown];
         self.requiresConsistentAccess = NO;
         self.requiresExclusiveBackground = NO;
+        self.arg=args;
         return self;
 }
 - (void)play {
