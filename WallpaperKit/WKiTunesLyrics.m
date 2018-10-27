@@ -244,7 +244,6 @@
 }
 
 - (void)play {
-        [self updateInfo];
         [[NSDistributedNotificationCenter defaultCenter]
             addObserver:self
                selector:@selector(watchiTunes:)
@@ -281,6 +280,7 @@
                                                             numberWithFloat:0.5]
                                                                 type:READWRITE]
                             floatValue]];
+            [self updateInfo];
                         if (lrcADT == nil && translatedADT == nil &&
                             proADT == nil) {
                                 [self updateLyricADT];
@@ -390,7 +390,6 @@
 }
 - (void)handleCoverChange {
         @autoreleasepool {
-
                   NSData *coverImage = [(iTunesArtwork *)[
                       [iTunes.currentTrack artworks] objectAtIndex:0] rawData];
                   NSImage *blurredImage =
@@ -429,6 +428,10 @@
 - (void)updateLyricADT {
         @autoreleasepool {
                 iTunesTrack *track = iTunes.currentTrack;
+                if(track.lastError!=nil){
+                    [NSAlert alertWithError:track.lastError];
+                    return;
+                }
                 NSDictionary *queryDict =
                     [[LyricManager sharedManager] exportLyric:@{
                             @"Artist" : track.artist,
@@ -566,20 +569,14 @@
         }
 }
 - (void)updateInfo {
-        [NSThread detachNewThreadWithBlock:^() {
+
             if(self->iTunes.isRunning){
-                @synchronized(synchroToken2) {
-                    @try{
+                @synchronized(self->synchroToken2) {
                         [self handleCoverChange];
                         [self updateLyricADT];
                         [self handleSongTitle];
-                    }
-                    @catch(NSException* exp){
-                        return;
-                    }
                 }
             }
-        }];
 }
 - (void)watchiTunes:(NSNotification *)notif {
 
